@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32413.511
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegymBot", "RegymBot\RegymBot.csproj", "{417F30CA-4E64-4980-ADA4-DD6D43A10127}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{417F30CA-4E64-4980-ADA4-DD6D43A10127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{417F30CA-4E64-4980-ADA4-DD6D43A10127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{417F30CA-4E64-4980-ADA4-DD6D43A10127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{417F30CA-4E64-4980-ADA4-DD6D43A10127}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {24C108A3-E015-4DF4-8E1F-831A7124929E}
+	EndGlobalSection
+EndGlobal
