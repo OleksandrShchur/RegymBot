@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RegymBot.Helpers.Buttons;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,36 +48,7 @@ namespace RegymBot.Services
 
             await _botClient.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
 
-            var startKeyboard = new InlineKeyboardMarkup(new[]
-            {
-                // 1 row
-                new []
-                {
-                    InlineKeyboardButton.WithCallbackData("Выбрать клуб", "club"),
-                },
-                // 2 row
-                new []
-                {
-                    InlineKeyboardButton.WithCallbackData("Массаж", "massage"),
-                    InlineKeyboardButton.WithCallbackData("Солярий", "solarium"),
-                },
-                // 3 row
-                new []
-                {
-                    InlineKeyboardButton.WithCallbackData("Прайс", "price"),
-                    InlineKeyboardButton.WithCallbackData("Акции", "sale"),
-                },
-                // 4 row
-                new []
-                {
-                    InlineKeyboardButton.WithCallbackData("Наши соцсети", "social"),
-                },
-                // 5 row
-                new []
-                {
-                    InlineKeyboardButton.WithCallbackData("Оставить отзыв", "feedback"),
-                }
-            });
+            var startKeyboard = StartButtons.Buttons;
 
             await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                     text: "Выберите:",
