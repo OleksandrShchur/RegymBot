@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RegymBot.Configurations;
+using RegymBot.Services;
+using Telegram.Bot;
 
 namespace RegymBot
 {
@@ -12,13 +15,23 @@ namespace RegymBot
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            BotConfig = Configuration.GetSection("BotConfiguration").Get<BotConfiguration>();
         }
 
         public IConfiguration Configuration { get; }
+        private BotConfiguration BotConfig { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHostedService<ConfigureWebhook>();
+
+            services.AddHttpClient("tgwebhook")
+                    .AddTypedClient<ITelegramBotClient>(httpClient
+                        => new TelegramBotClient(BotConfig.Token, httpClient));
+
+            services.AddScoped<HandleUpdateService>();
+
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -51,9 +64,11 @@ namespace RegymBot
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                var token = BotConfig.Token;
+                endpoints.MapControllerRoute(name: "tgwebhook",
+                                             pattern: $"bot/{token}",
+                                             new { controller = "Webhook", action = "Post" });
+                endpoints.MapControllers();
             });
 
             app.UseSpa(spa =>
