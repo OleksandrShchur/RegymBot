@@ -5,8 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RegymBot.Configurations;
+using RegymBot.Data;
 using RegymBot.Services;
 using Telegram.Bot;
+using Microsoft.EntityFrameworkCore;
 
 namespace RegymBot
 {
@@ -24,6 +26,9 @@ namespace RegymBot
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppDbContext>(opt => 
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddHostedService<ConfigureWebhook>();
 
             services.AddHttpClient("tgwebhook")
