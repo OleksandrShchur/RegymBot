@@ -9,7 +9,7 @@ namespace RegymBot.Helpers.Buttons
             // 1 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Выбрать клуб", "club"),
+                InlineKeyboardButton.WithCallbackData("Выбрать клуб", "select_club"),
             },
             // 2 row
             new []

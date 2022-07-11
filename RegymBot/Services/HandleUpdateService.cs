@@ -1,24 +1,24 @@
 ﻿using RegymBot.Helpers.Buttons;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
-using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RegymBot.Services
 {
     public class HandleUpdateService
     {
         private readonly ITelegramBotClient _botClient;
+        private readonly CallbackQueryService _callbackQueryService;
 
-        public HandleUpdateService(ITelegramBotClient botClient)
+        public HandleUpdateService(ITelegramBotClient botClient, CallbackQueryService callbackQueryService)
         {
             _botClient = botClient;
+            _callbackQueryService = callbackQueryService;
         }
 
         public async Task EchoAsync(Update update)
@@ -26,7 +26,7 @@ namespace RegymBot.Services
             var handler = update.Type switch
             {
                 UpdateType.Message => BotOnMessageReceived(update.Message!),
-                UpdateType.CallbackQuery => BotOnCallbackQueryReceived(update.CallbackQuery!),
+                UpdateType.CallbackQuery => _callbackQueryService.BotOnCallbackQueryReceived(update.CallbackQuery!),
                 _ => UnknownUpdateHandlerAsync(update)
             };
 
@@ -48,26 +48,10 @@ namespace RegymBot.Services
 
             await _botClient.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
 
-            var startKeyboard = StartButtons.Buttons;
-
             await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                     text: "Выберите:",
-                                                    replyMarkup: startKeyboard);
+                                                    replyMarkup: StartButtons.Buttons);
         }
-
-        // Process Inline Keyboard callback data
-        private async Task BotOnCallbackQueryReceived(CallbackQuery callbackQuery)
-        {
-            await _botClient.AnswerCallbackQueryAsync(
-                callbackQueryId: callbackQuery.Id,
-                text: $"Received {callbackQuery.Data}");
-
-            await _botClient.SendTextMessageAsync(
-                chatId: callbackQuery.Message.Chat.Id,
-                text: $"Received {callbackQuery.Data}");
-        }
-
-        #region Inline Mode
 
         private async Task BotOnInlineQueryReceived(InlineQuery inlineQuery)
         {
@@ -92,8 +76,6 @@ namespace RegymBot.Services
         {
             return Task.CompletedTask;
         }
-
-        #endregion
 
         private Task UnknownUpdateHandlerAsync(Update update)
         {

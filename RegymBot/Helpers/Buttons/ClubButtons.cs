@@ -14,17 +14,17 @@ namespace RegymBot.Helpers.Buttons
                 // 1 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("REGYM Аполло", "apollo_club"),
+                InlineKeyboardButton.WithCallbackData("REGYM Аполло", "club"),
             },
             // 2 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("REGYM Вавилон", "club_babylon"),
+                InlineKeyboardButton.WithCallbackData("REGYM Вавилон", "club"),
             },
             // 3 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("REGYM PSHKN", "club_pshkn"),
+                InlineKeyboardButton.WithCallbackData("REGYM PSHKN", "club"),
             },
         });
     }

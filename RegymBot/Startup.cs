@@ -31,6 +31,7 @@ namespace RegymBot
                         => new TelegramBotClient(BotConfig.Token, httpClient));
 
             services.AddScoped<HandleUpdateService>();
+            services.AddScoped<CallbackQueryService>();
 
             services.AddControllers().AddNewtonsoftJson();
             // In production, the Angular files will be served from this directory
