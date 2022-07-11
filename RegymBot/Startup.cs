@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RegymBot.Configurations;
 using RegymBot.Data;
-using RegymBot.Services;
 using Telegram.Bot;
 using Microsoft.EntityFrameworkCore;
+using RegymBot.Handlers;
 
 namespace RegymBot
 {
@@ -35,8 +35,9 @@ namespace RegymBot
                     .AddTypedClient<ITelegramBotClient>(httpClient
                         => new TelegramBotClient(BotConfig.Token, httpClient));
 
-            services.AddScoped<HandleUpdateService>();
-            services.AddScoped<CallbackQueryService>();
+            services.AddScoped<HandleUpdate>();
+            services.AddScoped<CallbackQuery>();
+            services.AddScoped<HandleError>();
 
             services.AddControllers().AddNewtonsoftJson();
             // In production, the Angular files will be served from this directory

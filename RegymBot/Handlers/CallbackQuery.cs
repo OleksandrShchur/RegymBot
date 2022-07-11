@@ -1,14 +1,10 @@
 ﻿using RegymBot.Helpers.Buttons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 
-namespace RegymBot.Services
+namespace RegymBot.Handlers
 {
-    public class CallbackQueryService
+    public class CallbackQuery
     {
         private readonly ITelegramBotClient _botClient;
         private const string CONTACTS = "Телефон:\n"
@@ -19,12 +15,12 @@ namespace RegymBot.Services
             + "ПН-СБ: 08-21\n"
             + "ВС: 9-18";
 
-        public CallbackQueryService(ITelegramBotClient botClient)
+        public CallbackQuery(ITelegramBotClient botClient)
         {
             _botClient = botClient;
         }
 
-        public async Task BotOnCallbackQueryReceived(CallbackQuery callbackQuery)
+        public async Task BotOnCallbackQueryReceived(Telegram.Bot.Types.CallbackQuery callbackQuery)
         {
             switch (callbackQuery.Data)
             {

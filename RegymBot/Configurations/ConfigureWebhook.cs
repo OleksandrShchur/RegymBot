@@ -1,14 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RegymBot.Configurations;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
-namespace RegymBot.Services
+namespace RegymBot.Configurations
 {
     public class ConfigureWebhook : IHostedService
     {
