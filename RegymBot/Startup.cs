@@ -35,6 +35,7 @@ namespace RegymBot
                     .AddTypedClient<ITelegramBotClient>(httpClient
                         => new TelegramBotClient(BotConfig.Token, httpClient));
 
+            // register handlers for Bot
             services.AddScoped<HandleUpdate>();
             services.AddScoped<CallbackQuery>();
             services.AddScoped<HandleError>();
