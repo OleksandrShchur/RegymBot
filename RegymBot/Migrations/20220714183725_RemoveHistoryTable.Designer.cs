@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RegymBot.Data;
 
 namespace RegymBot.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220714183725_RemoveHistoryTable")]
+    partial class RemoveHistoryTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,23 +56,6 @@ namespace RegymBot.Migrations
                     b.HasKey("PriceGuid");
 
                     b.ToTable("Prices");
-                });
-
-            modelBuilder.Entity("RegymBot.Data.Entities.StaticMessageEntity", b =>
-                {
-                    b.Property<Guid>("StaticMessageGuid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Page")
-                        .HasColumnType("int");
-
-                    b.HasKey("StaticMessageGuid");
-
-                    b.ToTable("StaticMessages");
                 });
 #pragma warning restore 612, 618
         }

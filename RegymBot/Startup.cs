@@ -43,6 +43,7 @@ namespace RegymBot
 
             // register repositories
             services.AddScoped<PriceRepository>();
+            services.AddScoped<StaticMessageRepository>();
 
             services.AddControllers().AddNewtonsoftJson();
             // In production, the Angular files will be served from this directory
