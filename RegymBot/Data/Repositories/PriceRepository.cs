@@ -10,7 +10,7 @@ namespace RegymBot.Data.Repositories
     {
         public PriceRepository(AppDbContext context) : base(context) { }
 
-        public async Task<IEnumerable> GetAllAsync()
+        public async Task<IList> GetAllAsync()
         {
             var prices = await _context.Prices.ToListAsync();
 
