@@ -9,6 +9,7 @@ using RegymBot.Data;
 using Telegram.Bot;
 using Microsoft.EntityFrameworkCore;
 using RegymBot.Handlers;
+using RegymBot.Data.Repositories;
 
 namespace RegymBot
 {
@@ -39,6 +40,9 @@ namespace RegymBot
             services.AddScoped<HandleUpdate>();
             services.AddScoped<CallbackQuery>();
             services.AddScoped<HandleError>();
+
+            // register repositories
+            //services.AddScoped<PriceRepository>();
 
             services.AddControllers().AddNewtonsoftJson();
             // In production, the Angular files will be served from this directory

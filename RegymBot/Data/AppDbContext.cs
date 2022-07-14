@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RegymBot.Configurations.EntityConfigurations;
 using RegymBot.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace RegymBot.Data
 {
