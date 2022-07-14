@@ -26,6 +26,7 @@ namespace RegymBot.Handlers
         public async Task BotOnCallbackQueryReceived(Telegram.Bot.Types.CallbackQuery callbackQuery)
         {
             string text;
+
             switch (callbackQuery.Data)
             {
                 // start buttons cases
@@ -43,8 +44,44 @@ namespace RegymBot.Handlers
 
                     foreach (PriceEntity price in prices)
                     {
-                        text += $"- {price.PriceName} - {price.Price};\n";
+                        text += $"\n- {price.PriceName} - {price.Price};";
                     }
+
+                    await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
+                                                    text: text);
+
+                    break;
+
+                case "solarium":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.SolariumPage);
+                    var pricesSolarium = await _priceRepository.GetPricesByTypeAsync(PriceItem.Solarium);
+
+                    foreach(PriceEntity price in pricesSolarium)
+                    {
+                        text += $"\n- {price.PriceName} - {price.Price};";
+                    }
+
+                    await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
+                                                    text: text);
+
+                    break;
+
+                case "massage":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.MassagePage);
+                    var pricesMassage = await _priceRepository.GetPricesByTypeAsync(PriceItem.Massage);
+
+                    foreach(PriceEntity price in pricesMassage)
+                    {
+                        text += $"\n- {price.PriceName} - {price.Price};";
+                    }
+
+                    await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
+                                                    text: text);
+
+                    break;
+
+                case "feedback":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.LeaveFeedbackPage);
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text);
