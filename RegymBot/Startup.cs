@@ -10,6 +10,8 @@ using Telegram.Bot;
 using Microsoft.EntityFrameworkCore;
 using RegymBot.Handlers;
 using RegymBot.Data.Repositories;
+using RegymBot.Helpers;
+using Microsoft.Extensions.Logging;
 
 namespace RegymBot
 {
@@ -27,6 +29,11 @@ namespace RegymBot
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<ConfigureWebhook>>());
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<CallbackQuery>>());
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleUpdate>>());
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleError>>());
+
             services.AddDbContext<AppDbContext>(opt => 
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 

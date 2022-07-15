@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -7,10 +8,12 @@ namespace RegymBot.Data.Base
     public class BaseRepository<T> where T : class
     {
         protected readonly AppDbContext _context;
+        protected readonly ILogger _logger;
 
-        public BaseRepository(AppDbContext context)
+        public BaseRepository(AppDbContext context, ILogger logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         protected DbSet<T> Entities { get => _context.Set<T>(); }
@@ -19,37 +22,61 @@ namespace RegymBot.Data.Base
         {
             if (entity == null)
             {
-                throw new NotImplementedException();
+                _logger.LogWarning($"Entity {typeof(T).FullName} is null");
             }
 
-            Entities.Add(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                Entities.Add(entity);
+                await _context.SaveChangesAsync();
 
-            return entity;
+                return entity;
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, $"Error on insert {typeof(T).FullName}");
+                throw;
+            }
         }
 
         public async Task<T> Update(T entity)
         {
             if (entity == null)
             {
-                throw new NotImplementedException();
+                _logger.LogWarning($"Entity {typeof(T).FullName} is null");
             }
 
-            Entities.Update(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                Entities.Update(entity);
+                await _context.SaveChangesAsync();
 
-            return entity;
+                return entity;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Error on update {typeof(T).FullName}");
+                throw;
+            }
         }
 
         public async Task Delete(T entity)
         {
             if (entity == null)
             {
-                throw new NotImplementedException();
+                _logger.LogWarning($"Entity {typeof(T).FullName} is null");
             }
 
-            Entities.Remove(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                Entities.Remove(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, $"Error on delete {typeof(T).FullName}");
+                throw;
+            }
         }
 
     }

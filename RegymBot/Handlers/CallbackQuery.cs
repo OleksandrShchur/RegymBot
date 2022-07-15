@@ -1,4 +1,5 @@
-﻿using RegymBot.Data.Entities;
+﻿using Microsoft.Extensions.Logging;
+using RegymBot.Data.Entities;
 using RegymBot.Data.Enums;
 using RegymBot.Data.Repositories;
 using RegymBot.Helpers.Buttons;
@@ -12,19 +13,23 @@ namespace RegymBot.Handlers
         private readonly ITelegramBotClient _botClient;
         private readonly PriceRepository _priceRepository;
         private readonly StaticMessageRepository _staticMessageRepository;
+        private readonly ILogger<CallbackQuery> _logger;
 
         public CallbackQuery(ITelegramBotClient botClient,
             PriceRepository priceRepository,
-            StaticMessageRepository staticMessageRepository
+            StaticMessageRepository staticMessageRepository,
+            ILogger<CallbackQuery> logger
             )
         {
             _botClient = botClient;
             _priceRepository = priceRepository;
             _staticMessageRepository = staticMessageRepository;
+            _logger = logger;
         }
 
         public async Task BotOnCallbackQueryReceived(Telegram.Bot.Types.CallbackQuery callbackQuery)
         {
+            _logger.LogInformation("Received callback query from: {CallQueryFromId}", callbackQuery.From.Id);
             string text;
 
             switch (callbackQuery.Data)

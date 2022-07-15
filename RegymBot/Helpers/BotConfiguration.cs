@@ -1,4 +1,4 @@
-﻿namespace RegymBot.Configurations
+﻿namespace RegymBot.Helpers
 {
     public class BotConfiguration
     {

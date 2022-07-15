@@ -1,4 +1,5 @@
-﻿using RegymBot.Data.Enums;
+﻿using Microsoft.Extensions.Logging;
+using RegymBot.Data.Enums;
 using RegymBot.Data.Repositories;
 using RegymBot.Helpers.Buttons;
 using System;
@@ -15,16 +16,19 @@ namespace RegymBot.Handlers
         private readonly CallbackQuery _callbackQueryService;
         private readonly HandleError _handleError;
         private readonly StaticMessageRepository _staticMessageRepository;
+        private readonly ILogger<HandleUpdate> _logger;
 
         public HandleUpdate(ITelegramBotClient botClient,
             CallbackQuery callbackQueryService,
             HandleError handleError,
-            StaticMessageRepository staticMessageRepository)
+            StaticMessageRepository staticMessageRepository,
+            ILogger<HandleUpdate> logger)
         {
             _botClient = botClient;
             _callbackQueryService = callbackQueryService;
             _handleError = handleError;
             _staticMessageRepository = staticMessageRepository;
+            _logger = logger;
         }
 
         public async Task EchoAsync(Update update)
@@ -40,14 +44,16 @@ namespace RegymBot.Handlers
             {
                 await handler;
             }
-            catch (Exception exception)
+            catch (Exception e)
             {
-                await _handleError.HandleErrorAsync(exception);
+                _logger.LogError($"Exception in {typeof(HandleUpdate)}, message: {e.Message}, stacktrace: {e.StackTrace}");
+                await _handleError.HandleErrorAsync(e);
             }
         }
 
         private async Task BotOnMessageReceived(Message message)
         {
+            _logger.LogInformation("Receive message type: {MessageType}", message.Type);
             if (message.Type != MessageType.Text)
                 return;
 

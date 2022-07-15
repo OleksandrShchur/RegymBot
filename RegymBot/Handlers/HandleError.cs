@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
-using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 
@@ -10,11 +8,11 @@ namespace RegymBot.Handlers
 {
     public class HandleError
     {
-        private readonly ITelegramBotClient _botClient;
+        private readonly ILogger<HandleError> _logger;
 
-        public HandleError(ITelegramBotClient botClient)
+        public HandleError(ILogger<HandleError> logger)
         {
-            _botClient = botClient;
+            _logger = logger;
         }
 
         public async Task HandleErrorAsync(Exception exception)
@@ -24,11 +22,13 @@ namespace RegymBot.Handlers
                 ApiRequestException apiRequestException => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
                 _ => exception.ToString()
             };
+
+            _logger.LogInformation("HandleError: {ErrorMessage}", ErrorMessage);
         }
 
         public async Task UnknownUpdateHandlerAsync(Update update)
         {
-            var message = "An unknown message received.";
+            _logger.LogInformation("Unknown update type: {UpdateType}", update.Type);
         }
     }
 }
