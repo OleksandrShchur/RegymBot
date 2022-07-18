@@ -4,7 +4,7 @@ namespace RegymBot.Helpers.Buttons
 {
     public static class ClubContactButtons
     {
-        public static InlineKeyboardMarkup Buttons = new InlineKeyboardMarkup(
+        public static InlineKeyboardMarkup Keyboard => new InlineKeyboardMarkup(
         new[]
             {
                 // 1 row
@@ -17,6 +17,7 @@ namespace RegymBot.Helpers.Buttons
             {
                 InlineKeyboardButton.WithCallbackData("Записаться в группу", "enrol"),
             },
+            MainMenuButton.Button
         });
     }
 }

@@ -14,17 +14,20 @@ namespace RegymBot.Handlers
         private readonly PriceRepository _priceRepository;
         private readonly StaticMessageRepository _staticMessageRepository;
         private readonly ILogger<CallbackQuery> _logger;
+        private readonly HandleMainMenu _handleMainMenu;
 
         public CallbackQuery(ITelegramBotClient botClient,
             PriceRepository priceRepository,
             StaticMessageRepository staticMessageRepository,
-            ILogger<CallbackQuery> logger
+            ILogger<CallbackQuery> logger,
+            HandleMainMenu handleMainMenu
             )
         {
             _botClient = botClient;
             _priceRepository = priceRepository;
             _staticMessageRepository = staticMessageRepository;
             _logger = logger;
+            _handleMainMenu = handleMainMenu;
         }
 
         public async Task BotOnCallbackQueryReceived(Telegram.Bot.Types.CallbackQuery callbackQuery)
@@ -40,7 +43,7 @@ namespace RegymBot.Handlers
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
-                                                    replyMarkup: ClubButtons.Buttons);
+                                                    replyMarkup: ClubButtons.Keyboard);
 
                     break;
                 case "price":
@@ -53,7 +56,8 @@ namespace RegymBot.Handlers
                     }
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
-                                                    text: text);
+                                                    text: text,
+                                                    replyMarkup: MainMenuButton.Keyboard);
 
                     break;
 
@@ -67,7 +71,8 @@ namespace RegymBot.Handlers
                     }
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
-                                                    text: text);
+                                                    text: text,
+                                                    replyMarkup: MainMenuButton.Keyboard);
 
                     break;
 
@@ -81,7 +86,8 @@ namespace RegymBot.Handlers
                     }
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
-                                                    text: text);
+                                                    text: text,
+                                                    replyMarkup: MainMenuButton.Keyboard);
 
                     break;
 
@@ -89,7 +95,8 @@ namespace RegymBot.Handlers
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.LeaveFeedbackPage);
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
-                                                    text: text);
+                                                    text: text,
+                                                    replyMarkup: MainMenuButton.Keyboard);
 
                     break;
 
@@ -99,7 +106,13 @@ namespace RegymBot.Handlers
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
-                                                    replyMarkup: ClubContactButtons.Buttons);
+                                                    replyMarkup: ClubContactButtons.Keyboard);
+
+                    break;
+
+                // back to main menu
+                case "main_menu":
+                    await _handleMainMenu.BotOnMainMenu(callbackQuery.Message);
 
                     break;
             }

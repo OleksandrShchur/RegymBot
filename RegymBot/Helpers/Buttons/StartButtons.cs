@@ -4,7 +4,7 @@ namespace RegymBot.Helpers.Buttons
 {
     public static class StartButtons
     {
-        public static InlineKeyboardMarkup Buttons = new InlineKeyboardMarkup(
+        public static InlineKeyboardMarkup Keyboard => new InlineKeyboardMarkup(
         new[]{
             // 1 row
             new []

@@ -32,6 +32,7 @@ namespace RegymBot
             services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<ConfigureWebhook>>());
             services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<CallbackQuery>>());
             services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleUpdate>>());
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleMainMenu>>());
             services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleError>>());
 
             services.AddDbContext<AppDbContext>(opt => 
@@ -45,6 +46,7 @@ namespace RegymBot
 
             // register handlers for Bot
             services.AddScoped<HandleUpdate>();
+            services.AddScoped<HandleMainMenu>();
             services.AddScoped<CallbackQuery>();
             services.AddScoped<HandleError>();
 

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Telegram.Bot.Types.ReplyMarkups;
+﻿using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RegymBot.Helpers.Buttons
 {
     public static class ClubButtons
     {
-        public static InlineKeyboardMarkup Buttons = new InlineKeyboardMarkup(
+        public static InlineKeyboardMarkup Keyboard => new InlineKeyboardMarkup(
         new[]
             {
                 // 1 row
@@ -26,6 +22,7 @@ namespace RegymBot.Helpers.Buttons
             {
                 InlineKeyboardButton.WithCallbackData("REGYM PSHKN", "club"),
             },
+            MainMenuButton.Button
         });
     }
 }
