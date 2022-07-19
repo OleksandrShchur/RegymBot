@@ -12,6 +12,8 @@ using RegymBot.Handlers;
 using RegymBot.Data.Repositories;
 using RegymBot.Helpers;
 using Microsoft.Extensions.Logging;
+using RegymBot.Services;
+using RegymBot.Services.Impl;
 
 namespace RegymBot
 {
@@ -29,6 +31,14 @@ namespace RegymBot
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // register loggers
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<ConfigureWebhook>>());
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<CallbackQuery>>());
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleUpdate>>());
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleMainMenu>>());
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleError>>());
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<IStepService>>());
+
             services.AddDbContext<AppDbContext>(opt => 
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -43,6 +53,9 @@ namespace RegymBot
             services.AddScoped<HandleMainMenu>();
             services.AddScoped<CallbackQuery>();
             services.AddScoped<HandleError>();
+
+            // register services
+            services.AddScoped<IStepService, StepService>();
 
             // register repositories
             services.AddScoped<PriceRepository>();

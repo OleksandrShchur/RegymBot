@@ -10,13 +10,13 @@ namespace RegymBot.Handlers
     {
         private readonly CallbackQuery _callbackQueryService;
         private readonly HandleError _handleError;
-        private readonly ILogger _logger;
+        private readonly ILogger<HandleUpdate> _logger;
         private readonly HandleMainMenu _handleMainMeny;
 
         public HandleUpdate(
             CallbackQuery callbackQueryService,
             HandleError handleError,
-            ILogger logger,
+            ILogger<HandleUpdate> logger,
             HandleMainMenu handleMainMenu)
         {
             _callbackQueryService = callbackQueryService;
