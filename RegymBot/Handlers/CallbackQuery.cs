@@ -13,13 +13,13 @@ namespace RegymBot.Handlers
         private readonly ITelegramBotClient _botClient;
         private readonly PriceRepository _priceRepository;
         private readonly StaticMessageRepository _staticMessageRepository;
-        private readonly ILogger<CallbackQuery> _logger;
+        private readonly ILogger _logger;
         private readonly HandleMainMenu _handleMainMenu;
 
         public CallbackQuery(ITelegramBotClient botClient,
             PriceRepository priceRepository,
             StaticMessageRepository staticMessageRepository,
-            ILogger<CallbackQuery> logger,
+            ILogger logger,
             HandleMainMenu handleMainMenu
             )
         {

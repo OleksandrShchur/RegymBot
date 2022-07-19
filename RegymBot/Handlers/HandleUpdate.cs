@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using RegymBot.Data.Repositories;
 using System;
 using System.Threading.Tasks;
-using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -12,13 +10,13 @@ namespace RegymBot.Handlers
     {
         private readonly CallbackQuery _callbackQueryService;
         private readonly HandleError _handleError;
-        private readonly ILogger<HandleUpdate> _logger;
+        private readonly ILogger _logger;
         private readonly HandleMainMenu _handleMainMeny;
 
         public HandleUpdate(
             CallbackQuery callbackQueryService,
             HandleError handleError,
-            ILogger<HandleUpdate> logger,
+            ILogger logger,
             HandleMainMenu handleMainMenu)
         {
             _callbackQueryService = callbackQueryService;

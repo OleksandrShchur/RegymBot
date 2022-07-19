@@ -11,11 +11,11 @@ namespace RegymBot.Handlers
 {
     public class HandleMainMenu
     {
-        private readonly ILogger<HandleMainMenu> _logger;
+        private readonly ILogger _logger;
         private readonly ITelegramBotClient _botClient;
         private readonly StaticMessageRepository _staticMessageRepository;
 
-        public HandleMainMenu(ILogger<HandleMainMenu> logger,
+        public HandleMainMenu(ILogger logger,
             ITelegramBotClient botClient,
             StaticMessageRepository staticMessageRepository)
         {

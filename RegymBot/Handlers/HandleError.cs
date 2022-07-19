@@ -8,9 +8,9 @@ namespace RegymBot.Handlers
 {
     public class HandleError
     {
-        private readonly ILogger<HandleError> _logger;
+        private readonly ILogger _logger;
 
-        public HandleError(ILogger<HandleError> logger)
+        public HandleError(ILogger logger)
         {
             _logger = logger;
         }
