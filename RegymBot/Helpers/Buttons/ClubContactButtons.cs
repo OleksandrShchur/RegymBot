@@ -17,7 +17,7 @@ namespace RegymBot.Helpers.Buttons
             {
                 InlineKeyboardButton.WithCallbackData("Записаться в группу", "enrol"),
             },
-            MainMenuButton.Button
+            ReturnBackButton.Button
         });
     }
 }

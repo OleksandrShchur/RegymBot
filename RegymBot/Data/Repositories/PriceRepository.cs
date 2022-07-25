@@ -12,7 +12,7 @@ namespace RegymBot.Data.Repositories
 {
     public class PriceRepository : BaseRepository<PriceEntity>
     {
-        public PriceRepository(AppDbContext context, ILogger logger) 
+        public PriceRepository(AppDbContext context, ILogger<PriceEntity> logger) 
             : base(context, logger) { }
 
         public async Task<IList> GetAllAsync()

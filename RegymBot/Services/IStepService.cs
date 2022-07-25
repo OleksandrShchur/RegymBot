@@ -1,9 +1,11 @@
-﻿namespace RegymBot.Services
+﻿using RegymBot.Helpers;
+
+namespace RegymBot.Services
 {
     public interface IStepService
     {
-        void WriteNewStep(string step);
         void ReturnBackStep();
-        string GetLastStep();
+        BotStep GetLastStep();
+        void NewStep(BotStep step);
     }
 }

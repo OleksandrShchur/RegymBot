@@ -1,36 +1,46 @@
 ﻿using Microsoft.Extensions.Logging;
+using RegymBot.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RegymBot.Services.Impl
 {
     public class StepService : IStepService
     {
         private readonly ILogger<IStepService> _logger;
-        private List<string> Steps { get; set; }
+        private List<BotStep> Steps = new List<BotStep> { BotStep.MainMenu };
 
         public StepService(ILogger<IStepService> logger) 
         {
             _logger = logger;
-        } 
+        }
 
-        public string GetLastStep()
+        public BotStep GetLastStep()
         {
-            try { 
+            try
+            {
                 var len = Steps.Count;
 
-                if (len > 0)
-                {
-                    return Steps[len - 1];
-                }
+                return Steps[len - 1];
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.LogError($"An error in get last step, message: {e.Message}, stacktrace: {e.StackTrace}");
             }
 
-            return "";
+            return BotStep.MainMenu;
+        }
+
+        public void NewStep(BotStep step)
+        {
+            try
+            {
+                Steps.Add(step);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"An error in write new step, message: {e.Message}, stacktrace: {e.StackTrace}");
+            }
         }
 
         public void ReturnBackStep()
@@ -39,7 +49,7 @@ namespace RegymBot.Services.Impl
             {
                 var len = Steps.Count;
 
-                if (len > 0)
+                if (len > 1)
                 {
                     Steps.RemoveAt(len - 1);
                 }
@@ -47,21 +57,6 @@ namespace RegymBot.Services.Impl
             catch (Exception e)
             {
                 _logger.LogError($"An error in return back step, message: {e.Message}, stacktrace: {e.StackTrace}");
-            }
-        }
-
-        public void WriteNewStep(string step)
-        {
-            try
-            {
-                if (step != "" || step != null)
-                {
-                    Steps.Add(step);
-                }
-            }
-            catch (Exception e)
-            {
-                _logger.LogError($"An error in write new step, message: {e.Message}, stacktrace: {e.StackTrace}");
             }
         }
     }

@@ -8,9 +8,9 @@ namespace RegymBot.Data.Base
     public class BaseRepository<T> where T : class
     {
         protected readonly AppDbContext _context;
-        protected readonly ILogger _logger;
+        protected readonly ILogger<T> _logger;
 
-        public BaseRepository(AppDbContext context, ILogger logger)
+        public BaseRepository(AppDbContext context, ILogger<T> logger)
         {
             _context = context;
             _logger = logger;

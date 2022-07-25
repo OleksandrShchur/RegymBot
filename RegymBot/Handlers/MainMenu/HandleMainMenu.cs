@@ -7,26 +7,23 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace RegymBot.Handlers
+namespace RegymBot.Handlers.MainMenu
 {
-    public class HandleMainMenu
+    public class HandleMainMenu : BaseHandle<HandleMainMenu>
     {
-        private readonly ILogger<HandleMainMenu> _logger;
-        private readonly ITelegramBotClient _botClient;
         private readonly StaticMessageRepository _staticMessageRepository;
 
         public HandleMainMenu(ILogger<HandleMainMenu> logger,
             ITelegramBotClient botClient,
             StaticMessageRepository staticMessageRepository)
+                : base(logger, botClient)
         {
-            _logger = logger;
-            _botClient = botClient;
             _staticMessageRepository = staticMessageRepository;
         }
 
         public async Task BotOnMainMenu(Message message)
         {
-            _logger.LogInformation("Receive message type: {MessageType}", message.Type);
+            _logger.LogInformation("Receive message type in main menu: {MessageType}", message.Type);
             if (message.Type != MessageType.Text)
                 return;
 

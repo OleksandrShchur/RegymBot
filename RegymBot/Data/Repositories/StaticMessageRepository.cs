@@ -11,7 +11,8 @@ namespace RegymBot.Data.Repositories
 {
     public class StaticMessageRepository : BaseRepository<StaticMessageEntity>
     {
-        public StaticMessageRepository(AppDbContext context, ILogger logger) : base(context, logger) { }
+        public StaticMessageRepository(AppDbContext context, ILogger<StaticMessageEntity> logger)
+            : base(context, logger) { }
 
         public async Task<string> GetMessageByTypeAsync(BotPage page)
         {
