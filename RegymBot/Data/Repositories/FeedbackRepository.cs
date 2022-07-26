@@ -2,15 +2,13 @@
 using RegymBot.Data.Base;
 using RegymBot.Data.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RegymBot.Data.Repositories
 {
     public class FeedbackRepository : BaseRepository<FeedbackEntity>
     {
-        public FeedbackRepository(AppDbContext context, ILogger<FeedbackEntity> logger)
+        public FeedbackRepository(AppDbContext context, ILogger logger)
             : base(context, logger) { }
 
         public async Task AddNewFeedback(string text, long userId)
