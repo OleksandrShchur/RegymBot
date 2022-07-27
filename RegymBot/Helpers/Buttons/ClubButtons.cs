@@ -22,7 +22,7 @@ namespace RegymBot.Helpers.Buttons
             {
                 InlineKeyboardButton.WithCallbackData("REGYM PSHKN", "club"),
             },
-            MainMenuButton.Button
+            ReturnBackButton.Button
         });
     }
 }

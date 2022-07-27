@@ -12,6 +12,15 @@ using RegymBot.Handlers;
 using RegymBot.Data.Repositories;
 using RegymBot.Helpers;
 using Microsoft.Extensions.Logging;
+using RegymBot.Services;
+using RegymBot.Services.Impl;
+using RegymBot.Handlers.MainMenu;
+using RegymBot.Handlers.ClubList;
+using RegymBot.Handlers.ClubContacts;
+using RegymBot.Handlers.Massage;
+using RegymBot.Handlers.Price;
+using RegymBot.Handlers.Solarium;
+using RegymBot.Handlers.Feedback;
 
 namespace RegymBot
 {
@@ -29,11 +38,11 @@ namespace RegymBot
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // register loggers
             services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<ConfigureWebhook>>());
-            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<CallbackQuery>>());
             services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleUpdate>>());
-            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleMainMenu>>());
             services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleError>>());
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<IStepService>>());
 
             services.AddDbContext<AppDbContext>(opt => 
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -47,12 +56,29 @@ namespace RegymBot
             // register handlers for Bot
             services.AddScoped<HandleUpdate>();
             services.AddScoped<HandleMainMenu>();
-            services.AddScoped<CallbackQuery>();
+            services.AddScoped<HandleClubList>();
+            services.AddScoped<HandleClubContacts>();
+            services.AddScoped<HandleMassage>();
+            services.AddScoped<HandlePrice>();
+            services.AddScoped<HandleSolarium>();
+            services.AddScoped<HandleFeedback>();
             services.AddScoped<HandleError>();
+
+            services.AddScoped<CallbackQueryMainMenu>();
+            services.AddScoped<CallbackQueryClubList>();
+            services.AddScoped<CallbackQueryClubContacts>();
+            services.AddScoped<CallbackQueryMassage>();
+            services.AddScoped<CallbackQueryPrice>();
+            services.AddScoped<CallbackQuerySolarium>();
+            services.AddScoped<CallbackQueryFeedback>();
+
+            // register services
+            services.AddSingleton<IStepService, StepService>();
 
             // register repositories
             services.AddScoped<PriceRepository>();
             services.AddScoped<StaticMessageRepository>();
+            services.AddScoped<FeedbackRepository>();
 
             services.AddControllers().AddNewtonsoftJson();
             // In production, the Angular files will be served from this directory
