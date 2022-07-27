@@ -25,7 +25,7 @@ namespace RegymBot.Handlers.Solarium
             switch (callbackQuery.Data)
             {
                 case "back":
-                    _stepService.ReturnBackStep();
+                    _stepService.ReturnBackStep(callbackQuery.From.Id);
                     await _handleMainMenu.BotOnMainMenu(callbackQuery.Message);
 
                     break;

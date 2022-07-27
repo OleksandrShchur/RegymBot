@@ -1,4 +1,4 @@
-﻿namespace RegymBot.Helpers
+﻿namespace RegymBot.Helpers.StateContext
 {
     public enum BotStep
     {

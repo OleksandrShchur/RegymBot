@@ -6,7 +6,7 @@ using RegymBot.Handlers.MainMenu;
 using RegymBot.Handlers.Massage;
 using RegymBot.Handlers.Price;
 using RegymBot.Handlers.Solarium;
-using RegymBot.Helpers;
+using RegymBot.Helpers.StateContext;
 using RegymBot.Services;
 using System;
 using System.Threading.Tasks;
@@ -75,15 +75,21 @@ namespace RegymBot.Handlers
 
         public async Task EchoAsync(Update update)
         {
-            var step = _stepService.GetLastStep();
+            var userId = GetUserId(update);
+            if (userId == -1)
+            {
+                return;
+            }
+
+            var step = _stepService.GetLastStep(userId);
 
             switch (step)
             {
                 case BotStep.MainMenu:
                     var handler = update.Type switch
                     {
-                        UpdateType.Message => _handleMainMenu.BotOnMainMenu(update.Message!),
-                        UpdateType.CallbackQuery => _mainMenuService.BotOnCallbackQueryReceived(update.CallbackQuery!),
+                        UpdateType.Message => _handleMainMenu.BotOnMainMenu(update.Message),
+                        UpdateType.CallbackQuery => _mainMenuService.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
 
@@ -94,8 +100,8 @@ namespace RegymBot.Handlers
                 case BotStep.Massage:
                     handler = update.Type switch
                     {
-                        UpdateType.Message => _handleMassage.BotOnMassage(update.Message!),
-                        UpdateType.CallbackQuery => _callbackQueryMassage.BotOnCallbackQueryReceived(update.CallbackQuery!),
+                        UpdateType.Message => _handleMassage.BotOnMassage(update.Message),
+                        UpdateType.CallbackQuery => _callbackQueryMassage.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
 
@@ -106,8 +112,8 @@ namespace RegymBot.Handlers
                 case BotStep.Solarium:
                     handler = update.Type switch
                     {
-                        UpdateType.Message => _handleSolarium.BotOnSolarium(update.Message!),
-                        UpdateType.CallbackQuery => _callbackQuerySolarium.BotOnCallbackQueryReceived(update.CallbackQuery!),
+                        UpdateType.Message => _handleSolarium.BotOnSolarium(update.Message),
+                        UpdateType.CallbackQuery => _callbackQuerySolarium.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
 
@@ -118,8 +124,8 @@ namespace RegymBot.Handlers
                 case BotStep.ClubList:
                     handler = update.Type switch
                     {
-                        UpdateType.Message => _handleClubList.BotOnClubList(update.Message!),
-                        UpdateType.CallbackQuery => _clubListService.BotOnCallbackQueryClubListReceived(update.CallbackQuery!),
+                        UpdateType.Message => _handleClubList.BotOnClubList(update.Message),
+                        UpdateType.CallbackQuery => _clubListService.BotOnCallbackQueryClubListReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
 
@@ -130,8 +136,8 @@ namespace RegymBot.Handlers
                 case BotStep.LeaveFeedback:
                     handler = update.Type switch
                     {
-                        UpdateType.Message => _handleFeedback.BotOnFeedback(update.Message!),
-                        UpdateType.CallbackQuery => _callbackQueryFeedback.BotOnCallbackQueryReceived(update.CallbackQuery!),
+                        UpdateType.Message => _handleFeedback.BotOnFeedback(update.Message),
+                        UpdateType.CallbackQuery => _callbackQueryFeedback.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
 
@@ -142,8 +148,8 @@ namespace RegymBot.Handlers
                 case BotStep.ClubContacts:
                     handler = update.Type switch
                     {
-                        UpdateType.Message => _handleClubContacts.BotOnClubContacts(update.Message!),
-                        UpdateType.CallbackQuery => _callbackQueryClubContacts.BotOnCallbackQueryReceived(update.CallbackQuery!),
+                        UpdateType.Message => _handleClubContacts.BotOnClubContacts(update.Message),
+                        UpdateType.CallbackQuery => _callbackQueryClubContacts.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
 
@@ -154,8 +160,8 @@ namespace RegymBot.Handlers
                 case BotStep.Price:
                     handler = update.Type switch
                     {
-                        UpdateType.Message => _handlePrice.BotOnPrice(update.Message!),
-                        UpdateType.CallbackQuery => _callbackQueryPrice.BotOnCallbackQueryReceived(update.CallbackQuery!),
+                        UpdateType.Message => _handlePrice.BotOnPrice(update.Message),
+                        UpdateType.CallbackQuery => _callbackQueryPrice.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
 
@@ -176,6 +182,36 @@ namespace RegymBot.Handlers
                 _logger.LogError($"Exception in {typeof(HandleUpdate)}, message: {e.Message}, stacktrace: {e.StackTrace}");
                 await _handleError.HandleErrorAsync(e);
             }
+        }
+
+        private long GetUserId(Update update)
+        {
+            if (update.ChatMember != null)
+            {
+                return update.ChatMember.From.Id;
+            }
+            else if (update.MyChatMember != null)
+            {
+                return update.MyChatMember.From.Id;
+            }
+            else if (update.CallbackQuery != null)
+            {
+                return update.CallbackQuery.From.Id;
+            }
+            else if (update.InlineQuery != null)
+            {
+                return update.InlineQuery.From.Id;
+            }
+            else if (update.Message != null)
+            {
+                return update.Message.From.Id;
+            }
+            else if (update.ChosenInlineResult != null)
+            {
+                return update.ChosenInlineResult.From.Id;
+            }
+
+            return -1;
         }
     }
 }

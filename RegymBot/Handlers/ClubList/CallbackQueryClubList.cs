@@ -2,8 +2,8 @@
 using RegymBot.Data.Enums;
 using RegymBot.Data.Repositories;
 using RegymBot.Handlers.MainMenu;
-using RegymBot.Helpers;
 using RegymBot.Helpers.Buttons;
+using RegymBot.Helpers.StateContext;
 using RegymBot.Services;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -34,7 +34,7 @@ namespace RegymBot.Handlers.ClubList
             {
                 case "club":
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.ContactClubPage);
-                    _stepService.NewStep(BotStep.ClubContacts);
+                    _stepService.NewStep(BotStep.ClubContacts, callbackQuery.From.Id);
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
@@ -43,7 +43,7 @@ namespace RegymBot.Handlers.ClubList
                     break;
 
                 case "back":
-                    _stepService.ReturnBackStep();
+                    _stepService.ReturnBackStep(callbackQuery.From.Id);
                     await _handleMainMenu.BotOnMainMenu(callbackQuery.Message);
 
                     break;
