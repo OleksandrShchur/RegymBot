@@ -2,11 +2,11 @@
 
 namespace RegymBot.Helpers.Buttons
 {
-    public static class MainMenuButton
+    public static class ReturnBackButton
     {
         public static InlineKeyboardButton[] Button => new[]
         {
-            InlineKeyboardButton.WithCallbackData("У головне меню", "main_menu"),
+            InlineKeyboardButton.WithCallbackData("Назад", "back"),
         };
 
         public static InlineKeyboardMarkup Keyboard => new InlineKeyboardMarkup(
