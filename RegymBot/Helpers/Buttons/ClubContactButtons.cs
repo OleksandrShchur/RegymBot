@@ -17,6 +17,11 @@ namespace RegymBot.Helpers.Buttons
             {
                 InlineKeyboardButton.WithCallbackData("Записаться в группу", "enrol"),
             },
+            // 3 row
+            new []
+            {
+                InlineKeyboardButton.WithCallbackData("Тренер", "coach"),
+            },
             ReturnBackButton.Button
         });
     }

@@ -25,6 +25,11 @@ namespace RegymBot.Handlers.ClubContacts
 
             switch (callbackQuery.Data)
             {
+                case "coach":
+
+
+                    break;
+
                 case "back":
                     await _handleClubList.BotOnClubList(callbackQuery.Message);
                     _stepService.ReturnBackStep(callbackQuery.From.Id);

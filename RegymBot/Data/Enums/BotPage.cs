@@ -8,6 +8,8 @@
         LeaveFeedbackPage,
         SelectClubPage,
         SolariumPage,
-        ContactClubPage
+        Club_Apollo,
+        Club_Vavylon,
+        Club_Pshkn
     }
 }

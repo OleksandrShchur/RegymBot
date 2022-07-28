@@ -32,8 +32,28 @@ namespace RegymBot.Handlers.ClubList
 
             switch (callbackQuery.Data)
             {
-                case "club":
-                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.ContactClubPage);
+                case "club_apollo":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Club_Apollo);
+                    _stepService.NewStep(BotStep.ClubContacts, callbackQuery.From.Id);
+
+                    await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
+                                                    text: text,
+                                                    replyMarkup: ClubContactButtons.Keyboard);
+
+                    break;
+
+                case "club_vavylon":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Club_Vavylon);
+                    _stepService.NewStep(BotStep.ClubContacts, callbackQuery.From.Id);
+
+                    await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
+                                                    text: text,
+                                                    replyMarkup: ClubContactButtons.Keyboard);
+
+                    break;
+
+                case "club_pshkn":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Club_Pshkn);
                     _stepService.NewStep(BotStep.ClubContacts, callbackQuery.From.Id);
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
