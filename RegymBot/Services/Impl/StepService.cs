@@ -8,10 +8,10 @@ namespace RegymBot.Services.Impl
 {
     public class StepService : IStepService
     {
-        private readonly ILogger<IStepService> _logger;
+        private readonly ILogger<StepService> _logger;
         private List<UserStepsModel> State = new List<UserStepsModel>();
 
-        public StepService(ILogger<IStepService> logger) 
+        public StepService(ILogger<StepService> logger) 
         {
             _logger = logger;
         }

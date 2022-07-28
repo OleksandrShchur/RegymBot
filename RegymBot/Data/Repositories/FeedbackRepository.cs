@@ -8,7 +8,7 @@ namespace RegymBot.Data.Repositories
 {
     public class FeedbackRepository : BaseRepository<FeedbackEntity>
     {
-        public FeedbackRepository(AppDbContext context, ILogger logger)
+        public FeedbackRepository(AppDbContext context, ILogger<FeedbackRepository> logger)
             : base(context, logger) { }
 
         public async Task AddNewFeedback(string text, long userId)
