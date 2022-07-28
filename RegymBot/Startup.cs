@@ -26,32 +26,42 @@ namespace RegymBot
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
+            Env = env;
             Configuration = configuration;
             BotConfig = Configuration.GetSection("BotConfiguration").Get<BotConfiguration>();
         }
 
+        public IWebHostEnvironment Env { get; }
         public IConfiguration Configuration { get; }
         private BotConfiguration BotConfig { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime. Use this method to add services to the container. 
         public void ConfigureServices(IServiceCollection services)
         {
-            // register loggers
-            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<ConfigureWebhook>>());
-            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleUpdate>>());
-            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<HandleError>>());
+            if (Env.IsDevelopment())
+            {
+                services.AddDbContext<AppDbContext>(options =>
+                {
+                    options.EnableSensitiveDataLogging();
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                    // options.UseInMemoryDatabase("TestDB");
+                });
             services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<IStepService>>());
 
-            services.AddDbContext<AppDbContext>(opt => 
-                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                // TODO: implement long pooling
+            }
+            else
+            {
+                services.AddDbContext<AppDbContext>(opt =>
+                    opt.UseSqlServer(Configuration.GetConnectionString("RemoteConnection")));
 
-            services.AddHostedService<ConfigureWebhook>();
-
-            services.AddHttpClient("tgwebhook")
-                    .AddTypedClient<ITelegramBotClient>(httpClient
-                        => new TelegramBotClient(BotConfig.Token, httpClient));
+                services.AddHostedService<ConfigureWebhook>();
+                services.AddHttpClient("tgwebhook")
+                        .AddTypedClient<ITelegramBotClient>(httpClient
+                            => new TelegramBotClient(BotConfig.Token, httpClient));
+            }
 
             // register handlers for Bot
             services.AddScoped<HandleUpdate>();
@@ -97,31 +107,43 @@ namespace RegymBot
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseDeveloperExceptionPage();
+                // app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
-            if (!env.IsDevelopment())
+            
+            if (env.IsDevelopment())
+            {
+                app.UseCors(x => x
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                );
+
+                // app.UseTelegramBotLongPolling(...);
+            }
+            else
             {
                 app.UseSpaStaticFiles();
+                // app.UseTelegramBotWebhook(...);
             }
 
             app.UseRouting();
-
+                    
             app.UseEndpoints(endpoints =>
             {
                 var token = BotConfig.Token;
                 endpoints.MapControllerRoute(name: "tgwebhook",
-                                             pattern: $"bot/{token}",
-                                             new { controller = "Webhook", action = "Post" });
+                                            pattern: $"bot/{token}",
+                                            new { controller = "Webhook", action = "Post" });
                 endpoints.MapControllers();
             });
 
             app.UseSpa(spa =>
             {
-
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
