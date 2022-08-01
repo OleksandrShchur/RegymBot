@@ -8,6 +8,8 @@
         LeaveFeedback,
         ClubList,
         Solarium,
-        ClubContacts
+        ClubContacts,
+        Categories,
+        CoachList
     }
 }

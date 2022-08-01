@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using RegymBot.Handlers.CategorySection;
 using RegymBot.Handlers.ClubContacts;
 using RegymBot.Handlers.ClubList;
 using RegymBot.Handlers.Feedback;
@@ -19,40 +20,40 @@ namespace RegymBot.Handlers
     {
         private readonly CallbackQueryMainMenu _mainMenuService;
         private readonly HandleError _handleError;
-        private readonly ILogger<HandleUpdate> _logger;
+        private readonly ILogger _logger;
         private readonly HandleMainMenu _handleMainMenu;
         private readonly IStepService _stepService;
         private readonly HandleClubList _handleClubList;
         private readonly CallbackQueryClubList _clubListService;
         private readonly HandleClubContacts _handleClubContacts;
         private readonly CallbackQueryClubContacts _callbackQueryClubContacts;
-        private readonly HandleMassage _handleMassage;
         private readonly CallbackQueryMassage _callbackQueryMassage;
-        private readonly HandlePrice _handlePrice;
         private readonly CallbackQueryPrice _callbackQueryPrice;
-        private readonly HandleSolarium _handleSolarium;
         private readonly CallbackQuerySolarium _callbackQuerySolarium;
         private readonly HandleFeedback _handleFeedback;
         private readonly CallbackQueryFeedback _callbackQueryFeedback;
+        private readonly HandleCategorySection _handleCategorySection;
+        private readonly CallbackQueryCategorySection _callbackQueryCategorySection;
+
+        public HandleUpdate() { }
 
         public HandleUpdate(
             CallbackQueryMainMenu mainMenuService,
             HandleError handleError,
-            ILogger<HandleUpdate> logger,
+            ILogger logger,
             HandleMainMenu handleMainMenu,
             IStepService stepService,
             HandleClubList handleClubList,
             CallbackQueryClubList clubListService,
             HandleClubContacts handleClubContacts,
             CallbackQueryClubContacts callbackQueryClubContacts,
-            HandleMassage handleMassage,
             CallbackQueryMassage callbackQueryMassage,
-            HandlePrice handlePrice,
             CallbackQueryPrice callbackQueryPrice,
-            HandleSolarium handleSolarium,
             CallbackQuerySolarium callbackQuerySolarium,
             HandleFeedback handleFeedback,
-            CallbackQueryFeedback callbackQueryFeedback)
+            CallbackQueryFeedback callbackQueryFeedback,
+            HandleCategorySection handleCategorySection,
+            CallbackQueryCategorySection callbackQueryCategorySection)
         {
             _mainMenuService = mainMenuService;
             _handleError = handleError;
@@ -63,14 +64,13 @@ namespace RegymBot.Handlers
             _clubListService = clubListService;
             _handleClubContacts = handleClubContacts;
             _callbackQueryClubContacts = callbackQueryClubContacts;
-            _handleMassage = handleMassage;
             _callbackQueryMassage = callbackQueryMassage;
-            _handlePrice = handlePrice;
             _callbackQueryPrice = callbackQueryPrice;
-            _handleSolarium = handleSolarium;
             _callbackQuerySolarium = callbackQuerySolarium;
             _handleFeedback = handleFeedback;
             _callbackQueryFeedback = callbackQueryFeedback;
+            _handleCategorySection = handleCategorySection;
+            _callbackQueryCategorySection = callbackQueryCategorySection;
         }
 
         public async Task EchoAsync(Update update)
@@ -100,7 +100,6 @@ namespace RegymBot.Handlers
                 case BotStep.Massage:
                     handler = update.Type switch
                     {
-                        UpdateType.Message => _handleMassage.BotOnMassage(update.Message),
                         UpdateType.CallbackQuery => _callbackQueryMassage.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
@@ -112,7 +111,6 @@ namespace RegymBot.Handlers
                 case BotStep.Solarium:
                     handler = update.Type switch
                     {
-                        UpdateType.Message => _handleSolarium.BotOnSolarium(update.Message),
                         UpdateType.CallbackQuery => _callbackQuerySolarium.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
@@ -160,12 +158,21 @@ namespace RegymBot.Handlers
                 case BotStep.Price:
                     handler = update.Type switch
                     {
-                        UpdateType.Message => _handlePrice.BotOnPrice(update.Message),
                         UpdateType.CallbackQuery => _callbackQueryPrice.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
 
                     await ExecuteHandler(handler);
+
+                    break;
+
+                case BotStep.Categories:
+                    handler = update.Type switch
+                    {
+                        UpdateType.Message => _handleCategorySection.BotOnCategorySection(update.Message),
+                        UpdateType.CallbackQuery => _callbackQueryCategorySection.BotOnCallbackQueryReceived(update.CallbackQuery),
+                        _ => _handleError.UnknownUpdateHandlerAsync(update)
+                    };
 
                     break;
             };

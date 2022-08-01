@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using RegymBot.Handlers;
 using RegymBot.Data.Repositories;
 using RegymBot.Helpers;
-using Microsoft.Extensions.Logging;
 using RegymBot.Services;
 using RegymBot.Services.Impl;
 using RegymBot.Handlers.MainMenu;
@@ -21,6 +20,9 @@ using RegymBot.Handlers.Massage;
 using RegymBot.Handlers.Price;
 using RegymBot.Handlers.Solarium;
 using RegymBot.Handlers.Feedback;
+using RegymBot.Handlers.CategorySection;
+using RegymBot.Handlers.CoachList;
+using Microsoft.Extensions.Logging;
 
 namespace RegymBot
 {
@@ -48,9 +50,12 @@ namespace RegymBot
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                     // options.UseInMemoryDatabase("TestDB");
                 });
-            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<IStepService>>());
+                services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<IStepService>>());
 
-                // TODO: implement long pooling
+                services.AddHostedService<ConfigureWebhook>();
+                services.AddHttpClient("tgwebhook")
+                        .AddTypedClient<ITelegramBotClient>(httpClient
+                            => new TelegramBotClient(BotConfig.Token, httpClient));
             }
             else
             {
@@ -68,10 +73,9 @@ namespace RegymBot
             services.AddScoped<HandleMainMenu>();
             services.AddScoped<HandleClubList>();
             services.AddScoped<HandleClubContacts>();
-            services.AddScoped<HandleMassage>();
-            services.AddScoped<HandlePrice>();
-            services.AddScoped<HandleSolarium>();
             services.AddScoped<HandleFeedback>();
+            services.AddScoped<HandleCategorySection>();
+            services.AddScoped<HandleCoachList>();
             services.AddScoped<HandleError>();
 
             services.AddScoped<CallbackQueryMainMenu>();
@@ -81,6 +85,8 @@ namespace RegymBot
             services.AddScoped<CallbackQueryPrice>();
             services.AddScoped<CallbackQuerySolarium>();
             services.AddScoped<CallbackQueryFeedback>();
+            services.AddScoped<CallbackQueryCategorySection>();
+            services.AddScoped<CallbackQueryCoachList>();
 
             // register services
             services.AddSingleton<IStepService, StepService>();
@@ -103,6 +109,10 @@ namespace RegymBot
         {
             if (env.IsDevelopment())
             {
+                var botClient = new TelegramBotClient(BotConfig.Token);
+
+                //botClient.StartReceiving<LongPollingService>();
+
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -114,7 +124,7 @@ namespace RegymBot
 
             // app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
+
             if (env.IsDevelopment())
             {
                 app.UseCors(x => x
@@ -132,7 +142,7 @@ namespace RegymBot
             }
 
             app.UseRouting();
-                    
+
             app.UseEndpoints(endpoints =>
             {
                 var token = BotConfig.Token;
