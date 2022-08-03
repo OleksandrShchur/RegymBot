@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using RegymBot.Data.Enums;
 using RegymBot.Handlers.CategorySection;
 using RegymBot.Handlers.ClubContacts;
 using RegymBot.Handlers.ClubList;
@@ -33,6 +34,7 @@ namespace RegymBot.Handlers
         private readonly HandleFeedback _handleFeedback;
         private readonly CallbackQueryFeedback _callbackQueryFeedback;
         private readonly HandleCategorySection _handleCategorySection;
+        private readonly InlineQueryCategorySection _inlineQueryCategorySection;
         private readonly CallbackQueryCategorySection _callbackQueryCategorySection;
 
         public HandleUpdate() { }
@@ -53,6 +55,7 @@ namespace RegymBot.Handlers
             HandleFeedback handleFeedback,
             CallbackQueryFeedback callbackQueryFeedback,
             HandleCategorySection handleCategorySection,
+            InlineQueryCategorySection inlineQueryCategorySection,
             CallbackQueryCategorySection callbackQueryCategorySection)
         {
             _mainMenuService = mainMenuService;
@@ -70,6 +73,7 @@ namespace RegymBot.Handlers
             _handleFeedback = handleFeedback;
             _callbackQueryFeedback = callbackQueryFeedback;
             _handleCategorySection = handleCategorySection;
+            _inlineQueryCategorySection = inlineQueryCategorySection;
             _callbackQueryCategorySection = callbackQueryCategorySection;
         }
 
@@ -85,7 +89,7 @@ namespace RegymBot.Handlers
 
             switch (step)
             {
-                case BotStep.MainMenu:
+                case BotPage.StartPage:
                     var handler = update.Type switch
                     {
                         UpdateType.Message => _handleMainMenu.BotOnMainMenu(update.Message),
@@ -97,7 +101,7 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotStep.Massage:
+                case BotPage.MassagePage:
                     handler = update.Type switch
                     {
                         UpdateType.CallbackQuery => _callbackQueryMassage.BotOnCallbackQueryReceived(update.CallbackQuery),
@@ -108,7 +112,7 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotStep.Solarium:
+                case BotPage.SolariumPage:
                     handler = update.Type switch
                     {
                         UpdateType.CallbackQuery => _callbackQuerySolarium.BotOnCallbackQueryReceived(update.CallbackQuery),
@@ -119,7 +123,7 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotStep.ClubList:
+                case BotPage.SelectClubPage:
                     handler = update.Type switch
                     {
                         UpdateType.Message => _handleClubList.BotOnClubList(update.Message),
@@ -131,7 +135,7 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotStep.LeaveFeedback:
+                case BotPage.LeaveFeedbackPage:
                     handler = update.Type switch
                     {
                         UpdateType.Message => _handleFeedback.BotOnFeedback(update.Message),
@@ -143,7 +147,9 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotStep.ClubContacts:
+                case BotPage.Club_Pshkn:
+                case BotPage.Club_Vavylon:
+                case BotPage.Club_Apollo:
                     handler = update.Type switch
                     {
                         UpdateType.Message => _handleClubContacts.BotOnClubContacts(update.Message),
@@ -155,7 +161,7 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotStep.Price:
+                case BotPage.PricePage:
                     handler = update.Type switch
                     {
                         UpdateType.CallbackQuery => _callbackQueryPrice.BotOnCallbackQueryReceived(update.CallbackQuery),
@@ -166,13 +172,16 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotStep.Categories:
+                case BotPage.CategoryPage:
                     handler = update.Type switch
                     {
                         UpdateType.Message => _handleCategorySection.BotOnCategorySection(update.Message),
+                        UpdateType.InlineQuery => _inlineQueryCategorySection.BotOnInlineQueryReceived(update.InlineQuery),
                         UpdateType.CallbackQuery => _callbackQueryCategorySection.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
+
+                    await ExecuteHandler(handler);
 
                     break;
             };

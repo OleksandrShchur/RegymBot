@@ -3,7 +3,6 @@ using RegymBot.Data.Entities;
 using RegymBot.Data.Enums;
 using RegymBot.Data.Repositories;
 using RegymBot.Helpers.Buttons;
-using RegymBot.Helpers.StateContext;
 using RegymBot.Services;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -34,7 +33,7 @@ namespace RegymBot.Handlers.MainMenu
             {
                 case "select_club":
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.SelectClubPage);
-                    _stepService.NewStep(BotStep.ClubList, callbackQuery.From.Id);
+                    _stepService.NewStep(BotPage.SelectClubPage, callbackQuery.From.Id);
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
@@ -44,7 +43,7 @@ namespace RegymBot.Handlers.MainMenu
                 case "price":
                     var prices = await _priceRepository.GetAllAsync();
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.PricePage);
-                    _stepService.NewStep(BotStep.Price, callbackQuery.From.Id);
+                    _stepService.NewStep(BotPage.PricePage, callbackQuery.From.Id);
 
                     foreach (PriceEntity price in prices)
                     {
@@ -60,7 +59,7 @@ namespace RegymBot.Handlers.MainMenu
                 case "solarium":
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.SolariumPage);
                     var pricesSolarium = await _priceRepository.GetPricesByTypeAsync(PriceItem.Solarium);
-                    _stepService.NewStep(BotStep.Solarium, callbackQuery.From.Id);
+                    _stepService.NewStep(BotPage.SolariumPage, callbackQuery.From.Id);
 
                     foreach (PriceEntity price in pricesSolarium)
                     {
@@ -76,7 +75,7 @@ namespace RegymBot.Handlers.MainMenu
                 case "massage":
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.MassagePage);
                     var pricesMassage = await _priceRepository.GetPricesByTypeAsync(PriceItem.Massage);
-                    _stepService.NewStep(BotStep.Massage, callbackQuery.From.Id);
+                    _stepService.NewStep(BotPage.MassagePage, callbackQuery.From.Id);
 
                     foreach (PriceEntity price in pricesMassage)
                     {
@@ -91,7 +90,7 @@ namespace RegymBot.Handlers.MainMenu
 
                 case "feedback":
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.LeaveFeedbackPage);
-                    _stepService.NewStep(BotStep.LeaveFeedback, callbackQuery.From.Id);
+                    _stepService.NewStep(BotPage.LeaveFeedbackPage, callbackQuery.From.Id);
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,

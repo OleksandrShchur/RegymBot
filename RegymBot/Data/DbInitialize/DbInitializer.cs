@@ -64,6 +64,11 @@ namespace RegymBot.Data.DbInitialize
                 {
                     Page = BotPage.Club_Pshkn,
                     Message = "Телефон PSHKN\n+380999999999\n\"Адрес:\nул. Хмельницкого 68\nРасписание:\nПН - СБ: 08 - 21\nВС: 9 - 18\""
+                },
+                new StaticMessageEntity
+                {
+                    Page = BotPage.CategoryPage,
+                    Message = "Виберіть категорію:"
                 }
             };
 

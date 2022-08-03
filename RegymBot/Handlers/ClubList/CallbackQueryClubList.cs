@@ -34,7 +34,7 @@ namespace RegymBot.Handlers.ClubList
             {
                 case "club_apollo":
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Club_Apollo);
-                    _stepService.NewStep(BotStep.ClubContacts, callbackQuery.From.Id);
+                    _stepService.NewStep(BotPage.Club_Apollo, callbackQuery.From.Id);
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
@@ -44,7 +44,7 @@ namespace RegymBot.Handlers.ClubList
 
                 case "club_vavylon":
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Club_Vavylon);
-                    _stepService.NewStep(BotStep.ClubContacts, callbackQuery.From.Id);
+                    _stepService.NewStep(BotPage.Club_Vavylon, callbackQuery.From.Id);
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
@@ -54,7 +54,7 @@ namespace RegymBot.Handlers.ClubList
 
                 case "club_pshkn":
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Club_Pshkn);
-                    _stepService.NewStep(BotStep.ClubContacts, callbackQuery.From.Id);
+                    _stepService.NewStep(BotPage.Club_Pshkn, callbackQuery.From.Id);
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,

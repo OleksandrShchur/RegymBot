@@ -10,17 +10,17 @@ namespace RegymBot.Helpers.Buttons
                 // 1 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("VIP", "vip_group"),
+                InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("VIP", "category: vip")
             },
             // 2 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("1 група", "group_1"),
+                InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("1 група", "category: first"),
             },
             // 3 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("2 група", "group_2"),
+                InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("2 група", "category: second"),
             },
             ReturnBackButton.Button
         });

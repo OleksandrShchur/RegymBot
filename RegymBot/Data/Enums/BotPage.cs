@@ -10,6 +10,8 @@
         SolariumPage,
         Club_Apollo,
         Club_Vavylon,
-        Club_Pshkn
+        Club_Pshkn,
+        CategoryPage,
+        CoachListPage
     }
 }

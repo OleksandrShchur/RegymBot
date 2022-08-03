@@ -32,7 +32,6 @@ namespace RegymBot.Handlers.CoachList
                     _stepService.ReturnBackStep(callbackQuery.From.Id);
 
                     break;
-
             }
         }
     }

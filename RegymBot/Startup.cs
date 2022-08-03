@@ -85,6 +85,7 @@ namespace RegymBot
             services.AddScoped<CallbackQueryPrice>();
             services.AddScoped<CallbackQuerySolarium>();
             services.AddScoped<CallbackQueryFeedback>();
+            services.AddScoped<InlineQueryCategorySection>();
             services.AddScoped<CallbackQueryCategorySection>();
             services.AddScoped<CallbackQueryCoachList>();
 
