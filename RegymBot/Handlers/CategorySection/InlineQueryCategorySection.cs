@@ -1,27 +1,29 @@
 ﻿using Microsoft.Extensions.Logging;
+using RegymBot.Data.Enums;
+using RegymBot.Data.Repositories;
 using RegymBot.Handlers.ClubContacts;
 using RegymBot.Helpers.Buttons;
 using RegymBot.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.InlineQueryResults;
-using Telegram.Bot.Types.ReplyMarkups;
 
 namespace RegymBot.Handlers.CategorySection
 {
     public class InlineQueryCategorySection : BaseCallback<InlineQueryCategorySection>
     {
         private readonly HandleClubContacts _handleClubContacts;
+        private readonly UserRepository _userRepository;
         public InlineQueryCategorySection(
             ITelegramBotClient botClient,
             ILogger<InlineQueryCategorySection> logger,
             HandleClubContacts handleClubContacts,
-            IStepService stepService) : base(stepService, botClient, logger)
+            IStepService stepService,
+            UserRepository userRepository) : base(stepService, botClient, logger)
         {
             _handleClubContacts = handleClubContacts;
+            _userRepository = userRepository;
         }
 
         public async Task BotOnInlineQueryReceived(Telegram.Bot.Types.InlineQuery inlineQuery)
@@ -29,24 +31,38 @@ namespace RegymBot.Handlers.CategorySection
             _logger.LogInformation("Received inline query in category section from: {InlineQueryFromId}", inlineQuery.From.Id);
 
             var list = new List<InlineQueryResultArticle>();
+            var category = DetectCategoryFromQuery(inlineQuery.Query);
 
-            var articles = new[]
+            var coaches = _userRepository.LoadCoachesByCategory(category);
+
+            foreach(var coach in coaches)
             {
-                new InlineQueryResultArticle("1", "test", new InputTextMessageContent("message context")),
-                new InlineQueryResultArticle("2", "test 2", new InputTextMessageContent("message context 2")),
-                new InlineQueryResultArticle("3", "test 3", new InputTextMessageContent("message context 3")),
-            };
-            
-            foreach(var article in articles)
-            {
-                article.ReplyMarkup = CoachButtons.Keyboard;
+                var item = new InlineQueryResultArticle(coach.UserGuid.ToString(),
+                    $"{coach.Name} {coach.Surname}",
+                    new InputTextMessageContent(coach.Description));
+
+                item.ReplyMarkup = CoachButtons.Keyboard;
+
+                list.Add(item);
             }
 
-            list.Add(articles[0]);
-            list.Add(articles[1]);
-            list.Add(articles[2]);
-
             await _botClient.AnswerInlineQueryAsync(inlineQuery.Id, list.ToArray(), null, false);
+        }
+
+        private Category DetectCategoryFromQuery(string query)
+        {
+            if (query == "category: vip")
+            {
+                return Category.VIP;
+            }
+            else if (query == "category: first")
+            {
+                return Category.First;
+            }
+            else
+            {
+                return Category.Second;
+            }
         }
     }
 }
