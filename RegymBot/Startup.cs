@@ -21,7 +21,6 @@ using RegymBot.Handlers.Price;
 using RegymBot.Handlers.Solarium;
 using RegymBot.Handlers.Feedback;
 using RegymBot.Handlers.CategorySection;
-using RegymBot.Handlers.CoachList;
 using Microsoft.Extensions.Logging;
 
 namespace RegymBot
@@ -74,8 +73,6 @@ namespace RegymBot
             services.AddScoped<HandleClubList>();
             services.AddScoped<HandleClubContacts>();
             services.AddScoped<HandleFeedback>();
-            services.AddScoped<HandleCategorySection>();
-            services.AddScoped<HandleCoachList>();
             services.AddScoped<HandleError>();
 
             services.AddScoped<CallbackQueryMainMenu>();
@@ -87,7 +84,6 @@ namespace RegymBot
             services.AddScoped<CallbackQueryFeedback>();
             services.AddScoped<InlineQueryCategorySection>();
             services.AddScoped<CallbackQueryCategorySection>();
-            services.AddScoped<CallbackQueryCoachList>();
 
             // register services
             services.AddSingleton<IStepService, StepService>();

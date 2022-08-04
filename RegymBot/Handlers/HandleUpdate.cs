@@ -33,7 +33,6 @@ namespace RegymBot.Handlers
         private readonly CallbackQuerySolarium _callbackQuerySolarium;
         private readonly HandleFeedback _handleFeedback;
         private readonly CallbackQueryFeedback _callbackQueryFeedback;
-        private readonly HandleCategorySection _handleCategorySection;
         private readonly InlineQueryCategorySection _inlineQueryCategorySection;
         private readonly CallbackQueryCategorySection _callbackQueryCategorySection;
 
@@ -54,7 +53,6 @@ namespace RegymBot.Handlers
             CallbackQuerySolarium callbackQuerySolarium,
             HandleFeedback handleFeedback,
             CallbackQueryFeedback callbackQueryFeedback,
-            HandleCategorySection handleCategorySection,
             InlineQueryCategorySection inlineQueryCategorySection,
             CallbackQueryCategorySection callbackQueryCategorySection)
         {
@@ -72,7 +70,6 @@ namespace RegymBot.Handlers
             _callbackQuerySolarium = callbackQuerySolarium;
             _handleFeedback = handleFeedback;
             _callbackQueryFeedback = callbackQueryFeedback;
-            _handleCategorySection = handleCategorySection;
             _inlineQueryCategorySection = inlineQueryCategorySection;
             _callbackQueryCategorySection = callbackQueryCategorySection;
         }
@@ -175,7 +172,6 @@ namespace RegymBot.Handlers
                 case BotPage.CategoryPage:
                     handler = update.Type switch
                     {
-                        UpdateType.Message => _handleCategorySection.BotOnCategorySection(update.Message),
                         UpdateType.InlineQuery => _inlineQueryCategorySection.BotOnInlineQueryReceived(update.InlineQuery),
                         UpdateType.CallbackQuery => _callbackQueryCategorySection.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
