@@ -20,7 +20,7 @@ namespace RegymBot.Data.Repositories
             _userRoleRepository = userRoleRepository;
         }
 
-        public IEnumerable<UserEntity> LoadCoachesByCategory(Category category)
+        public List<UserEntity> LoadCoachesByCategory(Category? category)
         {
             try
             {
