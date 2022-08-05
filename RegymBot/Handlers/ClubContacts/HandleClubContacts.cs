@@ -36,6 +36,9 @@ namespace RegymBot.Handlers.ClubContacts
                 case BotPage.Club_Apollo:
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Club_Apollo);
 
+                    await _botClient.SendLocationAsync(chatId: message.Chat.Id,
+                                                    latitude: 50.4501,
+                                                    longitude: 30.5234);
                     await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                     text: text,
                                                     replyMarkup: ClubContactButtons.Keyboard);
@@ -45,6 +48,9 @@ namespace RegymBot.Handlers.ClubContacts
                 case BotPage.Club_Vavylon:
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Club_Vavylon);
 
+                    await _botClient.SendLocationAsync(chatId: message.Chat.Id,
+                                                    latitude: 49.9935,
+                                                    longitude: 36.2304);
                     await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                     text: text,
                                                     replyMarkup: ClubContactButtons.Keyboard);
@@ -54,6 +60,9 @@ namespace RegymBot.Handlers.ClubContacts
                 case BotPage.Club_Pshkn:
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Club_Pshkn);
 
+                    await _botClient.SendLocationAsync(chatId: message.Chat.Id,
+                                                    latitude: 49.8397,
+                                                    longitude: 24.0297);
                     await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                     text: text,
                                                     replyMarkup: ClubContactButtons.Keyboard);
