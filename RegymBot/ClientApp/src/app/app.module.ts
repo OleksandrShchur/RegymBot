@@ -1,35 +1,47 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+import { RouterModule } from "@angular/router";
 
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HomeComponent } from './components/home/home.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { MatDividerModule, MatIconModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+import { AppComponent } from "./app.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HomeComponent } from "./components/home/home.component";
+import { SidebarComponent } from "./components/sidebar/sidebar.component";
+import {
+  MatDividerModule,
+  MatIconModule,
+  MatSidenavModule,
+  MatTableModule,
+  MatToolbarModule,
+} from "@angular/material";
+import { UserTableComponent } from "./components/user-table/user-table.component";
+import { AppRoutingModule } from "./app-routing.module";
+import { UserService } from "./services/user-service";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    SidebarComponent
+    SidebarComponent,
+    UserTableComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' }
+      { path: "", component: HomeComponent, pathMatch: "full" },
     ]),
     BrowserAnimationsModule,
+    AppRoutingModule,
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [UserService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

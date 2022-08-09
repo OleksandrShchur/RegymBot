@@ -22,6 +22,7 @@ using RegymBot.Handlers.Solarium;
 using RegymBot.Handlers.Feedback;
 using RegymBot.Handlers.CategorySection;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
 
 namespace RegymBot
 {
@@ -101,6 +102,15 @@ namespace RegymBot
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            // register AutoMapper
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MapperProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -148,7 +158,9 @@ namespace RegymBot
                 endpoints.MapControllerRoute(name: "tgwebhook",
                                             pattern: $"bot/{token}",
                                             new { controller = "Webhook", action = "Post" });
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>

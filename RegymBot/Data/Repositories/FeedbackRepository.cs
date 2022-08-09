@@ -11,7 +11,7 @@ namespace RegymBot.Data.Repositories
         public FeedbackRepository(AppDbContext context, ILogger<FeedbackRepository> logger)
             : base(context, logger) { }
 
-        public async Task AddNewFeedback(string text, long userId)
+        public async Task AddNewFeedbackAsync(string text, long userId)
         {
             try
             {
