@@ -1,0 +1,39 @@
+<mat-toolbar class="mat-elevation-z8">
+    <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+        <mat-icon *ngIf="!sidenav.opened">
+            menu
+        </mat-icon>
+        <mat-icon *ngIf="sidenav.opened">
+            close
+        </mat-icon>
+    </button>
+    Regym
+</mat-toolbar>
+
+<mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+
+        <button mat-button class="menu-button" routerLink="/">
+            <mat-icon>home</mat-icon>
+            <span>Головна</span>
+        </button>
+
+        <button mat-button class="menu-button">
+            <mat-icon>person</mat-icon>
+            <span>Профіль</span>
+        </button>
+
+        <button mat-button class="menu-button">
+            <mat-icon>supervisor_account</mat-icon>
+            <span>Люди</span>
+        </button>
+
+        <mat-divider></mat-divider>
+
+        <button mat-button class="menu-button">
+            <mat-icon>help</mat-icon>
+            <span>Допомога</span>
+        </button>
+
+    </mat-sidenav>
+</mat-sidenav-container>
