@@ -10,8 +10,11 @@ import { HomeComponent } from "./components/home/home.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import {
   MatButtonModule,
+  MatDialogModule,
   MatDividerModule,
+  MatFormFieldModule,
   MatIconModule,
+  MatInputModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatSidenavModule,
@@ -22,6 +25,7 @@ import {
 import { UserTableComponent } from "./components/user-table/user-table.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { UserService } from "./services/user-service";
+import { ModalUserComponent } from "./components/modal-user/modal-user.component";
 
 @NgModule({
   declarations: [
@@ -29,6 +33,7 @@ import { UserService } from "./services/user-service";
     HomeComponent,
     SidebarComponent,
     UserTableComponent,
+    ModalUserComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -48,7 +53,11 @@ import { UserService } from "./services/user-service";
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
+  entryComponents: [ModalUserComponent],
   providers: [UserService],
   bootstrap: [AppComponent],
 })

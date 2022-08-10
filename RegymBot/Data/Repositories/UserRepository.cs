@@ -59,5 +59,57 @@ namespace RegymBot.Data.Repositories
                 throw;
             }
         }
+
+        public async Task<UserEntity> GetByGuidAsync(Guid userGuid)
+        {
+            try
+            {
+                var user = await _context.Users
+                    .Include(u => u.UserRoles)
+                    .FirstOrDefaultAsync(u => u.UserGuid == userGuid);
+
+                _logger.LogInformation($"Loading user with guid {user.UserGuid}");
+
+                return user;
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, $"Error on loading user {typeof(UserEntity)} with guid {userGuid}");
+                throw;
+            }
+        }
+
+        public async Task RemoveUserAsync(Guid userGuid)
+        {
+            try
+            {
+                var userToDelete = await GetByGuidAsync(userGuid);
+
+                await Delete(userToDelete);
+
+                _logger.LogInformation($"Deleted user successfully");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Error on deleting user {typeof(UserEntity)} with guid {userGuid}");
+                throw;
+            }
+        }
+
+        public async Task AddUserAsync(UserEntity newUser)
+        {
+            try
+            {
+                newUser.Category = Category.VIP;
+                await Insert(newUser);
+
+                _logger.LogInformation($"Successful insert new user {typeof(UserEntity)} with guid {newUser.UserGuid}");
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, $"Error on adding user {typeof(UserEntity)}");
+                throw;
+            }
+        }
     }
 }

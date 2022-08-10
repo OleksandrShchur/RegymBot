@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Новий користувач</h1>
+<mat-dialog-content class="mat-typography">
+  <mat-form-field appearance="fill" class="user-input part-width">
+    <mat-label>Ім'я</mat-label>
+    <input matInput required [(ngModel)]="user.name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="user-input part-width">
+    <mat-label>Прізвище</mat-label>
+    <input matInput required [(ngModel)]="user.surName" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="user-input full-width">
+    <mat-label>Опис</mat-label>
+    <textarea matInput required [(ngModel)]="user.description"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Закрити</button>
+  <button mat-button cdkFocusInitial (click)="onSave()">Зберегти</button>
+</mat-dialog-actions>
