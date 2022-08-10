@@ -9,9 +9,13 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HomeComponent } from "./components/home/home.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import {
+  MatButtonModule,
   MatDividerModule,
   MatIconModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
   MatSidenavModule,
+  MatSnackBarModule,
   MatTableModule,
   MatToolbarModule,
 } from "@angular/material";
@@ -40,6 +44,10 @@ import { UserService } from "./services/user-service";
     MatIconModule,
     MatDividerModule,
     MatTableModule,
+    MatSnackBarModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatButtonModule,
   ],
   providers: [UserService],
   bootstrap: [AppComponent],
