@@ -29,5 +29,28 @@ namespace RegymBot.Data.Repositories
                 throw;
             }
         }
+
+        public async Task AddUserToRoleAsync(string roleName, Guid userGuid)
+        {
+            try
+            {
+                var role = await _context.Roles.FirstOrDefaultAsync(r => r.Role == roleName);
+
+                var userRole = new UserRoleEntity
+                {
+                    UserGuid = userGuid,
+                    RoleGuid = role.RoleGuid
+                };
+
+                await Insert(userRole);
+
+                _logger.LogInformation($"Added role {role.Role} to user {userGuid}");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Error on adding user to role {typeof(UserRoleRepository)}, role name - {roleName}");
+                throw;
+            }
+        }
     }
 }

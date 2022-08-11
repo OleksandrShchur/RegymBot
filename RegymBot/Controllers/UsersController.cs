@@ -50,5 +50,15 @@ namespace RegymBot.Controllers
 
             return Ok();
         }
+
+        [HttpPost]
+        [Route("update-user")]
+        public async Task<IActionResult> UpdateUser(UserModel user)
+        {
+            var mappedUser = _mapper.Map<UserModel, UserEntity>(user);
+            await _userRepository.UpdateUserAsync(mappedUser);
+
+            return Ok();
+        }
     }
 }

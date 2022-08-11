@@ -14,6 +14,10 @@ export class UserService extends BaseService {
   }
 
   addUser(user: UserModel) {
-    return this.http.post<UserModel>(this.baseUrl + "Users/new-user", user);
+    return this.http.post(this.baseUrl + "Users/new-user", user);
+  }
+
+  updateUser(user: UserModel) {
+    return this.http.post(this.baseUrl + "Users/update-user", user);
   }
 }

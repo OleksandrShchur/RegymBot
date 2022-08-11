@@ -13,6 +13,8 @@ namespace RegymBot.Data.Repositories
     public class UserRepository : BaseRepository<UserEntity>
     {
         private readonly UserRoleRepository _userRoleRepository;
+        private const string COACH_ROLE = "Тренер";
+
         public UserRepository(AppDbContext context,
             ILogger<UserRepository> logger,
             UserRoleRepository userRoleRepository)
@@ -100,14 +102,30 @@ namespace RegymBot.Data.Repositories
         {
             try
             {
-                newUser.Category = Category.VIP;
-                await Insert(newUser);
+                var userFromDb = await Insert(newUser);
+
+                await _userRoleRepository.AddUserToRoleAsync(COACH_ROLE, userFromDb.UserGuid);
 
                 _logger.LogInformation($"Successful insert new user {typeof(UserEntity)} with guid {newUser.UserGuid}");
             }
             catch(Exception e)
             {
                 _logger.LogError(e, $"Error on adding user {typeof(UserEntity)}");
+                throw;
+            }
+        }
+
+        public async Task UpdateUserAsync(UserEntity user)
+        {
+            try
+            {
+                await Update(user);
+
+                _logger.LogInformation($"Updated user {user.UserGuid}");
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, $"Error on updating user {typeof(UserEntity)} with guid {user.UserGuid}");
                 throw;
             }
         }

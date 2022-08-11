@@ -1,6 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 import { MatDialog, MatDialogRef, MatSnackBar } from "@angular/material";
 import { MatInputModule } from "@angular/material";
+import { Duration } from "src/app/constants/snackBarDuration";
 import { UserModel } from "src/app/models/user-model";
 import { UserService } from "src/app/services/user-service";
 
@@ -10,7 +12,8 @@ import { UserService } from "src/app/services/user-service";
   styleUrls: ["./modal-user.component.css"],
 })
 export class ModalUserComponent implements OnInit {
-  public user: UserModel;
+  @Input() public user: UserModel;
+  public userForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<ModalUserComponent>,
@@ -20,33 +23,70 @@ export class ModalUserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.user = {
-      userGuid: "",
-      name: "",
-      surName: "",
-      description: "",
-      role: [],
-    };
+    if (this.user === null) {
+      this.userForm = new FormGroup({
+        name: new FormControl(""),
+        surName: new FormControl(""),
+        description: new FormControl(""),
+      });
+    } else {
+      this.userForm = new FormGroup({
+        name: new FormControl(this.user.name),
+        surName: new FormControl(this.user.surName),
+        description: new FormControl(this.user.description),
+      });
+    }
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  onSave(): void {
-    this.userService.addUser(this.user).subscribe(
-      (data: any) => {
-        this.user = data;
+  onSubmit(): void {
+    if (this.user === null) {
+      let newUser = new UserModel();
 
-        this.snackBar.open("Додано користувача", "Приховати", {
-          duration: 10000,
-        });
+      newUser.name = this.userForm.value.name;
+      newUser.surName = this.userForm.value.surName;
+      newUser.description = this.userForm.value.description;
 
-        this.dialog.closeAll();
-      },
-      (error) => {
-        alert("Error");
-      }
-    );
+      this.userService.addUser(newUser).subscribe(
+        () => {
+          this.snackBar.open("Додано користувача", "Приховати", {
+            duration: Duration,
+          });
+
+          this.dialog.closeAll();
+        },
+        () => {
+          this.snackBar.open("Помилка при додаванні користувача", "Приховати", {
+            duration: Duration,
+          });
+        }
+      );
+    } else {
+      this.user.name = this.userForm.value.name;
+      this.user.surName = this.userForm.value.surName;
+      this.user.description = this.userForm.value.description;
+
+      this.userService.updateUser(this.user).subscribe(
+        () => {
+          this.snackBar.open("Дані користувача оновлено", "Приховати", {
+            duration: Duration,
+          });
+
+          this.dialog.closeAll();
+        },
+        () => {
+          this.snackBar.open(
+            "Не вдалося оновити дані користувача",
+            "Приховати",
+            {
+              duration: Duration,
+            }
+          );
+        }
+      );
+    }
   }
 }

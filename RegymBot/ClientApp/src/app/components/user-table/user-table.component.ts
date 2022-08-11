@@ -4,7 +4,10 @@ import {
   MatSnackBar,
   MatTableDataSource,
 } from "@angular/material";
-import { MatDialog } from "@angular/material/dialog";
+import {
+  MatDialog,
+  throwMatDialogContentAlreadyAttachedError,
+} from "@angular/material/dialog";
 import { UserModel } from "src/app/models/user-model";
 import { UserService } from "src/app/services/user-service";
 import { ModalUserComponent } from "../modal-user/modal-user.component";
@@ -72,7 +75,15 @@ export class UserTableComponent {
     );
   }
 
+  editUser(user: UserModel) {
+    const dialogRef = this.dialog.open(ModalUserComponent);
+
+    dialogRef.componentInstance.user = user;
+  }
+
   openDialog(): void {
-    this.dialog.open(ModalUserComponent);
+    const dialogRef = this.dialog.open(ModalUserComponent);
+
+    dialogRef.componentInstance.user = null;
   }
 }

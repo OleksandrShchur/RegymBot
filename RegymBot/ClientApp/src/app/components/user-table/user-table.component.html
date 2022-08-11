@@ -31,7 +31,12 @@
     <ng-container matColumnDef="actions" class="button-row">
       <th mat-header-cell *matHeaderCellDef>Дії</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button color="primary" aria-label="Змінити">
+        <button
+          mat-icon-button
+          color="primary"
+          aria-label="Змінити"
+          (click)="editUser(element)"
+        >
           <mat-icon>edit</mat-icon>
         </button>
         <button
@@ -58,7 +63,7 @@
 
   <div class="example-button-container">
     <button mat-fab color="primary" aria-label="Додати користувача">
-      <mat-icon (click)="openDialog()">add</mat-icon>
+      <mat-icon (click)="openDialog()">person_add</mat-icon>
     </button>
   </div>
 </div>
