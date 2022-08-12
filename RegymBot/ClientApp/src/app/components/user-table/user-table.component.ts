@@ -4,10 +4,8 @@ import {
   MatSnackBar,
   MatTableDataSource,
 } from "@angular/material";
-import {
-  MatDialog,
-  throwMatDialogContentAlreadyAttachedError,
-} from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
+import { Duration } from "src/app/constants/snackBarDuration";
 import { UserModel } from "src/app/models/user-model";
 import { UserService } from "src/app/services/user-service";
 import { ModalUserComponent } from "../modal-user/modal-user.component";
@@ -18,7 +16,7 @@ import { ModalUserComponent } from "../modal-user/modal-user.component";
   styleUrls: ["./user-table.component.css"],
 })
 export class UserTableComponent {
-  private userList: Array<UserModel> | any;
+  private userList: Array<UserModel>;
   private guidColumn: string = "userGuid";
 
   public displayedColumns: string[] = [
@@ -47,14 +45,13 @@ export class UserTableComponent {
         this.dataSource.paginator = this.paginator;
       },
       (error) => {
-        alert("Помилка");
-        // this.snackBar.open(
-        //   "Помилка при завантаженні списку користувачів. " + error.message,
-        //   "Приховати",
-        //   {
-        //     duration: 10000,
-        //   }
-        // );
+        this.snackBar.open(
+          "Помилка при завантаженні списку користувачів. " + error.message,
+          "Приховати",
+          {
+            duration: 10000,
+          }
+        );
       }
     );
   }
@@ -62,15 +59,20 @@ export class UserTableComponent {
   deleteUser(guid: string) {
     this.userService.removeUser(guid).subscribe(
       () => {
-        alert("User deleted");
+        this.snackBar.open("Користувача видалено", "Приховати", {
+          duration: Duration,
+        });
+
         const itemIndex = this.dataSource.data.findIndex(
           (obj) => obj[this.guidColumn] == guid
         );
         this.dataSource.data.slice(itemIndex, 1);
         this.dataSource.paginator = this.paginator;
       },
-      (error) => {
-        alert("Failed to delete user");
+      () => {
+        this.snackBar.open("Помилка при видаленні користувача", "Приховати", {
+          duration: Duration,
+        });
       }
     );
   }

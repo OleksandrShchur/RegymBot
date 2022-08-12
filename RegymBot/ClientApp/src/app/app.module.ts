@@ -26,6 +26,7 @@ import { UserTableComponent } from "./components/user-table/user-table.component
 import { AppRoutingModule } from "./app-routing.module";
 import { UserService } from "./services/user-service";
 import { ModalUserComponent } from "./components/modal-user/modal-user.component";
+import { PriceServiceModuleComponent } from './components/price-service-module/price-service-module.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ModalUserComponent } from "./components/modal-user/modal-user.component
     SidebarComponent,
     UserTableComponent,
     ModalUserComponent,
+    PriceServiceModuleComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),

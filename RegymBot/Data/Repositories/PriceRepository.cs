@@ -45,6 +45,69 @@ namespace RegymBot.Data.Repositories
                 _logger.LogError(e, $"Error on get prices by type {typeof(PriceEntity)}");
                 throw;
             }
-}
+        }
+
+        public async Task<PriceEntity> GetByGuidAsync(Guid priceGuid)
+        {
+            try
+            {
+                var price = await _context.Prices.FirstOrDefaultAsync(p => p.PriceGuid == priceGuid);
+
+                _logger.LogInformation($"Got price by priceGuid - {price.PriceGuid}, {typeof(PriceEntity)}");
+
+                return price;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Error on get price by guid {typeof(PriceEntity)}");
+                throw;
+            }
+        }
+
+        public async Task AddPriceAsync(PriceEntity newPrice)
+        {
+            try
+            {
+                var price = await Insert(newPrice);
+
+                _logger.LogInformation($"Inserted new price {typeof(PriceEntity)} with guid - {price.PriceGuid}");
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, $"Error on adding price {typeof(PriceEntity)}");
+                throw;
+            }
+        }
+
+        public async Task UpdatePriceAsync(PriceEntity price)
+        {
+            try
+            {
+                await Update(price);
+
+                _logger.LogInformation($"Updated price {typeof(PriceEntity)} with guid - {price.PriceGuid}");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Error on updating price {typeof(PriceEntity)}");
+                throw;
+            }
+        }
+
+        public async Task RemovePriceAsync(Guid priceGuid)
+        {
+            try
+            {
+                var price = await GetByGuidAsync(priceGuid);
+                await Delete(price);
+
+                _logger.LogInformation($"Deleted price {typeof(PriceEntity)} with guid - {price.PriceGuid}");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Error on deleting price {typeof(PriceEntity)}");
+                throw;
+            }
+        }
     }
 }
