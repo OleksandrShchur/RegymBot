@@ -25,8 +25,9 @@ import {
 import { UserTableComponent } from "./components/user-table/user-table.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { UserService } from "./services/user-service";
+import { PriceService } from "./services/price-service";
 import { ModalUserComponent } from "./components/modal-user/modal-user.component";
-import { PriceServiceModuleComponent } from './components/price-service-module/price-service-module.component';
+import { PriceServiceModuleComponent } from "./components/price-service-module/price-service-module.component";
 
 @NgModule({
   declarations: [
@@ -62,7 +63,7 @@ import { PriceServiceModuleComponent } from './components/price-service-module/p
     ReactiveFormsModule,
   ],
   entryComponents: [ModalUserComponent],
-  providers: [UserService],
+  providers: [UserService, PriceService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
