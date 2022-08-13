@@ -28,6 +28,7 @@ import { UserService } from "./services/user-service";
 import { PriceService } from "./services/price-service";
 import { ModalUserComponent } from "./components/modal-user/modal-user.component";
 import { PriceServiceModuleComponent } from "./components/price-service-module/price-service-module.component";
+import { MessageTableComponent } from './components/message-table/message-table.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { PriceServiceModuleComponent } from "./components/price-service-module/p
     UserTableComponent,
     ModalUserComponent,
     PriceServiceModuleComponent,
+    MessageTableComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
