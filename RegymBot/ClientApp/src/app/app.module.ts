@@ -29,6 +29,8 @@ import { PriceService } from "./services/price-service";
 import { ModalUserComponent } from "./components/modal-user/modal-user.component";
 import { MessageTableComponent } from "./components/message-table/message-table.component";
 import { PriceTableComponent } from "./components/price-table/price-table.component";
+import { ModalPriceComponent } from "./components/modal-price/modal-price.component";
+import { MessageService } from "./services/message-service";
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { PriceTableComponent } from "./components/price-table/price-table.compon
     ModalUserComponent,
     MessageTableComponent,
     PriceTableComponent,
+    ModalPriceComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -64,8 +67,8 @@ import { PriceTableComponent } from "./components/price-table/price-table.compon
     FormsModule,
     ReactiveFormsModule,
   ],
-  entryComponents: [ModalUserComponent],
-  providers: [UserService, PriceService],
+  entryComponents: [ModalUserComponent, ModalPriceComponent],
+  providers: [UserService, PriceService, MessageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

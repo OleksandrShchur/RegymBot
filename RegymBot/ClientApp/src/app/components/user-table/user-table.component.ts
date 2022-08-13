@@ -44,12 +44,12 @@ export class UserTableComponent {
 
         this.dataSource.paginator = this.paginator;
       },
-      (error) => {
+      () => {
         this.snackBar.open(
-          "Помилка при завантаженні списку користувачів. " + error.message,
+          "Помилка при завантаженні списку користувачів.",
           "Приховати",
           {
-            duration: 10000,
+            duration: Duration,
           }
         );
       }
@@ -83,7 +83,7 @@ export class UserTableComponent {
     dialogRef.componentInstance.user = user;
   }
 
-  openDialog(): void {
+  addUser(): void {
     const dialogRef = this.dialog.open(ModalUserComponent);
 
     dialogRef.componentInstance.user = null;

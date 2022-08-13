@@ -1,26 +1,26 @@
-<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-group">
-  <h1 mat-dialog-title *ngIf="!user">Новий користувач</h1>
-  <h1 mat-dialog-title *ngIf="user">Оновити дані користувача</h1>
+<form [formGroup]="priceForm" (ngSubmit)="onSubmit()" class="form-group">
+  <h1 mat-dialog-title *ngIf="!price">Нова ціна/послуга</h1>
+  <h1 mat-dialog-title *ngIf="price">Оновити дані про послугу</h1>
   <mat-dialog-content class="mat-typography">
     <mat-form-field appearance="fill" class="user-input part-width">
-      <mat-label>Ім'я</mat-label>
-      <input matInput required formControlName="name" />
+      <mat-label>Тип послуги</mat-label>
+      <input matInput required formControlName="priceType" />
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="user-input part-width">
-      <mat-label>Прізвище</mat-label>
-      <input matInput required formControlName="surName" />
+      <mat-label>Ціна послуги</mat-label>
+      <input matInput required formControlName="price" />
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="user-input full-width">
-      <mat-label>Опис</mat-label>
-      <textarea matInput required formControlName="description"></textarea>
+      <mat-label>Опис послуги</mat-label>
+      <textarea matInput required formControlName="priceName"></textarea>
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-button mat-dialog-close>Закрити</button>
     <button
-      *ngIf="!user"
+      *ngIf="!price"
       mat-button
       cdkFocusInitial
       type="submit"
@@ -29,7 +29,7 @@
       Зберегти
     </button>
     <button
-      *ngIf="user"
+      *ngIf="price"
       mat-button
       cdkFocusInitial
       type="submit"

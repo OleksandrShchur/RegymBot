@@ -1,14 +1,14 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { HomeComponent } from "./components/home/home.component";
-import { PriceServiceModuleComponent } from "./components/price-service-module/price-service-module.component";
+import { MessageTableComponent } from "./components/message-table/message-table.component";
+import { PriceTableComponent } from "./components/price-table/price-table.component";
 import { UserTableComponent } from "./components/user-table/user-table.component";
 
 const routes: Routes = [
-  { path: "", component: HomeComponent },
+  { path: "", component: MessageTableComponent },
   { path: "user-table", component: UserTableComponent },
-  { path: "price-service", component: PriceServiceModuleComponent },
+  { path: "price-table", component: PriceTableComponent },
 ];
 
 @NgModule({
