@@ -3,5 +3,6 @@ export class UserModel {
   name: string;
   surName: string;
   description: string;
+  category: Number;
   role: Array<string>;
 }

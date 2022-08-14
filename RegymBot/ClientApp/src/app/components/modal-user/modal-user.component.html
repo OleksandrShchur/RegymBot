@@ -12,6 +12,15 @@
       <input matInput required formControlName="surName" />
     </mat-form-field>
 
+    <mat-form-field appearance="fill" class="user-input part-width">
+      <mat-label>Категорія</mat-label>
+      <select matNativeControl required formControlName="category">
+        <option value="0">VIP</option>
+        <option value="1">1 група</option>
+        <option value="2">2 група</option>
+      </select>
+    </mat-form-field>
+
     <mat-form-field appearance="fill" class="user-input full-width">
       <mat-label>Опис</mat-label>
       <textarea matInput required formControlName="description"></textarea>

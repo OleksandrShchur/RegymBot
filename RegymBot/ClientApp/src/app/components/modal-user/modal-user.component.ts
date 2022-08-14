@@ -28,12 +28,14 @@ export class ModalUserComponent implements OnInit {
         name: new FormControl(""),
         surName: new FormControl(""),
         description: new FormControl(""),
+        category: new FormControl(0),
       });
     } else {
       this.userForm = new FormGroup({
         name: new FormControl(this.user.name),
         surName: new FormControl(this.user.surName),
         description: new FormControl(this.user.description),
+        category: new FormControl(this.user.category),
       });
     }
   }
@@ -49,6 +51,7 @@ export class ModalUserComponent implements OnInit {
       newUser.name = this.userForm.value.name;
       newUser.surName = this.userForm.value.surName;
       newUser.description = this.userForm.value.description;
+      newUser.category = Number(this.userForm.value.category);
 
       this.userService.addUser(newUser).subscribe(
         () => {
@@ -68,6 +71,10 @@ export class ModalUserComponent implements OnInit {
       this.user.name = this.userForm.value.name;
       this.user.surName = this.userForm.value.surName;
       this.user.description = this.userForm.value.description;
+      this.user.category = Number(this.userForm.value.category);
+
+      console.log(this.user);
+      console.log(this.userForm.value);
 
       this.userService.updateUser(this.user).subscribe(
         () => {

@@ -17,6 +17,7 @@ import {
   MatInputModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
+  MatSelectModule,
   MatSidenavModule,
   MatSnackBarModule,
   MatTableModule,
@@ -68,6 +69,7 @@ import { ModalMessageComponent } from "./components/modal-message/modal-message.
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSelectModule,
   ],
   entryComponents: [
     ModalUserComponent,
