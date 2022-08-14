@@ -8,6 +8,7 @@ import {
 import { Duration } from "src/app/constants/snackBarDuration";
 import { MessageModel } from "src/app/models/message-model";
 import { MessageService } from "src/app/services/message-service";
+import { ModalMessageComponent } from "../modal-message/modal-message.component";
 
 @Component({
   selector: "app-message-table",
@@ -47,5 +48,11 @@ export class MessageTableComponent implements OnInit {
     );
   }
 
-  editMessage(message: MessageModel) {}
+  editMessage(message: MessageModel) {
+    const dialogRef = this.dialog.open(ModalMessageComponent, {
+      width: "50vw",
+    });
+
+    dialogRef.componentInstance.message = message;
+  }
 }

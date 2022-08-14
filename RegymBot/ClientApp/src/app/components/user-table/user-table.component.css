@@ -10,7 +10,7 @@ table {
   margin: 8px 8px 8px 0;
 }
 
-.button-container {
+.header-container {
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
 }

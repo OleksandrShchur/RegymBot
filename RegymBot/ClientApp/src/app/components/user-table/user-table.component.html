@@ -1,9 +1,14 @@
 <div class="main-content">
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb header-container">
       <li class="breadcrumb-item active" aria-current="page">
         Список користувачів
       </li>
+      <div>
+        <button mat-mini-fab color="primary" aria-label="Додати користувача">
+          <mat-icon (click)="addUser()">person_add</mat-icon>
+        </button>
+      </div>
     </ol>
   </nav>
 
@@ -55,15 +60,9 @@
   </table>
   <mat-paginator
     #paginator
-    [pageSizeOptions]="[5, 9]"
+    [pageSizeOptions]="[5, 10]"
     showFirstLastButtons
     aria-label="Select page of periodic elements"
   >
   </mat-paginator>
-
-  <div class="button-container">
-    <button mat-fab color="primary" aria-label="Додати користувача">
-      <mat-icon (click)="addUser()">person_add</mat-icon>
-    </button>
-  </div>
 </div>

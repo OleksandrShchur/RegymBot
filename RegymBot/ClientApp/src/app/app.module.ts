@@ -31,6 +31,7 @@ import { MessageTableComponent } from "./components/message-table/message-table.
 import { PriceTableComponent } from "./components/price-table/price-table.component";
 import { ModalPriceComponent } from "./components/modal-price/modal-price.component";
 import { MessageService } from "./services/message-service";
+import { ModalMessageComponent } from "./components/modal-message/modal-message.component";
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { MessageService } from "./services/message-service";
     MessageTableComponent,
     PriceTableComponent,
     ModalPriceComponent,
+    ModalMessageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -67,7 +69,11 @@ import { MessageService } from "./services/message-service";
     FormsModule,
     ReactiveFormsModule,
   ],
-  entryComponents: [ModalUserComponent, ModalPriceComponent],
+  entryComponents: [
+    ModalUserComponent,
+    ModalPriceComponent,
+    ModalMessageComponent,
+  ],
   providers: [UserService, PriceService, MessageService],
   bootstrap: [AppComponent],
 })

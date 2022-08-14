@@ -25,7 +25,7 @@
           mat-icon-button
           color="primary"
           aria-label="Змінити"
-          (click)="editPrice(element)"
+          (click)="editMessage(element)"
         >
           <mat-icon>edit</mat-icon>
         </button>
@@ -37,7 +37,7 @@
   </table>
   <mat-paginator
     #paginator
-    [pageSizeOptions]="[5, 9]"
+    [pageSizeOptions]="[5, 10]"
     showFirstLastButtons
     aria-label="Select page of periodic elements"
   >
