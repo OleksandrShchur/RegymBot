@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using RegymBot.Data.Enums;
 using RegymBot.Helpers.StateContext;
 using System;
 using System.Collections.Generic;
@@ -8,15 +9,15 @@ namespace RegymBot.Services.Impl
 {
     public class StepService : IStepService
     {
-        private readonly ILogger<StepService> _logger;
+        private readonly ILogger<IStepService> _logger;
         private List<UserStepsModel> State = new List<UserStepsModel>();
 
-        public StepService(ILogger<StepService> logger) 
+        public StepService(ILogger<IStepService> logger) 
         {
             _logger = logger;
         }
 
-        public BotStep GetLastStep(long userId)
+        public BotPage GetLastStep(long userId)
         {
             try
             {
@@ -32,10 +33,10 @@ namespace RegymBot.Services.Impl
                 _logger.LogError($"An error in get last step, message: {e.Message}, stacktrace: {e.StackTrace}");
             }
 
-            return BotStep.MainMenu;
+            return BotPage.StartPage;
         }
 
-        public void NewStep(BotStep step, long userId)
+        public void NewStep(BotPage step, long userId)
         {
             try
             {
@@ -64,6 +65,13 @@ namespace RegymBot.Services.Impl
             }
         }
 
+        public BotPage ToStartPage(long userId)
+        {
+            State.Where(s => s.UserId == userId).FirstOrDefault().History = new List<BotPage> { BotPage.StartPage };
+
+            return BotPage.StartPage;
+        }
+
         private bool UserExists(long userId)
         {
             return State.Any(s => s.UserId == userId);
@@ -74,7 +82,7 @@ namespace RegymBot.Services.Impl
             var newUser = new UserStepsModel
             {
                 UserId = userId,
-                History = new List<BotStep> { BotStep.MainMenu }
+                History = new List<BotPage> { BotPage.StartPage }
             };
 
             State.Add(newUser);

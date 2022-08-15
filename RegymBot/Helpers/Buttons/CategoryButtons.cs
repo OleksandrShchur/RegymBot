@@ -2,7 +2,7 @@
 
 namespace RegymBot.Helpers.Buttons
 {
-    public static class ClubContactButtons
+    public class CategoryButtons
     {
         public static InlineKeyboardMarkup Keyboard => new InlineKeyboardMarkup(
         new[]
@@ -10,17 +10,17 @@ namespace RegymBot.Helpers.Buttons
                 // 1 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Чат с администратором", "chat_with_admin"),
+                InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("VIP", "category: vip ")
             },
             // 2 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Записаться в группу", "enrol"),
+                InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("1 група", "category: first "),
             },
             // 3 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Тренер", "coach"),
+                InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("2 група", "category: second "),
             },
             ReturnBackButton.Button
         });

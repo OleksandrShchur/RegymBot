@@ -15,6 +15,9 @@ namespace RegymBot.Data
         public DbSet<FeedbackEntity> Feedbacks { get; set; }
         public DbSet<PriceEntity> Prices { get; set; }
         public DbSet<StaticMessageEntity> StaticMessages { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<UserRoleEntity> UserRoles { get; set; }
+        public DbSet<RoleEntity> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

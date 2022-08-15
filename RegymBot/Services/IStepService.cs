@@ -1,11 +1,12 @@
-﻿using RegymBot.Helpers.StateContext;
+﻿using RegymBot.Data.Enums;
 
 namespace RegymBot.Services
 {
     public interface IStepService
     {
         void ReturnBackStep(long userId);
-        BotStep GetLastStep(long userId);
-        void NewStep(BotStep step, long userId);
+        BotPage GetLastStep(long userId);
+        void NewStep(BotPage step, long userId);
+        BotPage ToStartPage(long userId);
     }
 }

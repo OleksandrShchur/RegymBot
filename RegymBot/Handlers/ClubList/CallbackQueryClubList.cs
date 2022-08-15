@@ -32,10 +32,39 @@ namespace RegymBot.Handlers.ClubList
 
             switch (callbackQuery.Data)
             {
-                case "club":
-                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.ContactClubPage);
-                    _stepService.NewStep(BotStep.ClubContacts, callbackQuery.From.Id);
+                case "club_apollo":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Club_Apollo);
+                    _stepService.NewStep(BotPage.Club_Apollo, callbackQuery.From.Id);
 
+                    await _botClient.SendLocationAsync(chatId: callbackQuery.Message.Chat.Id,
+                                                    latitude: 50.4501,
+                                                    longitude: 30.5234);
+                    await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
+                                                    text: text,
+                                                    replyMarkup: ClubContactButtons.Keyboard);
+
+                    break;
+
+                case "club_vavylon":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Club_Vavylon);
+                    _stepService.NewStep(BotPage.Club_Vavylon, callbackQuery.From.Id);
+
+                    await _botClient.SendLocationAsync(chatId: callbackQuery.Message.Chat.Id,
+                                                    latitude: 49.9935,
+                                                    longitude: 36.2304);
+                    await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
+                                                    text: text,
+                                                    replyMarkup: ClubContactButtons.Keyboard);
+
+                    break;
+
+                case "club_pshkn":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Club_Pshkn);
+                    _stepService.NewStep(BotPage.Club_Pshkn, callbackQuery.From.Id);
+
+                    await _botClient.SendLocationAsync(chatId: callbackQuery.Message.Chat.Id,
+                                                    latitude: 49.8397,
+                                                    longitude: 24.0297);
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
                                                     replyMarkup: ClubContactButtons.Keyboard);
