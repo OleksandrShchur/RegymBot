@@ -10,7 +10,7 @@ namespace RegymBot.Helpers.Buttons
                 // 1 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Чат с администратором", "chat_with_admin"),
+                InlineKeyboardButton.WithUrl("Чат с администратором", "tg://resolve?domain=butinyevhen"),
             },
             // 2 row
             new []

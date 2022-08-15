@@ -21,7 +21,7 @@ namespace RegymBot.Handlers
     {
         private readonly CallbackQueryMainMenu _mainMenuService;
         private readonly HandleError _handleError;
-        private readonly ILogger _logger;
+        private readonly ILogger<HandleUpdate> _logger;
         private readonly HandleMainMenu _handleMainMenu;
         private readonly IStepService _stepService;
         private readonly HandleClubList _handleClubList;
@@ -36,12 +36,10 @@ namespace RegymBot.Handlers
         private readonly InlineQueryCategorySection _inlineQueryCategorySection;
         private readonly CallbackQueryCategorySection _callbackQueryCategorySection;
 
-        public HandleUpdate() { }
-
         public HandleUpdate(
             CallbackQueryMainMenu mainMenuService,
             HandleError handleError,
-            ILogger logger,
+            ILogger<HandleUpdate> logger,
             HandleMainMenu handleMainMenu,
             IStepService stepService,
             HandleClubList handleClubList,

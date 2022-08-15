@@ -50,7 +50,6 @@ namespace RegymBot
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                     // options.UseInMemoryDatabase("TestDB");
                 });
-                services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<IStepService>>());
 
                 services.AddHostedService<ConfigureWebhook>();
                 services.AddHttpClient("tgwebhook")
