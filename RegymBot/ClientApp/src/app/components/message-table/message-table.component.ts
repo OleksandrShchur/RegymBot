@@ -18,7 +18,7 @@ import { ModalMessageComponent } from "../modal-message/modal-message.component"
 export class MessageTableComponent implements OnInit {
   private messageList: Array<MessageModel>;
 
-  public displayedColumns: string[] = ["page", "message", "actions"];
+  public displayedColumns: string[] = ["pageName", "message", "actions"];
   public dataSource;
 
   constructor(

@@ -37,7 +37,9 @@ namespace RegymBot.Data.Repositories
         {
             try
             {
-                var messages = await _context.StaticMessages.ToListAsync();
+                var messages = await _context.StaticMessages
+                    .Include(m => m.Page)
+                    .ToListAsync();
 
                 _logger.LogInformation($"Get all messages {typeof(StaticMessageRepository)}");
 
@@ -46,24 +48,6 @@ namespace RegymBot.Data.Repositories
             catch (Exception e)
             {
                 _logger.LogError(e, $"Error on get all messages {typeof(StaticMessageRepository)}");
-                throw;
-            }
-        }
-
-        public async Task<StaticMessageEntity> GetByGuidAsync(Guid messageGuid)
-        {
-            try
-            {
-                var message = await _context.StaticMessages
-                    .FirstOrDefaultAsync(m => m.StaticMessageGuid == messageGuid);
-
-                _logger.LogInformation($"Loading message with guid {message.StaticMessageGuid}");
-
-                return message;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, $"Error on get message {typeof(StaticMessageRepository)} with guid - {messageGuid}");
                 throw;
             }
         }

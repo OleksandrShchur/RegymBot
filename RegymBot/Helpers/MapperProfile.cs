@@ -15,6 +15,10 @@ namespace RegymBot.Helpers
 
             CreateMap<UserModel, UserEntity>()
                 .ForMember(dest => dest.UserRoles, opt => opt.Ignore());
+
+            CreateMap<StaticMessageEntity, MessageModel>()
+                .ForMember(dest => dest.MessageGuid, opt => opt.MapFrom(src => src.StaticMessageGuid))
+                .ForMember(dest => dest.PageName, opt => opt.MapFrom(src => src.Page.Name))
         }
     }
 }
