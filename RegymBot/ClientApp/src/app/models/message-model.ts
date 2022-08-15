@@ -1,5 +1,5 @@
 export class MessageModel {
   messageGuid: string;
-  page: Number;
+  pageName: string;
   message: string;
 }

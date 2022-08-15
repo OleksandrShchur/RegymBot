@@ -20,7 +20,7 @@ namespace RegymBot.Data.Repositories
             try
             {
                 var message = await _context.StaticMessages
-                .Where(m => m.Page == page)
+                .Where(m => m.PageId == (int)page)
                 .Select(m => m.Message)
                 .FirstOrDefaultAsync();
 
@@ -37,7 +37,9 @@ namespace RegymBot.Data.Repositories
         {
             try
             {
-                var messages = await _context.StaticMessages.ToListAsync();
+                var messages = await _context.StaticMessages
+                    .Include(m => m.Page)
+                    .ToListAsync();
 
                 _logger.LogInformation($"Get all messages {typeof(StaticMessageRepository)}");
 
@@ -50,28 +52,13 @@ namespace RegymBot.Data.Repositories
             }
         }
 
-        public async Task<StaticMessageEntity> GetByGuidAsync(Guid messageGuid)
+        public async Task UpdateMessageAsync(StaticMessageEntity message, string pageName)
         {
             try
             {
-                var message = await _context.StaticMessages
-                    .FirstOrDefaultAsync(m => m.StaticMessageGuid == messageGuid);
+                var page = await _context.Pages.FirstOrDefaultAsync(p => p.Name == pageName);
+                message.PageId = page.PageId;
 
-                _logger.LogInformation($"Loading message with guid {message.StaticMessageGuid}");
-
-                return message;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, $"Error on get message {typeof(StaticMessageRepository)} with guid - {messageGuid}");
-                throw;
-            }
-        }
-
-        public async Task UpdateMessageAsync(StaticMessageEntity message)
-        {
-            try
-            {
                 await Update(message);
 
                 _logger.LogInformation($"Updated message with guid {message.StaticMessageGuid}");
