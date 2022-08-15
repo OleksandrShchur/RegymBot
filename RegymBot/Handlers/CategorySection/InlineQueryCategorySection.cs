@@ -43,7 +43,7 @@ namespace RegymBot.Handlers.CategorySection
             var searchQueryLen = inlineQuery.Query.Split(" ").Length;
             var searchQuery = inlineQuery.Query.Split(" ");
 
-            var coaches = _userRepository.LoadCoachesByCategory(category);
+            var coaches = await _userRepository.LoadCoachesByCategoryAsync(category);
             if (searchQueryLen > 2)
             {
                 coaches = coaches.FindAll(s => ($"{s.Name} {s.Surname}").ToLower().Contains(searchQuery[2]));

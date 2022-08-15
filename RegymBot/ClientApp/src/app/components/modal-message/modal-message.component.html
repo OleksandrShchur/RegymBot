@@ -1,0 +1,20 @@
+<form [formGroup]="messageForm" (ngSubmit)="onSubmit()" class="form-group">
+  <h1 mat-dialog-title>Оновлення повідомлення</h1>
+  <mat-dialog-content class="mat-typography">
+    <mat-form-field appearance="fill" class="user-input full-width">
+      <mat-label>Повідомлення</mat-label>
+      <textarea matInput required formControlName="message"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Закрити</button>
+    <button
+      mat-button
+      cdkFocusInitial
+      type="submit"
+      class="btn btn-outline-dark"
+    >
+      Оновити
+    </button>
+  </mat-dialog-actions>
+</form>

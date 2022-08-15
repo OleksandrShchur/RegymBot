@@ -1,0 +1,50 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-group">
+  <h1 mat-dialog-title *ngIf="!user">Новий користувач</h1>
+  <h1 mat-dialog-title *ngIf="user">Оновити дані користувача</h1>
+  <mat-dialog-content class="mat-typography">
+    <mat-form-field appearance="fill" class="user-input part-width">
+      <mat-label>Ім'я</mat-label>
+      <input matInput required formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="user-input part-width">
+      <mat-label>Прізвище</mat-label>
+      <input matInput required formControlName="surName" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="user-input part-width">
+      <mat-label>Категорія</mat-label>
+      <select matNativeControl required formControlName="category">
+        <option value="0">VIP</option>
+        <option value="1">1 група</option>
+        <option value="2">2 група</option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="user-input full-width">
+      <mat-label>Опис</mat-label>
+      <textarea matInput required formControlName="description"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Закрити</button>
+    <button
+      *ngIf="!user"
+      mat-button
+      cdkFocusInitial
+      type="submit"
+      class="btn btn-outline-dark"
+    >
+      Зберегти
+    </button>
+    <button
+      *ngIf="user"
+      mat-button
+      cdkFocusInitial
+      type="submit"
+      class="btn btn-outline-dark"
+    >
+      Оновити
+    </button>
+  </mat-dialog-actions>
+</form>

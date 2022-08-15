@@ -1,0 +1,16 @@
+table {
+  width: 100%;
+}
+
+.button-row {
+  display: table-cell;
+}
+
+.button-row .mat-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.button-container {
+  display: flex;
+  justify-content: right;
+}

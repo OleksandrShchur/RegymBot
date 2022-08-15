@@ -13,6 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.16" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.16.1" />
@@ -38,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Models\" />
+    <None Remove="Controllers\UsersController.cs~RF1933cbab.TMP" />
   </ItemGroup>
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
