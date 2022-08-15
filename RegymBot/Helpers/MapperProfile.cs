@@ -18,7 +18,10 @@ namespace RegymBot.Helpers
 
             CreateMap<StaticMessageEntity, MessageModel>()
                 .ForMember(dest => dest.MessageGuid, opt => opt.MapFrom(src => src.StaticMessageGuid))
-                .ForMember(dest => dest.PageName, opt => opt.MapFrom(src => src.Page.Name))
+                .ForMember(dest => dest.PageName, opt => opt.MapFrom(src => src.Page.Name));
+
+            CreateMap<MessageModel, StaticMessageEntity>()
+                .ForMember(dest => dest.StaticMessageGuid, opt => opt.MapFrom(src => src.MessageGuid));
         }
     }
 }

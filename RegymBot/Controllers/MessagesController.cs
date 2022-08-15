@@ -33,9 +33,10 @@ namespace RegymBot.Controllers
 
         [HttpPost]
         [Route("update-message")]
-        public async Task<IActionResult> UpdateMessage(StaticMessageEntity message)
+        public async Task<IActionResult> UpdateMessage(MessageModel message)
         {
-            await _staticMessageRepository.UpdateMessageAsync(message);
+            var mappedMessage = _mapper.Map<MessageModel, StaticMessageEntity>(message);
+            await _staticMessageRepository.UpdateMessageAsync(mappedMessage);
 
             return Ok();
         }
