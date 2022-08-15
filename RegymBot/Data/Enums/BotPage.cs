@@ -2,7 +2,7 @@
 {
     public enum BotPage
     {
-        StartPage,
+        StartPage = 1,
         MassagePage,
         PricePage,
         LeaveFeedbackPage,

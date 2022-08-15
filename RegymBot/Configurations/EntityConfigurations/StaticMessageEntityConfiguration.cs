@@ -9,6 +9,10 @@ namespace RegymBot.Configurations.EntityConfigurations
         public void Configure(EntityTypeBuilder<StaticMessageEntity> builder)
         {
             builder.HasKey(m => m.StaticMessageGuid);
+
+            builder.HasOne(m => m.Page)
+                .WithOne(p => p.Message)
+                .HasForeignKey<StaticMessageEntity>(m => m.PageId);
         }
     }
 }

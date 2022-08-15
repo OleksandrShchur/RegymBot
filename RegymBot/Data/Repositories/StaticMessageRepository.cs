@@ -20,7 +20,7 @@ namespace RegymBot.Data.Repositories
             try
             {
                 var message = await _context.StaticMessages
-                .Where(m => m.Page == page)
+                .Where(m => m.PageId == (int)page)
                 .Select(m => m.Message)
                 .FirstOrDefaultAsync();
 
