@@ -23,7 +23,7 @@ export class ModalMessageComponent implements OnInit {
 
   ngOnInit(): void {
     this.messageForm = new FormGroup({
-      page: new FormControl(this.message.page),
+      page: new FormControl(this.message.pageName),
       message: new FormControl(this.message.message),
     });
   }

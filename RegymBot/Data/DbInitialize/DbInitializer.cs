@@ -20,57 +20,107 @@ namespace RegymBot.Data.DbInitialize
             {
                 new StaticMessageEntity
                 {
-                    Page = BotPage.StartPage,
+                    PageId = (int)BotPage.StartPage,
                     Message = "Виберіть:"
                 },
                 new StaticMessageEntity
                 {
-                    Page = BotPage.MassagePage,
+                    PageId = (int)BotPage.MassagePage,
                     Message = "В наших залах в PSHKN центр и ТРЦ Вавилон вы можете посетить массажные кабинеты, в которых вам помогут расслабиться после тренировки с помощью пятнадцати видов массажа."
                 },
                 new StaticMessageEntity
                 {
-                    Page = BotPage.PricePage,
+                    PageId = (int)BotPage.PricePage,
                     Message = "Прайс лист тренувань:"
                 },
                 new StaticMessageEntity
                 {
-                    Page = BotPage.LeaveFeedbackPage,
+                    PageId = (int)BotPage.LeaveFeedbackPage,
                     Message = "Расскажите, что вам понравилось и как нам стать лутше для вас?"
                 },
                 new StaticMessageEntity
                 {
-                    Page = BotPage.SelectClubPage,
+                    PageId = (int)BotPage.SelectClubPage,
                     Message = "Выберите клуб:"
                 },
                 new StaticMessageEntity
                 {
-                    Page = BotPage.SolariumPage,
+                    PageId = (int)BotPage.SolariumPage,
                     Message = "В наших залах в Аполло и ТРЦ Вавилон вы можете посетить солярий."
                 },
                 new StaticMessageEntity
                 {
-                    Page = BotPage.Club_Apollo,
+                    PageId = (int)BotPage.Club_Apollo,
                     Message = "Телефон Аполло\n+380999999999\n\"Адрес:\nул. Хмельницкого 68\nРасписание:\nПН - СБ: 08 - 21\nВС: 9 - 18\""
                 },
                 new StaticMessageEntity
                 {
-                    Page = BotPage.Club_Vavylon,
+                    PageId = (int)BotPage.Club_Vavylon,
                     Message = "Телефон Вавилон\n+380999999999\n\"Адрес:\nул. Хмельницкого 68\nРасписание:\nПН - СБ: 08 - 21\nВС: 9 - 18\""
                 },
                 new StaticMessageEntity
                 {
-                    Page = BotPage.Club_Pshkn,
+                    PageId = (int)BotPage.Club_Pshkn,
                     Message = "Телефон PSHKN\n+380999999999\n\"Адрес:\nул. Хмельницкого 68\nРасписание:\nПН - СБ: 08 - 21\nВС: 9 - 18\""
                 },
                 new StaticMessageEntity
                 {
-                    Page = BotPage.CategoryPage,
+                    PageId = (int)BotPage.CategoryPage,
                     Message = "Виберіть категорію:"
                 }
             };
 
             dbContext.StaticMessages.AddRange(staticMessages);
+
+            var pages = new PageEntity[]
+            {
+                new PageEntity
+                {
+                    Name = "Стартова сторінка"
+                },
+                new PageEntity
+                {
+                    Name = "Сторінка <Масаж>"
+                },
+                new PageEntity
+                {
+                    Name = "Сторінка цін"
+                },
+                new PageEntity
+                {
+                    Name = "Сторінка <Залишити відгук>"
+                },
+                new PageEntity
+                {
+                    Name = "Сторінка вибору клубу"
+                },
+                new PageEntity
+                {
+                    Name = "Сторінка <Солярій>"
+                },
+                new PageEntity
+                {
+                    Name = "Сторінка <Клуб Аполло>"
+                },
+                new PageEntity
+                {
+                    Name = "Сторінка <Клуб Вавилон>"
+                },
+                new PageEntity
+                {
+                    Name = "Сторінка <Клуб PSHKN>"
+                },
+                new PageEntity
+                {
+                    Name = "Сторінка вибору категорій"
+                },
+                new PageEntity
+                {
+                    Name = "Сторінка вибору тренерів"
+                }
+            };
+
+            dbContext.Pages.AddRange(pages);
 
             var prices = new PriceEntity[]
             {
