@@ -52,10 +52,13 @@ namespace RegymBot.Data.Repositories
             }
         }
 
-        public async Task UpdateMessageAsync(StaticMessageEntity message)
+        public async Task UpdateMessageAsync(StaticMessageEntity message, string pageName)
         {
             try
             {
+                var page = await _context.Pages.FirstOrDefaultAsync(p => p.Name == pageName);
+                message.PageId = page.PageId;
+
                 await Update(message);
 
                 _logger.LogInformation($"Updated message with guid {message.StaticMessageGuid}");

@@ -36,7 +36,7 @@ namespace RegymBot.Controllers
         public async Task<IActionResult> UpdateMessage(MessageModel message)
         {
             var mappedMessage = _mapper.Map<MessageModel, StaticMessageEntity>(message);
-            await _staticMessageRepository.UpdateMessageAsync(mappedMessage);
+            await _staticMessageRepository.UpdateMessageAsync(mappedMessage, message.PageName);
 
             return Ok();
         }
