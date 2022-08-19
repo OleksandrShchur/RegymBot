@@ -27,7 +27,7 @@ namespace RegymBot.Handlers.MainMenu
             if (message.Type != MessageType.Text)
                 return;
 
-            var text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.StartPage);
+            var text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Start);
 
             await _botClient.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
 

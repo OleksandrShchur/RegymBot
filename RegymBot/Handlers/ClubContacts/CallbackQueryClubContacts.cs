@@ -33,8 +33,8 @@ namespace RegymBot.Handlers.ClubContacts
             switch (callbackQuery.Data)
             {
                 case "coach":
-                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.CategoryPage);
-                    _stepService.NewStep(BotPage.CategoryPage, callbackQuery.From.Id);
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Category);
+                    _stepService.NewStep(BotPage.Category, callbackQuery.From.Id);
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,

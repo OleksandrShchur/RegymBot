@@ -33,7 +33,7 @@ namespace RegymBot.Services.Impl
                 _logger.LogError($"An error in get last step, message: {e.Message}, stacktrace: {e.StackTrace}");
             }
 
-            return BotPage.StartPage;
+            return BotPage.Start;
         }
 
         public void NewStep(BotPage step, long userId)
@@ -67,9 +67,9 @@ namespace RegymBot.Services.Impl
 
         public BotPage ToStartPage(long userId)
         {
-            State.Where(s => s.UserId == userId).FirstOrDefault().History = new List<BotPage> { BotPage.StartPage };
+            State.Where(s => s.UserId == userId).FirstOrDefault().History = new List<BotPage> { BotPage.Start };
 
-            return BotPage.StartPage;
+            return BotPage.Start;
         }
 
         private bool UserExists(long userId)
@@ -82,7 +82,7 @@ namespace RegymBot.Services.Impl
             var newUser = new UserStepsModel
             {
                 UserId = userId,
-                History = new List<BotPage> { BotPage.StartPage }
+                History = new List<BotPage> { BotPage.Start }
             };
 
             State.Add(newUser);

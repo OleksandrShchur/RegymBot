@@ -2,16 +2,19 @@
 {
     public enum BotPage
     {
-        StartPage = 1,
-        MassagePage,
-        PricePage,
-        LeaveFeedbackPage,
-        SelectClubPage,
-        SolariumPage,
+        Start = 1,
+        Massage,
+        Price,
+        LeaveFeedback,
+        SelectClub,
+        Solarium,
         Club_Apollo,
         Club_Vavylon,
         Club_Pshkn,
-        CategoryPage,
-        CoachListPage
+        Category,
+        CoachList,
+        TrainingSchedule,
+        GetUserName,
+        GetUserPhone
     }
 }

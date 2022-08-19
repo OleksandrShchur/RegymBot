@@ -20,32 +20,32 @@ namespace RegymBot.Data.DbInitialize
             {
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.StartPage,
+                    PageId = (int)BotPage.Start,
                     Message = "Виберіть:"
                 },
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.MassagePage,
+                    PageId = (int)BotPage.Massage,
                     Message = "В наших залах в PSHKN центр и ТРЦ Вавилон вы можете посетить массажные кабинеты, в которых вам помогут расслабиться после тренировки с помощью пятнадцати видов массажа."
                 },
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.PricePage,
+                    PageId = (int)BotPage.Price,
                     Message = "Прайс лист тренувань:"
                 },
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.LeaveFeedbackPage,
+                    PageId = (int)BotPage.LeaveFeedback,
                     Message = "Расскажите, что вам понравилось и как нам стать лутше для вас?"
                 },
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.SelectClubPage,
+                    PageId = (int)BotPage.SelectClub,
                     Message = "Выберите клуб:"
                 },
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.SolariumPage,
+                    PageId = (int)BotPage.Solarium,
                     Message = "В наших залах в Аполло и ТРЦ Вавилон вы можете посетить солярий."
                 },
                 new StaticMessageEntity
@@ -65,7 +65,7 @@ namespace RegymBot.Data.DbInitialize
                 },
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.CategoryPage,
+                    PageId = (int)BotPage.Category,
                     Message = "Виберіть категорію:"
                 }
             };
@@ -76,32 +76,32 @@ namespace RegymBot.Data.DbInitialize
             {
                 new PageEntity
                 {
-                    PageId = (int)BotPage.StartPage,
+                    PageId = (int)BotPage.Start,
                     Name = "Стартова сторінка"
                 },
                 new PageEntity
                 {
-                    PageId = (int)BotPage.MassagePage,
+                    PageId = (int)BotPage.Massage,
                     Name = "Сторінка <Масаж>"
                 },
                 new PageEntity
                 {
-                    PageId = (int)BotPage.PricePage,
+                    PageId = (int)BotPage.Price,
                     Name = "Сторінка цін"
                 },
                 new PageEntity
                 {
-                    PageId = (int)BotPage.LeaveFeedbackPage,
+                    PageId = (int)BotPage.LeaveFeedback,
                     Name = "Сторінка <Залишити відгук>"
                 },
                 new PageEntity
                 {
-                    PageId = (int)BotPage.SelectClubPage,
+                    PageId = (int)BotPage.SelectClub,
                     Name = "Сторінка вибору клубу"
                 },
                 new PageEntity
                 {
-                    PageId = (int)BotPage.SolariumPage,
+                    PageId = (int)BotPage.Solarium,
                     Name = "Сторінка <Солярій>"
                 },
                 new PageEntity
@@ -121,12 +121,12 @@ namespace RegymBot.Data.DbInitialize
                 },
                 new PageEntity
                 {
-                    PageId = (int)BotPage.CategoryPage,
+                    PageId = (int)BotPage.Category,
                     Name = "Сторінка вибору категорій"
                 },
                 new PageEntity
                 {
-                    PageId = (int)BotPage.CoachListPage,
+                    PageId = (int)BotPage.CoachList,
                     Name = "Сторінка вибору тренерів"
                 }
             };

@@ -84,7 +84,7 @@ namespace RegymBot.Handlers
 
             switch (step)
             {
-                case BotPage.StartPage:
+                case BotPage.Start:
                     var handler = update.Type switch
                     {
                         UpdateType.Message => _handleMainMenu.BotOnMainMenu(update.Message),
@@ -96,7 +96,7 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotPage.MassagePage:
+                case BotPage.Massage:
                     handler = update.Type switch
                     {
                         UpdateType.CallbackQuery => _callbackQueryMassage.BotOnCallbackQueryReceived(update.CallbackQuery),
@@ -107,7 +107,7 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotPage.SolariumPage:
+                case BotPage.Solarium:
                     handler = update.Type switch
                     {
                         UpdateType.CallbackQuery => _callbackQuerySolarium.BotOnCallbackQueryReceived(update.CallbackQuery),
@@ -118,7 +118,7 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotPage.SelectClubPage:
+                case BotPage.SelectClub:
                     handler = update.Type switch
                     {
                         UpdateType.Message => _handleClubList.BotOnClubList(update.Message),
@@ -130,7 +130,7 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotPage.LeaveFeedbackPage:
+                case BotPage.LeaveFeedback:
                     handler = update.Type switch
                     {
                         UpdateType.Message => _handleFeedback.BotOnFeedback(update.Message),
@@ -156,7 +156,7 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotPage.PricePage:
+                case BotPage.Price:
                     handler = update.Type switch
                     {
                         UpdateType.CallbackQuery => _callbackQueryPrice.BotOnCallbackQueryReceived(update.CallbackQuery),
@@ -167,7 +167,7 @@ namespace RegymBot.Handlers
 
                     break;
 
-                case BotPage.CategoryPage:
+                case BotPage.Category:
                     handler = update.Type switch
                     {
                         UpdateType.InlineQuery => _inlineQueryCategorySection.BotOnInlineQueryReceived(update.InlineQuery),

@@ -44,7 +44,7 @@ namespace RegymBot.Handlers.CategorySection
                     break;
 
                 case "back_search":
-                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.CategoryPage);
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Category);
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.From.Id,
                                                     text: text,
@@ -54,7 +54,7 @@ namespace RegymBot.Handlers.CategorySection
 
                 case "main_menu":
                     _stepService.ToStartPage(callbackQuery.From.Id);
-                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.StartPage);
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Start);
 
                     await _botClient.SendChatActionAsync(callbackQuery.From.Id, ChatAction.Typing);
 
