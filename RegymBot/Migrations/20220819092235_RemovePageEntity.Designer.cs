@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RegymBot.Data;
 
 namespace RegymBot.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220819092235_RemovePageEntity")]
+    partial class RemovePageEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,23 +36,6 @@ namespace RegymBot.Migrations
                     b.HasKey("FeedbackGuid");
 
                     b.ToTable("Feedbacks");
-                });
-
-            modelBuilder.Entity("RegymBot.Data.Entities.PageEntity", b =>
-                {
-                    b.Property<Guid>("PageGuid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PageGuid");
-
-                    b.ToTable("Pages");
                 });
 
             modelBuilder.Entity("RegymBot.Data.Entities.PriceEntity", b =>
@@ -105,9 +90,6 @@ namespace RegymBot.Migrations
 
                     b.HasKey("StaticMessageGuid");
 
-                    b.HasIndex("PageId")
-                        .IsUnique();
-
                     b.ToTable("StaticMessages");
                 });
 
@@ -149,18 +131,6 @@ namespace RegymBot.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("RegymBot.Data.Entities.StaticMessageEntity", b =>
-                {
-                    b.HasOne("RegymBot.Data.Entities.PageEntity", "Page")
-                        .WithOne("Message")
-                        .HasForeignKey("RegymBot.Data.Entities.StaticMessageEntity", "PageId")
-                        .HasPrincipalKey("RegymBot.Data.Entities.PageEntity", "PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Page");
-                });
-
             modelBuilder.Entity("RegymBot.Data.Entities.UserRoleEntity", b =>
                 {
                     b.HasOne("RegymBot.Data.Entities.RoleEntity", "Role")
@@ -178,11 +148,6 @@ namespace RegymBot.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("RegymBot.Data.Entities.PageEntity", b =>
-                {
-                    b.Navigation("Message");
                 });
 
             modelBuilder.Entity("RegymBot.Data.Entities.RoleEntity", b =>

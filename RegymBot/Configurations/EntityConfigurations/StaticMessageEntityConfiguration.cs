@@ -12,7 +12,8 @@ namespace RegymBot.Configurations.EntityConfigurations
 
             builder.HasOne(m => m.Page)
                 .WithOne(p => p.Message)
-                .HasForeignKey<StaticMessageEntity>(m => m.PageId);
+                .HasForeignKey<StaticMessageEntity>(m => m.PageId)
+                .HasPrincipalKey<PageEntity>(p => p.PageId);
         }
     }
 }

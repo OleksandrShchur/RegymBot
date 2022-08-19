@@ -8,7 +8,7 @@ namespace RegymBot.Configurations.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<PageEntity> builder)
         {
-            builder.HasKey(p => p.PageId);
+            builder.HasKey(p => p.PageGuid);
         }
     }
 }

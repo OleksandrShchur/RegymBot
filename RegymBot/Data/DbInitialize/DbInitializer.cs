@@ -76,46 +76,57 @@ namespace RegymBot.Data.DbInitialize
             {
                 new PageEntity
                 {
+                    PageId = (int)BotPage.StartPage,
                     Name = "Стартова сторінка"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.MassagePage,
                     Name = "Сторінка <Масаж>"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.PricePage,
                     Name = "Сторінка цін"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.LeaveFeedbackPage,
                     Name = "Сторінка <Залишити відгук>"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.SelectClubPage,
                     Name = "Сторінка вибору клубу"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.SolariumPage,
                     Name = "Сторінка <Солярій>"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.Club_Apollo,
                     Name = "Сторінка <Клуб Аполло>"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.Club_Vavylon,
                     Name = "Сторінка <Клуб Вавилон>"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.Club_Pshkn,
                     Name = "Сторінка <Клуб PSHKN>"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.CategoryPage,
                     Name = "Сторінка вибору категорій"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.CoachListPage,
                     Name = "Сторінка вибору тренерів"
                 }
             };
