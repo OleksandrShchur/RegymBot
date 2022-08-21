@@ -53,14 +53,11 @@ namespace RegymBot.Handlers.ClubContacts
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.TrainingSchedule);
                     _stepService.NewStep(BotPage.TrainingSchedule, callbackQuery.From.Id);
 
-                    var stream = File.Open(_appEnvironment.WebRootPath + "\\training_schedule.jpg", FileMode.Open);
-
-                    await _botClient.SendPhotoAsync(chatId: callbackQuery.Message.Chat.Id,
-                        photo: stream, caption: text, replyMarkup: ReturnBackButton.Keyboard);
-
-                    //await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
-                    //                                text: text,
-                    //                                replyMarkup: ReturnBackButton.Keyboard);
+                    using (var stream = File.Open(_appEnvironment.WebRootPath + "\\training_schedule.jpg", FileMode.Open)) 
+                    {
+                        await _botClient.SendPhotoAsync(chatId: callbackQuery.Message.Chat.Id,
+                            photo: stream, caption: text, replyMarkup: ReturnBackButton.Keyboard);
+                    }
 
                     break;
 

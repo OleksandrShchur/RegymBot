@@ -15,12 +15,15 @@ namespace RegymBot.Handlers.TrainingSchedule
     public class CallbackQueryTrainingSchedule : BaseCallback<CallbackQueryTrainingSchedule>
     {
         private readonly HandleClubContacts _handleClubContacts;
+        private readonly HandleMainMenu _handleMainMenu;
         public CallbackQueryTrainingSchedule(ITelegramBotClient botClient,
              ILogger<CallbackQueryTrainingSchedule> logger,
              IStepService stepService,
-             HandleClubContacts handleClubContacts) : base(stepService, botClient, logger)
+             HandleClubContacts handleClubContacts,
+             HandleMainMenu handleMainMenu) : base(stepService, botClient, logger)
         {
             _handleClubContacts = handleClubContacts;
+            _handleMainMenu = handleMainMenu;
         }
 
         public async Task BotOnCallbackQueryReceived(Telegram.Bot.Types.CallbackQuery callbackQuery)
@@ -32,6 +35,12 @@ namespace RegymBot.Handlers.TrainingSchedule
                 case "back":
                     _stepService.ReturnBackStep(callbackQuery.From.Id);
                     await _handleClubContacts.BotOnClubContacts(callbackQuery.Message);
+
+                    break;
+
+                case "main_menu":
+                    _stepService.ToStartPage(callbackQuery.From.Id);
+                    await _handleMainMenu.BotOnMainMenu(callbackQuery.Message);
 
                     break;
             }

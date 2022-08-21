@@ -41,7 +41,7 @@ namespace RegymBot.Data.DbInitialize
                 new StaticMessageEntity
                 {
                     PageId = (int)BotPage.SelectClub,
-                    Message = "Выберите клуб:"
+                    Message = "Выберіть клуб:"
                 },
                 new StaticMessageEntity
                 {
@@ -67,6 +67,26 @@ namespace RegymBot.Data.DbInitialize
                 {
                     PageId = (int)BotPage.Category,
                     Message = "Виберіть категорію:"
+                },
+                new StaticMessageEntity
+                {
+                    PageId = (int)BotPage.TrainingSchedule,
+                    Message = "Напишіть нам, на яке тренування ви хочете записатися?"
+                },
+                new StaticMessageEntity
+                {
+                    PageId = (int)BotPage.GetUserName,
+                    Message = "Вкажіть своє ім'я та прізвище."
+                },
+                new StaticMessageEntity
+                {
+                    PageId = (int)BotPage.GetUserPhone,
+                    Message = "Напишіть мобільний номер, по якому ми зможемо з вами сконтактуватись."
+                },
+                new StaticMessageEntity
+                {
+                    PageId = (int)BotPage.FinishEnrolInGroup,
+                    Message = "Ваш запис збережено! Найближчим часом ми із вами зв'яжемось. Дякуємо, що обрали саме нас!"
                 }
             };
 
@@ -128,6 +148,26 @@ namespace RegymBot.Data.DbInitialize
                 {
                     PageId = (int)BotPage.CoachList,
                     Name = "Сторінка вибору тренерів"
+                },
+                new PageEntity
+                {
+                    PageId = (int)BotPage.TrainingSchedule,
+                    Name = "Сторінка запису в групу"
+                },
+                new PageEntity
+                {
+                    PageId = (int)BotPage.GetUserName,
+                    Name = "Сторінка заповнення імені клієнта"
+                },
+                new PageEntity
+                {
+                    PageId = (int)BotPage.GetUserPhone,
+                    Name = "Сторінка заповнення мобільного клієнта"
+                },
+                new PageEntity
+                {
+                    PageId = (int)BotPage.FinishEnrolInGroup,
+                    Name = "Завершення запису в групу"
                 }
             };
 

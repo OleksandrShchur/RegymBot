@@ -12,7 +12,7 @@ namespace RegymBot.Services.Impl
         private readonly ILogger<StepService> _logger;
         private List<UserStepsModel> State = new List<UserStepsModel>();
 
-        public StepService(ILogger<StepService> logger) 
+        public StepService(ILogger<StepService> logger)
         {
             _logger = logger;
         }
@@ -70,6 +70,16 @@ namespace RegymBot.Services.Impl
             State.Where(s => s.UserId == userId).FirstOrDefault().History = new List<BotPage> { BotPage.Start };
 
             return BotPage.Start;
+        }
+
+        public void SetOptions(long userId, object options)
+        {
+            State.Where(s => s.UserId == userId).FirstOrDefault().Options = options;
+        }
+
+        public object GetOptions(long userId)
+        {
+            return State.Where(s => s.UserId == userId).FirstOrDefault().Options;
         }
 
         private bool UserExists(long userId)

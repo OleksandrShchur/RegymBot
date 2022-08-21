@@ -97,6 +97,8 @@ namespace RegymBot
             services.AddScoped<FeedbackRepository>();
             services.AddScoped<UserRepository>();
             services.AddScoped<UserRoleRepository>();
+            services.AddScoped<RoleRepository>();
+            services.AddScoped<ClientRepository>();
 
             services.AddControllers().AddNewtonsoftJson();
             // In production, the Angular files will be served from this directory

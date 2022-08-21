@@ -22,7 +22,7 @@ namespace RegymBot.Data.Repositories
                 };
 
                 await Insert(feedback);
-                _logger.LogInformation($"Write new record in feedback table from userId: {userId}");
+                _logger.LogInformation($"Wrote new record in feedback table from userId: {userId}");
             }
             catch(Exception e)
             {

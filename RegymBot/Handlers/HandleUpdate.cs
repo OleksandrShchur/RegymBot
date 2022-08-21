@@ -9,7 +9,6 @@ using RegymBot.Handlers.Massage;
 using RegymBot.Handlers.Price;
 using RegymBot.Handlers.Solarium;
 using RegymBot.Handlers.TrainingSchedule;
-using RegymBot.Helpers.StateContext;
 using RegymBot.Services;
 using System;
 using System.Threading.Tasks;
@@ -187,6 +186,8 @@ namespace RegymBot.Handlers
                     break;
 
                 case BotPage.TrainingSchedule:
+                case BotPage.GetUserName:
+                case BotPage.GetUserPhone:
                     handler = update.Type switch
                     {
                         UpdateType.CallbackQuery => _callbackQueryTrainingSchedule.BotOnCallbackQueryReceived(update.CallbackQuery),

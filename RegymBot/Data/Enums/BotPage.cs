@@ -15,6 +15,7 @@
         CoachList,
         TrainingSchedule,
         GetUserName,
-        GetUserPhone
+        GetUserPhone,
+        FinishEnrolInGroup
     }
 }
