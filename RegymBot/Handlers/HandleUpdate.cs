@@ -8,6 +8,7 @@ using RegymBot.Handlers.MainMenu;
 using RegymBot.Handlers.Massage;
 using RegymBot.Handlers.Price;
 using RegymBot.Handlers.Solarium;
+using RegymBot.Handlers.TrainingSchedule;
 using RegymBot.Helpers.StateContext;
 using RegymBot.Services;
 using System;
@@ -35,6 +36,8 @@ namespace RegymBot.Handlers
         private readonly CallbackQueryFeedback _callbackQueryFeedback;
         private readonly InlineQueryCategorySection _inlineQueryCategorySection;
         private readonly CallbackQueryCategorySection _callbackQueryCategorySection;
+        private readonly CallbackQueryTrainingSchedule _callbackQueryTrainingSchedule;
+        private readonly HandleTrainingSchedule _handleTrainingSchedule;
 
         public HandleUpdate(
             CallbackQueryMainMenu mainMenuService,
@@ -52,7 +55,9 @@ namespace RegymBot.Handlers
             HandleFeedback handleFeedback,
             CallbackQueryFeedback callbackQueryFeedback,
             InlineQueryCategorySection inlineQueryCategorySection,
-            CallbackQueryCategorySection callbackQueryCategorySection)
+            CallbackQueryCategorySection callbackQueryCategorySection,
+            CallbackQueryTrainingSchedule callbackQueryTrainingSchedule,
+            HandleTrainingSchedule handleTrainingSchedule)
         {
             _mainMenuService = mainMenuService;
             _handleError = handleError;
@@ -70,6 +75,8 @@ namespace RegymBot.Handlers
             _callbackQueryFeedback = callbackQueryFeedback;
             _inlineQueryCategorySection = inlineQueryCategorySection;
             _callbackQueryCategorySection = callbackQueryCategorySection;
+            _callbackQueryTrainingSchedule = callbackQueryTrainingSchedule;
+            _handleTrainingSchedule = handleTrainingSchedule;
         }
 
         public async Task EchoAsync(Update update)
@@ -172,6 +179,18 @@ namespace RegymBot.Handlers
                     {
                         UpdateType.InlineQuery => _inlineQueryCategorySection.BotOnInlineQueryReceived(update.InlineQuery),
                         UpdateType.CallbackQuery => _callbackQueryCategorySection.BotOnCallbackQueryReceived(update.CallbackQuery),
+                        _ => _handleError.UnknownUpdateHandlerAsync(update)
+                    };
+
+                    await ExecuteHandler(handler);
+
+                    break;
+
+                case BotPage.TrainingSchedule:
+                    handler = update.Type switch
+                    {
+                        UpdateType.CallbackQuery => _callbackQueryTrainingSchedule.BotOnCallbackQueryReceived(update.CallbackQuery),
+                        UpdateType.Message => _handleTrainingSchedule.BotOnTrainingSchedule(update.Message),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
 

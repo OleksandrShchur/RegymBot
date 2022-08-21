@@ -23,6 +23,7 @@ using RegymBot.Handlers.Feedback;
 using RegymBot.Handlers.CategorySection;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
+using RegymBot.Handlers.TrainingSchedule;
 
 namespace RegymBot
 {
@@ -73,6 +74,7 @@ namespace RegymBot
             services.AddScoped<HandleClubList>();
             services.AddScoped<HandleClubContacts>();
             services.AddScoped<HandleFeedback>();
+            services.AddScoped<HandleTrainingSchedule>();
             services.AddScoped<HandleError>();
 
             services.AddScoped<CallbackQueryMainMenu>();
@@ -84,6 +86,7 @@ namespace RegymBot
             services.AddScoped<CallbackQueryFeedback>();
             services.AddScoped<InlineQueryCategorySection>();
             services.AddScoped<CallbackQueryCategorySection>();
+            services.AddScoped<CallbackQueryTrainingSchedule>();
 
             // register services
             services.AddSingleton<IStepService, StepService>();
