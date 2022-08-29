@@ -33,7 +33,8 @@ import { PriceTableComponent } from "./components/price-table/price-table.compon
 import { ModalPriceComponent } from "./components/modal-price/modal-price.component";
 import { MessageService } from "./services/message-service";
 import { ModalMessageComponent } from "./components/modal-message/modal-message.component";
-import { FeedbackTableComponent } from './components/feedback-table/feedback-table.component';
+import { FeedbackTableComponent } from "./components/feedback-table/feedback-table.component";
+import { FeedbackService } from "./services/feedback-service";
 
 @NgModule({
   declarations: [
@@ -78,7 +79,7 @@ import { FeedbackTableComponent } from './components/feedback-table/feedback-tab
     ModalPriceComponent,
     ModalMessageComponent,
   ],
-  providers: [UserService, PriceService, MessageService],
+  providers: [UserService, PriceService, MessageService, FeedbackService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

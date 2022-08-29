@@ -28,7 +28,7 @@ namespace RegymBot.Handlers.Feedback
             await _feedbackRepository.AddNewFeedbackAsync(message.Text, message.From.Id);
 
             await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
-                                                    text: "Спасибі за ваш відгук!\n\n" + message.Text,
+                                                    text: "Спасибі за ваш відгук!\n",
                                                     replyMarkup: ReturnBackButton.Keyboard);
         }
     }
