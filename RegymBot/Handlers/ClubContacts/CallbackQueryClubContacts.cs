@@ -52,8 +52,22 @@ namespace RegymBot.Handlers.ClubContacts
                 case "training_schedule":
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.TrainingSchedule);
                     _stepService.NewStep(BotPage.TrainingSchedule, callbackQuery.From.Id);
+                    var imagePath = _appEnvironment.WebRootPath;
 
-                    using (var stream = File.Open(_appEnvironment.WebRootPath + "\\training_schedule.jpg", FileMode.Open)) 
+                    if (_stepService.ContainsStep(BotPage.Club_Apollo, callbackQuery.From.Id))
+                    {
+                        imagePath += "\\apollo.jpg";
+                    }
+                    else if (_stepService.ContainsStep(BotPage.Club_Vavylon, callbackQuery.From.Id))
+                    {
+                        imagePath += "\\vavylon.jpg";
+                    }
+                    else if (_stepService.ContainsStep(BotPage.Club_Pshkn, callbackQuery.From.Id))
+                    {
+                        imagePath += "\\pshkn.jpg";
+                    }
+
+                    using (var stream = File.Open(imagePath, FileMode.Open)) 
                     {
                         await _botClient.SendPhotoAsync(chatId: callbackQuery.Message.Chat.Id,
                             photo: stream, caption: text, replyMarkup: ReturnBackButton.Keyboard);

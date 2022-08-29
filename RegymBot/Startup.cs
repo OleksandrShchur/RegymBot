@@ -90,6 +90,7 @@ namespace RegymBot
 
             // register services
             services.AddSingleton<IStepService, StepService>();
+            services.AddScoped<IImageService, ImageService>();
 
             // register repositories
             services.AddScoped<PriceRepository>();

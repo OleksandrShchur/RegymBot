@@ -82,6 +82,11 @@ namespace RegymBot.Services.Impl
             return State.Where(s => s.UserId == userId).FirstOrDefault().Options;
         }
 
+        public bool ContainsStep(BotPage step, long userId)
+        {
+            return State.Where(s => s.UserId == userId).FirstOrDefault().History.Contains(step);
+        }
+
         private bool UserExists(long userId)
         {
             return State.Any(s => s.UserId == userId);

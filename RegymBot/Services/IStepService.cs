@@ -10,5 +10,6 @@ namespace RegymBot.Services
         BotPage ToStartPage(long userId);
         void SetOptions(long userId, object options);
         object GetOptions(long userId);
+        bool ContainsStep(BotPage step, long userId);
     }
 }
