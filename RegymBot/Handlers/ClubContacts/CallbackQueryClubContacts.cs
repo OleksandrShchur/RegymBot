@@ -1,9 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 using RegymBot.Data.Enums;
 using RegymBot.Data.Repositories;
 using RegymBot.Handlers.ClubList;
 using RegymBot.Helpers.Buttons;
 using RegymBot.Services;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot;
 
@@ -13,16 +17,19 @@ namespace RegymBot.Handlers.ClubContacts
     {
         private readonly StaticMessageRepository _staticMessageRepository;
         private readonly HandleClubList _handleClubList;
+        private readonly IWebHostEnvironment _appEnvironment;
 
         public CallbackQueryClubContacts(
             ITelegramBotClient botClient,
             ILogger<CallbackQueryClubContacts> logger,
             StaticMessageRepository staticMessageRepository,
             HandleClubList handleClubList,
-            IStepService stepService) : base(stepService, botClient, logger)
+            IStepService stepService,
+            IWebHostEnvironment appEnvironment) : base(stepService, botClient, logger)
         {
             _staticMessageRepository = staticMessageRepository;
             _handleClubList = handleClubList;
+            _appEnvironment = appEnvironment;
         }
 
         public async Task BotOnCallbackQueryReceived(Telegram.Bot.Types.CallbackQuery callbackQuery)
@@ -33,12 +40,38 @@ namespace RegymBot.Handlers.ClubContacts
             switch (callbackQuery.Data)
             {
                 case "coach":
-                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.CategoryPage);
-                    _stepService.NewStep(BotPage.CategoryPage, callbackQuery.From.Id);
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Category);
+                    _stepService.NewStep(BotPage.Category, callbackQuery.From.Id);
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
                                                     replyMarkup: CategoryButtons.Keyboard);
+
+                    break;
+
+                case "training_schedule":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.TrainingSchedule);
+                    _stepService.NewStep(BotPage.TrainingSchedule, callbackQuery.From.Id);
+                    var imagePath = _appEnvironment.WebRootPath;
+
+                    if (_stepService.ContainsStep(BotPage.Club_Apollo, callbackQuery.From.Id))
+                    {
+                        imagePath += "\\apollo.jpg";
+                    }
+                    else if (_stepService.ContainsStep(BotPage.Club_Vavylon, callbackQuery.From.Id))
+                    {
+                        imagePath += "\\vavylon.jpg";
+                    }
+                    else if (_stepService.ContainsStep(BotPage.Club_Pshkn, callbackQuery.From.Id))
+                    {
+                        imagePath += "\\pshkn.jpg";
+                    }
+
+                    using (var stream = File.Open(imagePath, FileMode.Open)) 
+                    {
+                        await _botClient.SendPhotoAsync(chatId: callbackQuery.Message.Chat.Id,
+                            photo: stream, caption: text, replyMarkup: ReturnBackButton.Keyboard);
+                    }
 
                     break;
 

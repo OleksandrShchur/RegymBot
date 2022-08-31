@@ -3,44 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RegymBot.Data;
 
 namespace RegymBot.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220821151319_CreateClientsTable")]
+    partial class CreateClientsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("RegymBot.Data.Entities.ClientEntity", b =>
-                {
-                    b.Property<Guid>("ClientGuid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Enrol")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ClientGuid");
-
-                    b.ToTable("Clients");
-                });
 
             modelBuilder.Entity("RegymBot.Data.Entities.FeedbackEntity", b =>
                 {
@@ -170,6 +149,29 @@ namespace RegymBot.Migrations
                     b.HasIndex("RoleGuid");
 
                     b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("RegymBot.Data.Repositories.ClientEntity", b =>
+                {
+                    b.Property<Guid>("ClientGuid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Enrol")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ClientGuid");
+
+                    b.ToTable("ClientEntity");
                 });
 
             modelBuilder.Entity("RegymBot.Data.Entities.StaticMessageEntity", b =>

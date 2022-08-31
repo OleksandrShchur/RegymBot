@@ -27,7 +27,7 @@ namespace RegymBot.Handlers.ClubList
             if (message.Type != MessageType.Text)
                 return;
 
-            string text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.SelectClubPage);
+            string text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.SelectClub);
 
             await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                             text: text,

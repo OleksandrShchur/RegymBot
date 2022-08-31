@@ -1,0 +1,49 @@
+<div class="main-content">
+  <label class="image-upload-container btn btn-bwm">
+    <span>Графік клубу Аполло</span>
+    <input
+      #imageInput
+      type="file"
+      accept="image/*"
+      (change)="processFile(imageInput, 0)"
+    />
+  </label>
+
+  <label class="image-upload-container btn btn-bwm">
+    <span>Графік клубу Вавилон</span>
+    <input
+      #imageInput2
+      type="file"
+      accept="image/*"
+      (change)="processFile(imageInput2, 1)"
+    />
+  </label>
+
+  <label class="image-upload-container btn btn-bwm">
+    <span>Графік клубу PSHKN</span>
+    <input
+      #imageInput3
+      type="file"
+      accept="image/*"
+      (change)="processFile(imageInput3, 2)"
+    />
+  </label>
+
+  <div *ngIf="selectedFile" class="img-preview-container">
+    <div
+      class="img-preview{{ selectedFile.status === 'fail' ? '-error' : '' }}"
+      [ngStyle]="{ 'background-image': 'url(' + selectedFile.src + ')' }"
+    ></div>
+
+    <div *ngIf="selectedFile.pending" class="img-loading-overlay">
+      <div class="img-spinning-circle"></div>
+    </div>
+
+    <div *ngIf="selectedFile.status === 'ok'" class="alert alert-success">
+      Зображення завантажено успішно!
+    </div>
+    <div *ngIf="selectedFile.status === 'fail'" class="alert alert-danger">
+      Зображення не вдалося завантажити!
+    </div>
+  </div>
+</div>

@@ -4,11 +4,11 @@ using RegymBot.Data.Entities;
 
 namespace RegymBot.Configurations.EntityConfigurations
 {
-    public class PageEntityConfiguration : IEntityTypeConfiguration<PageEntity>
+    public class ClientEntityConfiguration : IEntityTypeConfiguration<ClientEntity>
     {
-        public void Configure(EntityTypeBuilder<PageEntity> builder)
+        public void Configure(EntityTypeBuilder<ClientEntity> builder)
         {
-            builder.HasKey(p => p.PageGuid);
+            builder.HasKey(c => c.ClientGuid);
         }
     }
 }

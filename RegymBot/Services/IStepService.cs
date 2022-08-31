@@ -8,5 +8,8 @@ namespace RegymBot.Services
         BotPage GetLastStep(long userId);
         void NewStep(BotPage step, long userId);
         BotPage ToStartPage(long userId);
+        void SetOptions(long userId, object options);
+        object GetOptions(long userId);
+        bool ContainsStep(BotPage step, long userId);
     }
 }

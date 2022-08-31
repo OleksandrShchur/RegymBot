@@ -19,6 +19,7 @@ namespace RegymBot.Data
         public DbSet<UserRoleEntity> UserRoles { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
         public DbSet<PageEntity> Pages { get; set; }
+        public DbSet<ClientEntity> Clients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

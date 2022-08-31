@@ -7,5 +7,6 @@ namespace RegymBot.Helpers.StateContext
     {
         public long UserId { get; set; }
         public List<BotPage> History { get; set; }
+        public object Options { get; set; }
     }
 }

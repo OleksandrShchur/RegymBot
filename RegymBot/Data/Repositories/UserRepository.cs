@@ -98,7 +98,7 @@ namespace RegymBot.Data.Repositories
             }
         }
 
-        public async Task AddUserAsync(UserEntity newUser)
+        public async Task<UserEntity> AddUserAsync(UserEntity newUser)
         {
             try
             {
@@ -107,6 +107,8 @@ namespace RegymBot.Data.Repositories
                 await _userRoleRepository.AddUserToRoleAsync(COACH_ROLE, userFromDb.UserGuid);
 
                 _logger.LogInformation($"Successful insert new user {typeof(UserEntity)} with guid {newUser.UserGuid}");
+
+                return userFromDb;
             }
             catch(Exception e)
             {

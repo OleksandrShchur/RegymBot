@@ -33,6 +33,10 @@ import { PriceTableComponent } from "./components/price-table/price-table.compon
 import { ModalPriceComponent } from "./components/modal-price/modal-price.component";
 import { MessageService } from "./services/message-service";
 import { ModalMessageComponent } from "./components/modal-message/modal-message.component";
+import { FeedbackTableComponent } from "./components/feedback-table/feedback-table.component";
+import { FeedbackService } from "./services/feedback-service";
+import { ScheduleComponent } from "./components/schedule/schedule.component";
+import { ScheduleService } from "./services/schedule-service";
 
 @NgModule({
   declarations: [
@@ -45,6 +49,8 @@ import { ModalMessageComponent } from "./components/modal-message/modal-message.
     PriceTableComponent,
     ModalPriceComponent,
     ModalMessageComponent,
+    FeedbackTableComponent,
+    ScheduleComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -76,7 +82,13 @@ import { ModalMessageComponent } from "./components/modal-message/modal-message.
     ModalPriceComponent,
     ModalMessageComponent,
   ],
-  providers: [UserService, PriceService, MessageService],
+  providers: [
+    UserService,
+    PriceService,
+    MessageService,
+    FeedbackService,
+    ScheduleService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

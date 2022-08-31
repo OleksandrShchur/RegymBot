@@ -20,32 +20,32 @@ namespace RegymBot.Data.DbInitialize
             {
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.StartPage,
+                    PageId = (int)BotPage.Start,
                     Message = "Виберіть:"
                 },
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.MassagePage,
+                    PageId = (int)BotPage.Massage,
                     Message = "В наших залах в PSHKN центр и ТРЦ Вавилон вы можете посетить массажные кабинеты, в которых вам помогут расслабиться после тренировки с помощью пятнадцати видов массажа."
                 },
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.PricePage,
+                    PageId = (int)BotPage.Price,
                     Message = "Прайс лист тренувань:"
                 },
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.LeaveFeedbackPage,
+                    PageId = (int)BotPage.LeaveFeedback,
                     Message = "Расскажите, что вам понравилось и как нам стать лутше для вас?"
                 },
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.SelectClubPage,
-                    Message = "Выберите клуб:"
+                    PageId = (int)BotPage.SelectClub,
+                    Message = "Выберіть клуб:"
                 },
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.SolariumPage,
+                    PageId = (int)BotPage.Solarium,
                     Message = "В наших залах в Аполло и ТРЦ Вавилон вы можете посетить солярий."
                 },
                 new StaticMessageEntity
@@ -65,8 +65,28 @@ namespace RegymBot.Data.DbInitialize
                 },
                 new StaticMessageEntity
                 {
-                    PageId = (int)BotPage.CategoryPage,
+                    PageId = (int)BotPage.Category,
                     Message = "Виберіть категорію:"
+                },
+                new StaticMessageEntity
+                {
+                    PageId = (int)BotPage.TrainingSchedule,
+                    Message = "Напишіть нам, на яке тренування ви хочете записатися?"
+                },
+                new StaticMessageEntity
+                {
+                    PageId = (int)BotPage.GetUserName,
+                    Message = "Вкажіть своє ім'я та прізвище."
+                },
+                new StaticMessageEntity
+                {
+                    PageId = (int)BotPage.GetUserPhone,
+                    Message = "Напишіть мобільний номер, по якому ми зможемо з вами сконтактуватись."
+                },
+                new StaticMessageEntity
+                {
+                    PageId = (int)BotPage.FinishEnrolInGroup,
+                    Message = "Ваш запис збережено! Найближчим часом ми із вами зв'яжемось. Дякуємо, що обрали саме нас!"
                 }
             };
 
@@ -76,47 +96,78 @@ namespace RegymBot.Data.DbInitialize
             {
                 new PageEntity
                 {
+                    PageId = (int)BotPage.Start,
                     Name = "Стартова сторінка"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.Massage,
                     Name = "Сторінка <Масаж>"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.Price,
                     Name = "Сторінка цін"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.LeaveFeedback,
                     Name = "Сторінка <Залишити відгук>"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.SelectClub,
                     Name = "Сторінка вибору клубу"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.Solarium,
                     Name = "Сторінка <Солярій>"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.Club_Apollo,
                     Name = "Сторінка <Клуб Аполло>"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.Club_Vavylon,
                     Name = "Сторінка <Клуб Вавилон>"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.Club_Pshkn,
                     Name = "Сторінка <Клуб PSHKN>"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.Category,
                     Name = "Сторінка вибору категорій"
                 },
                 new PageEntity
                 {
+                    PageId = (int)BotPage.CoachList,
                     Name = "Сторінка вибору тренерів"
+                },
+                new PageEntity
+                {
+                    PageId = (int)BotPage.TrainingSchedule,
+                    Name = "Сторінка запису в групу"
+                },
+                new PageEntity
+                {
+                    PageId = (int)BotPage.GetUserName,
+                    Name = "Сторінка заповнення імені клієнта"
+                },
+                new PageEntity
+                {
+                    PageId = (int)BotPage.GetUserPhone,
+                    Name = "Сторінка заповнення мобільного клієнта"
+                },
+                new PageEntity
+                {
+                    PageId = (int)BotPage.FinishEnrolInGroup,
+                    Name = "Завершення запису в групу"
                 }
             };
 

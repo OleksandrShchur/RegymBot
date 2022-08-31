@@ -15,7 +15,7 @@ namespace RegymBot.Helpers.Buttons
             // 2 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Записаться в группу", "enrol"),
+                InlineKeyboardButton.WithCallbackData("Записаться в группу", "training_schedule"),
             },
             // 3 row
             new []
