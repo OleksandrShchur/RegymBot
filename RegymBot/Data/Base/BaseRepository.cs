@@ -16,7 +16,7 @@ namespace RegymBot.Data.Base
             _logger = logger;
         }
 
-        protected DbSet<T> Entities { get => _context.Set<T>(); }
+        public DbSet<T> Entities { get => _context.Set<T>(); }
 
         public async Task<T> Insert(T entity)
         {

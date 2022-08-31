@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RegymBot.Handlers;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
@@ -8,6 +9,7 @@ namespace RegymBot.Controllers
     public class WebhookController : ControllerBase
     {
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromServices] HandleUpdate handleUpdate,
                                               [FromBody] Update update)
         {

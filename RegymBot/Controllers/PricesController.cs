@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RegymBot.Data.Entities;
 using RegymBot.Data.Repositories;
 using System;
@@ -8,6 +9,7 @@ namespace RegymBot.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PricesController : ControllerBase
     {
         private readonly PriceRepository _priceRepository;

@@ -1,6 +1,9 @@
 mat-toolbar {
   background: #004a9f;
   color: white;
+
+  display: inline-flex;
+  justify-content: space-between;
 }
 
 mat-sidenav {

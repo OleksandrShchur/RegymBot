@@ -1,6 +1,7 @@
 import { Component, ViewChild } from "@angular/core";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { MatSidenav } from "@angular/material/sidenav";
+import { AuthService } from "src/app/services/auth.service";
 
 @Component({
   selector: "app-sidebar",
@@ -11,7 +12,10 @@ export class SidebarComponent {
   @ViewChild(MatSidenav, { static: true })
   sidenav: MatSidenav;
 
-  constructor(private observer: BreakpointObserver) {}
+  constructor(
+    private observer: BreakpointObserver,
+    private auth: AuthService,
+    ) {}
 
   ngOnInit() {}
 
@@ -25,5 +29,9 @@ export class SidebarComponent {
         this.sidenav.open();
       }
     });
+  }
+
+  logout() { 
+    this.auth.logout();
   }
 }

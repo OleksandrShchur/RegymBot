@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { Duration } from "src/app/constants/snackBarDuration";
-import { ImageSnippet } from "src/app/helpers/imageSnippet ";
+import { ImageSnippet } from "src/app/helpers/imageSnippet";
 import { ScheduleService } from "src/app/services/schedule-service";
 
 @Component({
@@ -19,7 +19,7 @@ export class ScheduleComponent implements OnInit {
 
   ngOnInit() {}
 
-  processFile(imageInput: any, clubIndex: string) {
+  processFile(imageInput: any, clubIndex: number) {
     const file: File = imageInput.files[0];
     const reader = new FileReader();
 

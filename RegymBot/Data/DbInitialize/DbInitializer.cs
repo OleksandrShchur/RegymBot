@@ -1,4 +1,5 @@
-﻿using RegymBot.Data.Entities;
+﻿using PasswordHashing;
+using RegymBot.Data.Entities;
 using RegymBot.Data.Enums;
 using System;
 using System.Linq;
@@ -15,6 +16,17 @@ namespace RegymBot.Data.DbInitialize
             {
                 return; // DB has been seeded
             }
+            
+            var credentials = new CredentialsEntitiy[] 
+            {
+                new CredentialsEntitiy
+                {
+                    Login = "admin",
+                    Password = PasswordHasher.Hash("superpassword"),
+                },
+            };
+
+            dbContext.Credentials.AddRange(credentials);
 
             var staticMessages = new StaticMessageEntity[]
             {

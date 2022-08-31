@@ -1,12 +1,10 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { LOCALE_ID, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
-import { RouterModule } from "@angular/router";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { HomeComponent } from "./components/home/home.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import {
   MatButtonModule,
@@ -16,6 +14,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatPaginatorModule,
+  MatProgressBarModule,
   MatProgressSpinnerModule,
   MatSelectModule,
   MatSidenavModule,
@@ -37,11 +36,17 @@ import { FeedbackTableComponent } from "./components/feedback-table/feedback-tab
 import { FeedbackService } from "./services/feedback-service";
 import { ScheduleComponent } from "./components/schedule/schedule.component";
 import { ScheduleService } from "./services/schedule-service";
+import { LoginComponent } from "./components/login/login.component";
+import { NotificationsService } from "./services/notifications.service";
+import { AuthService } from "./services/auth.service";
+import { JwtInterceptor } from "./helpers/auth.interceptor";
+import { MainComponent } from "./components/main/main.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    MainComponent,
+    LoginComponent,
     SidebarComponent,
     UserTableComponent,
     ModalUserComponent,
@@ -53,12 +58,9 @@ import { ScheduleService } from "./services/schedule-service";
     ScheduleComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
+    BrowserModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: "", component: HomeComponent, pathMatch: "full" },
-    ]),
     BrowserAnimationsModule,
     AppRoutingModule,
     MatSidenavModule,
@@ -68,6 +70,7 @@ import { ScheduleService } from "./services/schedule-service";
     MatTableModule,
     MatSnackBarModule,
     MatPaginatorModule,
+    MatProgressBarModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatDialogModule,
@@ -83,11 +86,15 @@ import { ScheduleService } from "./services/schedule-service";
     ModalMessageComponent,
   ],
   providers: [
+    AuthService,
+    NotificationsService,
     UserService,
     PriceService,
     MessageService,
     FeedbackService,
     ScheduleService,
+    { provide: LOCALE_ID, useValue: "uk-UA" },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
 })

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RegymBot.Services;
 using System.Threading.Tasks;
 
@@ -6,6 +7,7 @@ namespace RegymBot.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SchedulesController : ControllerBase
     {
         private readonly IImageService _imageService;

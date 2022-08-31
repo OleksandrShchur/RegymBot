@@ -23,6 +23,11 @@ using RegymBot.Handlers.Feedback;
 using RegymBot.Handlers.CategorySection;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
+using RegymBot.AppSettings;
+using RegymBot.AccountService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using RegymBot.Handlers.TrainingSchedule;
 
 namespace RegymBot
@@ -43,6 +48,8 @@ namespace RegymBot
         // This method gets called by the runtime. Use this method to add services to the container. 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddConfigurationProvider(Configuration, Env);
+
             if (Env.IsDevelopment())
             {
                 services.AddDbContext<AppDbContext>(options =>
@@ -90,9 +97,11 @@ namespace RegymBot
 
             // register services
             services.AddSingleton<IStepService, StepService>();
+            services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<IImageService, ImageService>();
 
             // register repositories
+            services.AddScoped<CredentialsRepository>();
             services.AddScoped<PriceRepository>();
             services.AddScoped<StaticMessageRepository>();
             services.AddScoped<FeedbackRepository>();
@@ -116,6 +125,24 @@ namespace RegymBot
 
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            var jwtSettings =  Configuration.GetSection("JWTSettings").Get<JWTSettings>();
+            
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(x =>
+                {
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = jwtSettings.Issuer,
+                        ValidateAudience = true,
+                        ValidAudience = jwtSettings.Audience,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -157,6 +184,9 @@ namespace RegymBot
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
                 var token = BotConfig.Token;
@@ -174,6 +204,7 @@ namespace RegymBot
 
                 if (env.IsDevelopment())
                 {
+                    // spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });

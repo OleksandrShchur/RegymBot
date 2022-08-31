@@ -12,6 +12,7 @@ namespace RegymBot.Data
             Database.Migrate();
         }
 
+        public DbSet<CredentialsEntitiy> Credentials { get; set; }
         public DbSet<FeedbackEntity> Feedbacks { get; set; }
         public DbSet<PriceEntity> Prices { get; set; }
         public DbSet<StaticMessageEntity> StaticMessages { get; set; }

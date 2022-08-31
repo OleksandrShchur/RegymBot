@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RegymBot.Data.Entities;
 using RegymBot.Data.Models;
@@ -10,6 +11,7 @@ namespace RegymBot.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MessagesController : ControllerBase
     {
         private readonly StaticMessageRepository _staticMessageRepository;
