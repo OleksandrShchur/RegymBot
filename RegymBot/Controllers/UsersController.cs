@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RegymBot.Data.Entities;
 using RegymBot.Data.Models;
 using RegymBot.Data.Repositories;
+using RegymBot.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,12 +17,15 @@ namespace RegymBot.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
         public UsersController(UserRepository userRepository,
+            IUserService userService,
             IMapper mapper)
         {
             _userRepository = userRepository;
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -47,8 +51,11 @@ namespace RegymBot.Controllers
         [Route("new-user")]
         public async Task<IActionResult> AddUser(UserModel newUser)
         {
+            var file = Request.Form.Files[0];
             var mappedUser = _mapper.Map<UserModel, UserEntity>(newUser);
-            await _userRepository.AddUserAsync(mappedUser);
+            var addedUser = await _userRepository.AddUserAsync(mappedUser);
+
+            await _userService.UploadUserImageAsync(file, addedUser.UserGuid);
 
             return Ok();
         }
@@ -57,8 +64,21 @@ namespace RegymBot.Controllers
         [Route("update-user")]
         public async Task<IActionResult> UpdateUser(UserModel user)
         {
+            var file = Request.Form.Files[0];
             var mappedUser = _mapper.Map<UserModel, UserEntity>(user);
             await _userRepository.UpdateUserAsync(mappedUser);
+
+            await _userService.UploadUserImageAsync(file, mappedUser.UserGuid);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("upload-avatar")]
+        public async Task<IActionResult> UploadAvatar(Guid userGuid)
+        {
+            var file = Request.Form.Files[0];
+            await _userService.UploadUserImageAsync(file, userGuid);
 
             return Ok();
         }

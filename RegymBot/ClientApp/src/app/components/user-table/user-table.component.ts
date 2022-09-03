@@ -20,6 +20,7 @@ export class UserTableComponent {
   private guidColumn: string = "userGuid";
 
   public displayedColumns: string[] = [
+    "avatar",
     "name",
     "surName",
     "description",

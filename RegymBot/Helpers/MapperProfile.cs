@@ -11,7 +11,8 @@ namespace RegymBot.Helpers
         {
             CreateMap<UserEntity, UserModel>()
                 .ForMember(dest => dest.Roles, opt => opt.MapFrom(src => src.UserRoles.Select(
-                    r => r.Role.Role).ToList()));
+                    r => r.Role.Role).ToList()))
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => "https://d595-5-58-149-97.eu.ngrok.io/avatars/avatar-test.jpg"));
 
             CreateMap<UserModel, UserEntity>()
                 .ForMember(dest => dest.UserRoles, opt => opt.Ignore());

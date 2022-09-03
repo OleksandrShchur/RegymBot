@@ -2,24 +2,68 @@
   <h1 mat-dialog-title *ngIf="!user">Новий користувач</h1>
   <h1 mat-dialog-title *ngIf="user">Оновити дані користувача</h1>
   <mat-dialog-content class="mat-typography">
-    <mat-form-field appearance="fill" class="user-input part-width">
-      <mat-label>Ім'я</mat-label>
-      <input matInput required formControlName="name" />
-    </mat-form-field>
+    <div class="wrapper">
+      <div class="part-width avatar" *ngIf="user">
+        <img [src]="user.imageUrl" *ngIf="!selectedFile" />
+        <div *ngIf="selectedFile" class="img-preview-container">
+          <div
+            class="img-preview{{
+              selectedFile.status === 'fail' ? '-error' : ''
+            }}"
+            [ngStyle]="{ 'background-image': 'url(' + selectedFile.src + ')' }"
+          ></div>
+        </div>
+        <label class="btn btn-bwm avatar-edit">
+          <span>Змінити фото</span>
+          <input
+            #imageInput
+            type="file"
+            accept="image/*"
+            (change)="processFile(imageInput)"
+          />
+        </label>
+      </div>
 
-    <mat-form-field appearance="fill" class="user-input part-width">
-      <mat-label>Прізвище</mat-label>
-      <input matInput required formControlName="surName" />
-    </mat-form-field>
+      <div class="part-width avatar" *ngIf="!user">
+        <div *ngIf="selectedFile" class="img-preview-container">
+          <div
+            class="img-preview{{
+              selectedFile.status === 'fail' ? '-error' : ''
+            }}"
+            [ngStyle]="{ 'background-image': 'url(' + selectedFile.src + ')' }"
+          ></div>
+        </div>
+        <label class="btn btn-bwm avatar-edit">
+          <span>Завантажити фото</span>
+          <input
+            #imageInput
+            type="file"
+            accept="image/*"
+            (change)="processFile(imageInput)"
+          />
+        </label>
+      </div>
+      <div class="part-width">
+        <mat-form-field appearance="fill" class="user-input full-width">
+          <mat-label>Ім'я</mat-label>
+          <input matInput required formControlName="name" />
+        </mat-form-field>
 
-    <mat-form-field appearance="fill" class="user-input part-width">
-      <mat-label>Категорія</mat-label>
-      <select matNativeControl required formControlName="category">
-        <option value="0">VIP</option>
-        <option value="1">1 група</option>
-        <option value="2">2 група</option>
-      </select>
-    </mat-form-field>
+        <mat-form-field appearance="fill" class="user-input full-width">
+          <mat-label>Прізвище</mat-label>
+          <input matInput required formControlName="surName" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="user-input full-width">
+          <mat-label>Категорія</mat-label>
+          <select matNativeControl required formControlName="category">
+            <option value="0">VIP</option>
+            <option value="1">1 група</option>
+            <option value="2">2 група</option>
+          </select>
+        </mat-form-field>
+      </div>
+    </div>
 
     <mat-form-field appearance="fill" class="user-input full-width">
       <mat-label>Опис</mat-label>

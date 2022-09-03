@@ -3,28 +3,31 @@
 @import "./variables";
 @import "./neo";
 
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
 $custom-typography: mat-typography-config(
-  $font-family: 'Raleway',
+  $font-family: "Raleway",
   $headline: mat-typography-level(32px, 48px, 700),
-  $body-1: mat-typography-level(16px, 24px, 500)
+  $body-1: mat-typography-level(16px, 24px, 500),
 );
 @include mat-base-typography($custom-typography);
 @include mat-checkbox-typography($custom-typography);
 @include angular-material-typography($custom-typography);
 @include mat-core($custom-typography);
 
-
-html, body { height: 100%; }
-body { 
-    margin: 0; 
-    font-family: 'Raleway', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    letter-spacing: 0.21px;
+html,
+body {
+  height: 100%;
 }
-
+body {
+  margin: 0;
+  font-family: "Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  letter-spacing: 0.21px;
+}
 
 /* Provide sufficient contrast against white background */
 a {
@@ -54,9 +57,12 @@ code {
   font-size: 1rem;
   color: rgb(71, 71, 71);
 
-
   position: absolute;
   top: 0;
   left: 0;
   z-index: 10;
+}
+
+mat-dialog-content {
+  display: contents !important;
 }

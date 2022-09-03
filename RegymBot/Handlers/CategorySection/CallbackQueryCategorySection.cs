@@ -2,7 +2,6 @@
 using RegymBot.Data.Enums;
 using RegymBot.Data.Repositories;
 using RegymBot.Handlers.ClubContacts;
-using RegymBot.Handlers.MainMenu;
 using RegymBot.Helpers.Buttons;
 using RegymBot.Services;
 using System.Threading.Tasks;
@@ -15,19 +14,17 @@ namespace RegymBot.Handlers.CategorySection
     {
         private readonly HandleClubContacts _handleClubContacts;
         private readonly StaticMessageRepository _staticMessageRepository;
-        private readonly HandleMainMenu _handleMainMenu;
 
         public CallbackQueryCategorySection(
             ITelegramBotClient botClient,
             ILogger<CallbackQueryCategorySection> logger,
             IStepService stepService,
             HandleClubContacts handleClubContacts,
-            StaticMessageRepository staticMessageRepository,
-            HandleMainMenu handleMainMenu) : base(stepService, botClient, logger)
+            StaticMessageRepository staticMessageRepository) 
+                : base(stepService, botClient, logger)
         {
             _handleClubContacts = handleClubContacts;
             _staticMessageRepository = staticMessageRepository;
-            _handleMainMenu = handleMainMenu;
         }
 
         public async Task BotOnCallbackQueryReceived(Telegram.Bot.Types.CallbackQuery callbackQuery)

@@ -3,17 +3,19 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { MatDialog, MatDialogRef, MatSnackBar } from "@angular/material";
 import { MatInputModule } from "@angular/material";
 import { Duration } from "src/app/constants/snackBarDuration";
+import { ImageSnippet } from "src/app/helpers/imageSnippet";
 import { UserModel } from "src/app/models/user-model";
 import { UserService } from "src/app/services/user-service";
 
 @Component({
   selector: "app-modal-user",
   templateUrl: "./modal-user.component.html",
-  styleUrls: ["./modal-user.component.css"],
+  styleUrls: ["./modal-user.component.scss"],
 })
 export class ModalUserComponent implements OnInit {
   @Input() public user: UserModel;
   public userForm: FormGroup;
+  public selectedFile: ImageSnippet;
 
   constructor(
     public dialogRef: MatDialogRef<ModalUserComponent>,
@@ -28,6 +30,7 @@ export class ModalUserComponent implements OnInit {
         name: new FormControl(""),
         surName: new FormControl(""),
         description: new FormControl(""),
+        imageUrl: new FormControl(""),
         category: new FormControl(0),
       });
     } else {
@@ -35,6 +38,7 @@ export class ModalUserComponent implements OnInit {
         name: new FormControl(this.user.name),
         surName: new FormControl(this.user.surName),
         description: new FormControl(this.user.description),
+        imageUrl: new FormControl(this.user.imageUrl),
         category: new FormControl(this.user.category),
       });
     }
@@ -53,7 +57,7 @@ export class ModalUserComponent implements OnInit {
       newUser.description = this.userForm.value.description;
       newUser.category = Number(this.userForm.value.category);
 
-      this.userService.addUser(newUser).subscribe(
+      this.userService.addUser(newUser, this.selectedFile.file).subscribe(
         () => {
           this.snackBar.open("Додано користувача", "Приховати", {
             duration: Duration,
@@ -73,10 +77,7 @@ export class ModalUserComponent implements OnInit {
       this.user.description = this.userForm.value.description;
       this.user.category = Number(this.userForm.value.category);
 
-      console.log(this.user);
-      console.log(this.userForm.value);
-
-      this.userService.updateUser(this.user).subscribe(
+      this.userService.updateUser(this.user, this.selectedFile.file).subscribe(
         () => {
           this.snackBar.open("Дані користувача оновлено", "Приховати", {
             duration: Duration,
@@ -95,5 +96,17 @@ export class ModalUserComponent implements OnInit {
         }
       );
     }
+  }
+
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener("load", (event: any) => {
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+      this.selectedFile.pending = true;
+    });
+
+    reader.readAsDataURL(file);
   }
 }

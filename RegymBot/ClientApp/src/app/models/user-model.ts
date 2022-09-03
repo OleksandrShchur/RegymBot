@@ -4,5 +4,6 @@ export class UserModel {
   surName: string;
   description: string;
   category: Number;
+  imageUrl: string;
   role: Array<string>;
 }
