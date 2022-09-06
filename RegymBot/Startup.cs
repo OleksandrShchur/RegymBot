@@ -121,7 +121,7 @@ namespace RegymBot
             // register AutoMapper
             var mapperConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new MapperProfile());
+                mc.AddProfile(new MapperProfile(BotConfig.HostAddress));
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

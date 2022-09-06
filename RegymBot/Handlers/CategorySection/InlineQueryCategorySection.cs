@@ -53,7 +53,7 @@ namespace RegymBot.Handlers.CategorySection
 
             string imgPath = Configuration.GetSection("BotConfiguration")
                 .Get<BotConfiguration>()
-                .HostAddress + "/avatars/avatar-test.jpg";
+                .HostAddress;
 
             foreach (var coach in coaches)
             {
@@ -61,7 +61,7 @@ namespace RegymBot.Handlers.CategorySection
                     $"{coach.Name} {coach.Surname}",
                     new InputTextMessageContent(coach.Description))
                 {
-                    ThumbUrl = imgPath,
+                    ThumbUrl = imgPath + "\\avatars\\" + coach.UserGuid.ToString() + ".jpg",
                     ReplyMarkup = CoachButtons.Keyboard
                 };
 
