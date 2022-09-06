@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RegymBot.Data.DTOs;
 using RegymBot.Data.Entities;
 using RegymBot.Data.Models;
 using RegymBot.Data.Repositories;
@@ -49,13 +51,10 @@ namespace RegymBot.Controllers
 
         [HttpPost]
         [Route("new-user")]
-        public async Task<IActionResult> AddUser(UserModel newUser)
+        public async Task<IActionResult> AddUser(UserModel user)
         {
-            var file = Request.Form.Files[0];
-            var mappedUser = _mapper.Map<UserModel, UserEntity>(newUser);
+            var mappedUser = _mapper.Map<UserModel, UserEntity>(user);
             var addedUser = await _userRepository.AddUserAsync(mappedUser);
-
-            await _userService.UploadUserImageAsync(file, addedUser.UserGuid);
 
             return Ok();
         }
@@ -64,11 +63,8 @@ namespace RegymBot.Controllers
         [Route("update-user")]
         public async Task<IActionResult> UpdateUser(UserModel user)
         {
-            var file = Request.Form.Files[0];
             var mappedUser = _mapper.Map<UserModel, UserEntity>(user);
             await _userRepository.UpdateUserAsync(mappedUser);
-
-            await _userService.UploadUserImageAsync(file, mappedUser.UserGuid);
 
             return Ok();
         }

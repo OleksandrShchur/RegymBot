@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using RegymBot.Data.Repositories;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RegymBot.Services.Impl
@@ -24,24 +22,31 @@ namespace RegymBot.Services.Impl
 
         public async Task UploadUserImageAsync(IFormFile file, Guid userGuid)
         {
-            var userExists = await _userRepository.UserExistsAsync(userGuid);
-
-            if (userExists)
+            try
             {
-                var filePath = $"{_appEnvironment.WebRootPath}\\{DIRECTORY}\\{userGuid}.jpg";
+                var userExists = await _userRepository.UserExistsAsync(userGuid);
 
-                if (File.Exists(filePath))
+                if (userExists)
                 {
-                    File.Delete(filePath);
-                }
+                    var filePath = $"{_appEnvironment.WebRootPath}\\{DIRECTORY}\\{userGuid}.jpg";
 
-                if (file.Length > 0)
-                {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    if (File.Exists(filePath))
                     {
-                        file.CopyTo(stream);
+                        File.Delete(filePath);
+                    }
+
+                    if (file.Length > 0)
+                    {
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
                     }
                 }
+            }
+            catch(Exception e)
+            {
+                throw;
             }
         }
     }

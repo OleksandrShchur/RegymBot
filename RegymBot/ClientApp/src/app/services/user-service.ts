@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { UserModel } from "../models/user-model";
 import { BaseService } from "./base-service";
+import { v4 as uuid } from "uuid";
 
 @Injectable()
 export class UserService extends BaseService {
@@ -13,39 +14,27 @@ export class UserService extends BaseService {
   }
 
   addUser(user: UserModel, image: File) {
-    const formData = this.createFormData(image);
+    user.userGuid = uuid.v4();
 
-    //return this.http.post(this.baseUrl + "Users/new-user", user);
-    return this.http.post(this.baseUrl + "Users/new-user", {
-      formData,
-      user,
-    });
+    this.http.post(this.baseUrl + "Users/new-user", user);
+
+    return this.uploadUserAvatar(image, user.userGuid);
   }
 
   updateUser(user: UserModel, image: File) {
-    const formData = this.createFormData(image);
+    this.http.post(this.baseUrl + "Users/update-user", user);
 
-    //return this.http.post(this.baseUrl + "Users/update-user", user);
-    return this.http.post(this.baseUrl + "Users/update-user", {
-      formData,
-      user,
-    });
+    return this.uploadUserAvatar(image, user.userGuid);
   }
 
   uploadUserAvatar(image: File, guid: string) {
-    const formData = this.createFormData(image);
+    const formData = new FormData();
+    formData.append("file", image, image.name);
 
     return this.http.post(this.baseUrl + "Users/upload-avatar", formData, {
       params: {
         userGuid: guid,
       },
     });
-  }
-
-  private createFormData(image: File): FormData {
-    const formData = new FormData();
-    formData.append("file", image, image.name);
-
-    return formData;
   }
 }
