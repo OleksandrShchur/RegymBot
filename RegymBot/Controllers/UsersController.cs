@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RegymBot.Data.DTOs;
 using RegymBot.Data.Entities;
 using RegymBot.Data.Models;
 using RegymBot.Data.Repositories;
@@ -45,6 +43,7 @@ namespace RegymBot.Controllers
         public async Task<IActionResult> DeleteUser(Guid guid)
         {
             await _userRepository.RemoveUserAsync(guid);
+            _userService.RemoveUserImage(guid);
 
             return Ok();
         }

@@ -7,5 +7,6 @@ namespace RegymBot.Services
     public interface IUserService
     {
         Task UploadUserImageAsync(IFormFile file, Guid userGuid);
+        void RemoveUserImage(Guid userGuid);
     }
 }

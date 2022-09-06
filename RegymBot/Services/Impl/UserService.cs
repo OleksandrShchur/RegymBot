@@ -49,5 +49,22 @@ namespace RegymBot.Services.Impl
                 throw;
             }
         }
+
+        public void RemoveUserImage(Guid userGuid)
+        {
+            try
+            {
+                var filePath = $"{_appEnvironment.WebRootPath}\\{DIRECTORY}\\{userGuid}.jpg";
+
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+            }
+            catch(Exception e)
+            {
+                throw;
+            }
+        }
     }
 }
