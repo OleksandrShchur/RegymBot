@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RegymBot.Data.Enums;
 using RegymBot.Data.Repositories;
 using RegymBot.Handlers.ClubContacts;
+using RegymBot.Helpers;
 using RegymBot.Helpers.Buttons;
 using RegymBot.Services;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.InlineQueryResults;
@@ -17,20 +17,22 @@ namespace RegymBot.Handlers.CategorySection
 {
     public class InlineQueryCategorySection : BaseCallback<InlineQueryCategorySection>
     {
+        private IConfiguration Configuration { get; }
+
         private readonly HandleClubContacts _handleClubContacts;
         private readonly UserRepository _userRepository;
-        private readonly IWebHostEnvironment _appEnvironment;
+        
         public InlineQueryCategorySection(
             ITelegramBotClient botClient,
             ILogger<InlineQueryCategorySection> logger,
             HandleClubContacts handleClubContacts,
             IStepService stepService,
             UserRepository userRepository,
-            IWebHostEnvironment appEnvironment) : base(stepService, botClient, logger)
+            IConfiguration configuration) : base(stepService, botClient, logger)
         {
             _handleClubContacts = handleClubContacts;
             _userRepository = userRepository;
-            _appEnvironment = appEnvironment;
+            Configuration = configuration;
         }
 
         public async Task BotOnInlineQueryReceived(Telegram.Bot.Types.InlineQuery inlineQuery)
@@ -49,26 +51,19 @@ namespace RegymBot.Handlers.CategorySection
                 coaches = coaches.FindAll(s => ($"{s.Name} {s.Surname}").ToLower().Contains(searchQuery[2]));
             }
 
-            Random rnd = new Random();
+            string imgPath = Configuration.GetSection("BotConfiguration")
+                .Get<BotConfiguration>()
+                .HostAddress;
 
             foreach (var coach in coaches)
             {
                 var item = new InlineQueryResultArticle(coach.UserGuid.ToString(),
                     $"{coach.Name} {coach.Surname}",
-                    new InputTextMessageContent(coach.Description));
-
-                // TODO
-                //FileStream file = new FileStream($"{_appEnvironment.WebRootPath}\\{rnd.Next(1, 9)}.jpg", FileMode.Open);
-                //var image = Image.FromStream(file);
-                //var thumb = image.GetThumbnailImage(50, 50, () => false, IntPtr.Zero);
-
-                //item.ThumbWidth = 50;
-                //item.ThumbHeight = 50;
-                //item.ThumbUrl = $"{_appEnvironment.WebRootPath}\\{rnd.Next(1, 9)}.jpg";
-
-
-                item.Description = coach.Description;
-                item.ReplyMarkup = CoachButtons.Keyboard;
+                    new InputTextMessageContent(coach.Description))
+                {
+                    ThumbUrl = imgPath + "\\avatars\\" + coach.UserGuid.ToString() + ".jpg",
+                    ReplyMarkup = CoachButtons.Keyboard
+                };
 
                 list.Add(item);
             }

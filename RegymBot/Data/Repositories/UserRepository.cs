@@ -131,5 +131,18 @@ namespace RegymBot.Data.Repositories
                 throw;
             }
         }
+
+        public async Task<bool> UserExistsAsync(Guid userGuid)
+        {
+            try
+            {
+                return await _context.Users.AnyAsync(u => u.UserGuid == userGuid);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, $"Error on checking that user exists or not, message: {e.Message}");
+                throw;
+            }
+        }
     }
 }

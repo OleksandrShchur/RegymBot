@@ -10,7 +10,7 @@ import { ScheduleService } from "src/app/services/schedule-service";
   styleUrls: ["./schedule.component.scss"],
 })
 export class ScheduleComponent implements OnInit {
-  selectedFile: ImageSnippet;
+  public selectedFile: ImageSnippet;
 
   constructor(
     private snackBar: MatSnackBar,

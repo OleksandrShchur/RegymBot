@@ -19,4 +19,17 @@ export class UserService extends BaseService {
   updateUser(user: UserModel) {
     return this.http.post(this.baseUrl + "Users/update-user", user);
   }
+
+  uploadUserAvatar(image: File, guid: string) {
+    if (image !== null) {
+      const formData = new FormData();
+      formData.append("file", image, image.name);
+
+      return this.http.post(this.baseUrl + "Users/upload-avatar", formData, {
+        params: {
+          userGuid: guid,
+        },
+      });
+    }
+  }
 }

@@ -11,6 +11,7 @@ namespace RegymBot.Data.Models
         public string SurName { get; set; }
         public string Description { get; set; }
         public Category Category { get; set; }
+        public string ImageUrl { get; set; }
         public IEnumerable<string> Roles { get; set; }
     }
 }

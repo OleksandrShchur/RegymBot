@@ -99,6 +99,7 @@ namespace RegymBot
             services.AddSingleton<IStepService, StepService>();
             services.AddSingleton<ITokenService, TokenService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IUserService, UserService>();
 
             // register repositories
             services.AddScoped<CredentialsRepository>();
@@ -120,7 +121,7 @@ namespace RegymBot
             // register AutoMapper
             var mapperConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new MapperProfile());
+                mc.AddProfile(new MapperProfile(BotConfig.HostAddress));
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -163,7 +164,7 @@ namespace RegymBot
                 app.UseHsts();
             }
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             if (env.IsDevelopment())

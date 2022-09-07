@@ -13,6 +13,13 @@
   </nav>
 
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="avatar">
+      <th mat-header-cell *matHeaderCellDef>Ім'я</th>
+      <td mat-cell *matCellDef="let element">
+        <img [src]="element.imageUrl" />
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Ім'я</th>
       <td mat-cell *matCellDef="let element">{{ element.name }}</td>

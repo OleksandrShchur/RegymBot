@@ -56,7 +56,6 @@ export class PriceTableComponent implements OnInit {
   }
 
   deletePrice(guid: string) {
-    console.log(guid);
     this.priceService.removePrice(guid).subscribe(
       () => {
         this.snackBar.open("Ціну/послугу видалено", "Приховати", {
