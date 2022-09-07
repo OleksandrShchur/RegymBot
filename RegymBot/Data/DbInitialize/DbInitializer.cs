@@ -265,58 +265,50 @@ namespace RegymBot.Data.DbInitialize
             {
                 new UserEntity
                 {
-                    UserGuid = Guid.NewGuid(),
-                    Name = "Тарас",
-                    Surname = "Петренко",
-                    Description = "Тренер з досвідом",
+                    UserGuid = new Guid("970F47F4-21FD-4B62-BD9B-E0151ACD12FF"),
+                    Name = "Олександр",
+                    Surname = "Бабак",
+                    Description = "Тренер спорт хаба з єдиноборств. Кікбоксинг К1, тайський бокс – в цьому він профі.",
                     Category = Category.VIP
                 },
                 new UserEntity
                 {
-                    UserGuid = Guid.NewGuid(),
-                    Name = "Олег",
-                    Surname = "Вінник",
-                    Description = "Фітнес тренер",
-                    Category = Category.VIP
-                },
-                new UserEntity
-                {
-                    UserGuid = Guid.NewGuid(),
-                    Name = "Ігор",
-                    Surname = "Хмель",
-                    Description = "Майстер спорту",
-                    Category = Category.VIP
-                },
-                new UserEntity
-                {
-                    UserGuid = Guid.NewGuid(),
-                    Name = "Сергій",
-                    Surname = "Довженко",
-                    Description = "Фітнес тренер",
+                    UserGuid = new Guid("20E774C9-D9DB-4AEF-BFC5-6578624AF075"),
+                    Name = "Ника",
+                    Surname = "Бондарь",
+                    Description = "«Стань лучшей версией себя!» — главный девиз Ники Бондарь в тренажерном зале. Каждую свою клиентку она буквально берет за руку и ведет по всем этапам «преображения».",
                     Category = Category.First
                 },
                 new UserEntity
                 {
-                    UserGuid = Guid.NewGuid(),
-                    Name = "Денис",
-                    Surname = "Прокопенко",
-                    Description = "Тренер з багаторічним досвідом",
+                    UserGuid = new Guid("6CC5C859-84D1-4C06-A2C8-B82ADC9C2317"),
+                    Name = "Антон",
+                    Surname = "Білодід",
+                    Description = "Антон Білодід вже 8 років «в спорті». Це означає – власний спортивний досвід і ведення тренувань. Тренажерний зал, Кроссфіт, функціональний тренінг – кожен з напрямків він освоїв досконало.",
                     Category = Category.First
                 },
                 new UserEntity
                 {
-                    UserGuid = Guid.NewGuid(),
-                    Name = "Влад",
-                    Surname = "Яма",
-                    Description = "Фітнес тренер",
+                    UserGuid = new Guid("2AB8C614-D51F-4C25-AFE3-7AACA485A9EC"),
+                    Name = "Ростислав",
+                    Surname = "Трухін",
+                    Description = "Ростислав Трухін – супер тренер, і це не перебільшення. 😎",
+                    Category = Category.VIP
+                },
+                new UserEntity
+                {
+                    UserGuid = new Guid("C8716555-3030-4D70-881F-46352CD8B543"),
+                    Name = "Олексій",
+                    Surname = "Янок",
+                    Description = "Майстер спорту з гирьового спорту.",
                     Category = Category.Second
                 },
                 new UserEntity
                 {
-                    UserGuid = Guid.NewGuid(),
-                    Name = "Віктор",
-                    Surname = "Сидоренко",
-                    Description = "Майстер спорту з легкої атлетики",
+                    UserGuid = new Guid("44DD835C-8F4F-4E29-80D1-206BCFB7BC76"),
+                    Name = "Богдан",
+                    Surname = "Волков",
+                    Description = "Майстер спорту міжнародного класу з жиму лежачи без екіпіровки WRP Federation.",
                     Category = Category.Second
                 },
             };
@@ -355,11 +347,6 @@ namespace RegymBot.Data.DbInitialize
                     UserGuid = users[5].UserGuid,
                     RoleGuid = roles[0].RoleGuid
                 },
-                new UserRoleEntity
-                {
-                    UserGuid = users[6].UserGuid,
-                    RoleGuid = roles[0].RoleGuid
-                }
             };
 
             dbContext.AddRange(userRoles);

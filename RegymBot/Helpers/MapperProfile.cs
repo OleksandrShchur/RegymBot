@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Configuration;
 using RegymBot.Data.Entities;
 using RegymBot.Data.Models;
 using System.Linq;
@@ -19,7 +18,7 @@ namespace RegymBot.Helpers
                 .ForMember(dest => dest.Roles, opt => opt.MapFrom(src => src.UserRoles.Select(
                     r => r.Role.Role).ToList()))
                 .ForMember(dest => dest.ImageUrl, opt => 
-                    opt.MapFrom(src => $"{_hostAddress}\\avatars\\{src.UserGuid}.jpg"));
+                    opt.MapFrom(src => $"{_hostAddress}/avatars/{src.UserGuid}.jpg"));
 
             CreateMap<UserModel, UserEntity>()
                 .ForMember(dest => dest.UserRoles, opt => opt.Ignore());
