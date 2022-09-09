@@ -56,15 +56,15 @@ namespace RegymBot.Handlers.ClubContacts
 
                     if (_stepService.ContainsStep(BotPage.Club_Apollo, callbackQuery.From.Id))
                     {
-                        imagePath += "\\apollo.jpg";
+                        imagePath += "/apollo.jpg";
                     }
                     else if (_stepService.ContainsStep(BotPage.Club_Vavylon, callbackQuery.From.Id))
                     {
-                        imagePath += "\\vavylon.jpg";
+                        imagePath += "/vavylon.jpg";
                     }
                     else if (_stepService.ContainsStep(BotPage.Club_Pshkn, callbackQuery.From.Id))
                     {
-                        imagePath += "\\pshkn.jpg";
+                        imagePath += "/pshkn.jpg";
                     }
 
                     using (var stream = File.Open(imagePath, FileMode.Open)) 

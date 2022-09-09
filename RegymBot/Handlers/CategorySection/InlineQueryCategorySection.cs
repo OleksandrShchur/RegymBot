@@ -61,7 +61,7 @@ namespace RegymBot.Handlers.CategorySection
                     $"{coach.Name} {coach.Surname}",
                     new InputTextMessageContent(coach.Description))
                 {
-                    ThumbUrl = imgPath + "\\avatars\\" + coach.UserGuid.ToString() + ".jpg",
+                    ThumbUrl = imgPath + "/avatars/" + coach.UserGuid.ToString() + ".jpg",
                     ReplyMarkup = CoachButtons.Keyboard
                 };
 
