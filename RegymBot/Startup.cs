@@ -21,7 +21,6 @@ using RegymBot.Handlers.Price;
 using RegymBot.Handlers.Solarium;
 using RegymBot.Handlers.Feedback;
 using RegymBot.Handlers.CategorySection;
-using Microsoft.Extensions.Logging;
 using AutoMapper;
 using RegymBot.AppSettings;
 using RegymBot.AccountService;
@@ -29,6 +28,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using RegymBot.Handlers.TrainingSchedule;
+using RegymBot.Handlers.AdminCommands;
 
 namespace RegymBot
 {
@@ -77,6 +77,7 @@ namespace RegymBot
 
             // register handlers for Bot
             services.AddScoped<HandleUpdate>();
+            services.AddScoped<HandleAdminCommands>();
             services.AddScoped<HandleMainMenu>();
             services.AddScoped<HandleClubList>();
             services.AddScoped<HandleClubContacts>();
@@ -90,6 +91,7 @@ namespace RegymBot
             services.AddScoped<CallbackQueryMassage>();
             services.AddScoped<CallbackQueryPrice>();
             services.AddScoped<CallbackQuerySolarium>();
+            services.AddScoped<CallbackQuerySocial>();
             services.AddScoped<CallbackQueryFeedback>();
             services.AddScoped<InlineQueryCategorySection>();
             services.AddScoped<CallbackQueryCategorySection>();

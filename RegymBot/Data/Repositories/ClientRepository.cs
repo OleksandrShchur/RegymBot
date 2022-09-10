@@ -30,6 +30,22 @@ namespace RegymBot.Data.Repositories
             }
         }
 
+        public async Task<IEnumerable<ClientEntity>> LoadAllAsync()
+        {
+            try
+            {
+                var clients = await _context.Clients.Where(e => e.Finished).ToListAsync();
+                _logger.LogInformation($"Loaded all enrolls");
+
+                return clients;
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, $"Error on loading all {typeof(ClientEntity)}");
+                throw;
+            }
+        }
+
         public async Task<ClientEntity> GetByGuidAsync(Guid clientGuid)
         {
             try
@@ -46,7 +62,7 @@ namespace RegymBot.Data.Repositories
             }
         }
 
-        public async Task UpdateClientInfoAsync(ClientEntity client)
+        public async Task UpdateEnrollAsync(ClientEntity client)
         {
             try
             {

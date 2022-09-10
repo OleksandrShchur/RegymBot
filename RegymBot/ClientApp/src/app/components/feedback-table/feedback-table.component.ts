@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   MatPaginator,
   MatSnackBar,
+  MatSort,
   MatTableDataSource,
 } from "@angular/material";
 import { Duration } from "src/app/constants/snackBarDuration";
@@ -16,7 +17,7 @@ import { FeedbackService } from "src/app/services/feedback-service";
 export class FeedbackTableComponent implements OnInit {
   private feedbackList: Array<FeedbackModel>;
 
-  public displayedColumns: string[] = ["feedback"];
+  public displayedColumns: string[] = ["feedback", "telegramLogin", "fullName", "dateCreated"];
   public dataSource;
 
   constructor(
@@ -24,6 +25,7 @@ export class FeedbackTableComponent implements OnInit {
     private feedbackService: FeedbackService
   ) {}
 
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
@@ -32,6 +34,7 @@ export class FeedbackTableComponent implements OnInit {
         this.feedbackList = data;
         this.dataSource = new MatTableDataSource(this.feedbackList);
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       },
       () => {
         this.snackBar.open(

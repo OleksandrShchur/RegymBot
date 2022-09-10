@@ -19,6 +19,57 @@ namespace RegymBot.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("RegymBot.Data.Entities.AdminsInfo", b =>
+                {
+                    b.Property<int>("AdminsInfoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AdminApolloLogin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("AdminApolloTelegramId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("AdminPSHKNLogin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("AdminPSHKNTelegramId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("AdminVavylonLogin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("AdminVavylonTelegramId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("AdminsInfoId");
+
+                    b.ToTable("AdminsInfo");
+                });
+
+            modelBuilder.Entity("RegymBot.Data.Entities.AdminsRegistrationLinks", b =>
+                {
+                    b.Property<int>("AdminsRegistrationLinksId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Apollo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Pshkn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Vavylon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AdminsRegistrationLinksId");
+
+                    b.ToTable("AdminsRegistrationLinks");
+                });
+
             modelBuilder.Entity("RegymBot.Data.Entities.ClientEntity", b =>
                 {
                     b.Property<Guid>("ClientGuid")
@@ -31,11 +82,20 @@ namespace RegymBot.Migrations
                     b.Property<string>("Enrol")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Finished")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Proceed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SelectedClub")
+                        .HasColumnType("int");
 
                     b.HasKey("ClientGuid");
 
@@ -65,7 +125,16 @@ namespace RegymBot.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Feedback")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TelegramLogin")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("UserId")

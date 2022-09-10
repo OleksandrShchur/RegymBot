@@ -6,6 +6,7 @@ using RegymBot.Helpers.Buttons;
 using RegymBot.Services;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 
 namespace RegymBot.Handlers.MainMenu
 {
@@ -96,6 +97,25 @@ namespace RegymBot.Handlers.MainMenu
                                                     text: text,
                                                     replyMarkup: ReturnBackButton.Keyboard);
 
+                    break;
+
+                case "social":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Social);
+                    _stepService.NewStep(BotPage.Social, callbackQuery.From.Id);
+
+                    await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
+                                                    parseMode: ParseMode.Markdown,
+                                                    text: text,
+                                                    disableWebPagePreview: true,
+                                                    replyMarkup: ReturnBackButton.Keyboard);
+
+                    break;
+
+                default:
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Start);
+                    await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
+                                                            text: text,
+                                                            replyMarkup: StartButtons.Keyboard);
                     break;
             }
         }

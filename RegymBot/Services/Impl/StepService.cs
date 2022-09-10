@@ -102,5 +102,17 @@ namespace RegymBot.Services.Impl
 
             State.Add(newUser);
         }
+
+        public RegymClub SelectedClub(long userId)
+        {
+            if (this.ContainsStep(BotPage.Club_Apollo, userId))
+                return RegymClub.Apollo;
+            else if (this.ContainsStep(BotPage.Club_Vavylon, userId))
+                return RegymClub.Vavylon;
+            else if (this.ContainsStep(BotPage.Club_Pshkn, userId))
+                return RegymClub.PSHKN;
+
+            return RegymClub.None;
+        }
     }
 }

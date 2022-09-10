@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using RegymBot.Data.Enums;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -15,14 +16,14 @@ namespace RegymBot.Services.Impl
             _appEnvironment = appEnvironment;
         }
 
-        public async Task UploadImageAsync(IFormFile image, int club)
+        public async Task UploadImageAsync(IFormFile image, RegymClub club)
         {
             string filePath;
             try
             {
                 switch (club)
                 {
-                    case 0: // Apollo
+                    case RegymClub.Apollo:
                         filePath = _appEnvironment.WebRootPath + "\\apollo.jpg";
                         if (File.Exists(filePath))
                         {
@@ -39,7 +40,7 @@ namespace RegymBot.Services.Impl
 
                         break;
 
-                    case 1: // Valylon
+                    case RegymClub.Vavylon:
                         filePath = _appEnvironment.WebRootPath + "\\vavylon.jpg";
                         if (File.Exists(filePath))
                         {
@@ -56,7 +57,7 @@ namespace RegymBot.Services.Impl
 
                         break;
 
-                    case 2: // PSHKN
+                    case RegymClub.PSHKN:
                         filePath = _appEnvironment.WebRootPath + "\\pshkn.jpg";
                         if (File.Exists(filePath))
                         {

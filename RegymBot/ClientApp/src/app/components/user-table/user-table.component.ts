@@ -2,6 +2,7 @@ import { Component, ViewChild } from "@angular/core";
 import {
   MatPaginator,
   MatSnackBar,
+  MatSort,
   MatTableDataSource,
 } from "@angular/material";
 import { MatDialog } from "@angular/material/dialog";
@@ -34,7 +35,7 @@ export class UserTableComponent {
     private snackBar: MatSnackBar,
     public dialog: MatDialog
   ) {}
-
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
@@ -44,6 +45,7 @@ export class UserTableComponent {
         this.dataSource = new MatTableDataSource(this.userList);
 
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       },
       () => {
         this.snackBar.open(

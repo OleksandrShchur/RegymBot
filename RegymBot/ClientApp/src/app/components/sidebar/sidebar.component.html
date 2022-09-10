@@ -20,7 +20,7 @@
   <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
     <button mat-button class="menu-button" routerLink="/">
       <mat-icon>home</mat-icon>
-      <span>Головна</span>
+      <span>Текстовки</span>
     </button>
 
     <button mat-button class="menu-button" routerLink="/price-table">
@@ -28,24 +28,35 @@
       <span>Ціни і послуги</span>
     </button>
 
+    <button mat-button class="menu-button" routerLink="/schedule">
+      <mat-icon>schedule</mat-icon>
+      <span>Графік занять</span>
+    </button>
+
     <button mat-button class="menu-button" routerLink="/user-table">
       <mat-icon>supervisor_account</mat-icon>
-      <span>Люди</span>
+      <span>Тренери</span>
     </button>
+
+    <button mat-button class="menu-button" routerLink="/admins-info">
+      <mat-icon>engineering</mat-icon>
+      <span>Адміни</span>
+    </button>
+
 
     <button mat-button class="menu-button" routerLink="/feedback-table">
       <mat-icon>feedback</mat-icon>
       <span>Відгуки</span>
     </button>
 
-    <button mat-button class="menu-button" routerLink="/schedule">
-      <mat-icon>schedule</mat-icon>
-      <span>Графік занять</span>
+    <button mat-button class="menu-button" routerLink="/enroll-table">
+      <mat-icon>edit_square</mat-icon>
+      <span>Записи</span>
     </button>
 
     <mat-divider></mat-divider>
 
-    <button mat-button class="menu-button">
+    <button mat-button disabled class="menu-button">
       <mat-icon>help</mat-icon>
       <span>Допомога</span>
     </button>

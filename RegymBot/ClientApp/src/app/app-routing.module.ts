@@ -1,6 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AdminsInfoComponent } from "./components/admins-info/admins-info.component";
+import { EnrollTableComponent } from "./components/enroll-table/enroll-table.component";
 import { FeedbackTableComponent } from "./components/feedback-table/feedback-table.component";
 import { LoginComponent } from "./components/login/login.component";
 import { MainComponent } from "./components/main/main.component";
@@ -34,6 +36,14 @@ const routes: Routes = [{
       path: "schedule", 
       canActivate: [AuthGuard],
       component: ScheduleComponent 
+    }, { 
+      path: "enroll-table", 
+      canActivate: [AuthGuard],
+      component: EnrollTableComponent 
+    }, { 
+      path: "admins-info", 
+      canActivate: [AuthGuard],
+      component: AdminsInfoComponent 
     },
     { path: '', redirectTo: 'message-table', pathMatch: 'full' },
   ]
@@ -44,7 +54,7 @@ const routes: Routes = [{
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, RouterModule.forRoot(routes, {enableTracing: true})],
+  imports: [CommonModule, RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

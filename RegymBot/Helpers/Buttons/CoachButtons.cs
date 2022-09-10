@@ -9,12 +9,9 @@ namespace RegymBot.Helpers.Buttons
             {
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Повернутись до пошуку", "back_search")
+                    InlineKeyboardButton.WithCallbackData("Повернутись до пошуку 🔎", "back_search")
                 },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Головне меню", "main_menu")
-                }
+                ReturnBackButton.HomeButton
             });
     }
 }

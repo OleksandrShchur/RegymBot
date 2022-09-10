@@ -11,5 +11,6 @@ namespace RegymBot.Services
         void SetOptions(long userId, object options);
         object GetOptions(long userId);
         bool ContainsStep(BotPage step, long userId);
+        RegymClub SelectedClub(long userId);
     }
 }

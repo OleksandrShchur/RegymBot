@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MatSnackBar } from "@angular/material";
 import { MatInputModule } from "@angular/material";
 import { Duration } from "src/app/constants/snackBarDuration";
 import { PriceModel } from "src/app/models/price-model";
+import { Services } from "src/app/models/services";
 import { PriceService } from "src/app/services/price-service";
 
 @Component({
@@ -12,6 +13,7 @@ import { PriceService } from "src/app/services/price-service";
   styleUrls: ["./modal-price.component.css"],
 })
 export class ModalPriceComponent implements OnInit {
+  Services = Services;
   @Input() public price: PriceModel;
   public priceForm: FormGroup;
 
@@ -27,7 +29,7 @@ export class ModalPriceComponent implements OnInit {
       this.priceForm = new FormGroup({
         priceType: new FormControl(""),
         priceName: new FormControl(""),
-        price: new FormControl(0),
+        price: new FormControl(Services.Training),
       });
     } else {
       this.priceForm = new FormGroup({

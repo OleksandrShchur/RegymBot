@@ -25,7 +25,7 @@ namespace RegymBot.Handlers.Feedback
             if (message.Type != MessageType.Text)
                 return;
 
-            await _feedbackRepository.AddNewFeedbackAsync(message.Text, message.From.Id);
+            await _feedbackRepository.AddNewFeedbackAsync(message.Text, message.From.Id, $"{message.From.FirstName} {message.From.LastName}", message.From.Username);
 
             await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                     text: "Спасибі за ваш відгук!\n",

@@ -3,10 +3,12 @@ import {
   MatDialog,
   MatPaginator,
   MatSnackBar,
+  MatSort,
   MatTableDataSource,
 } from "@angular/material";
 import { Duration } from "src/app/constants/snackBarDuration";
 import { PriceModel } from "src/app/models/price-model";
+import { Services } from "src/app/models/services";
 import { PriceService } from "src/app/services/price-service";
 import { ModalPriceComponent } from "../modal-price/modal-price.component";
 
@@ -16,6 +18,7 @@ import { ModalPriceComponent } from "../modal-price/modal-price.component";
   styleUrls: ["./price-table.component.css"],
 })
 export class PriceTableComponent implements OnInit {
+  Services = Services;
   private priceList: Array<PriceModel>;
   private guidColumn: string = "priceGuid";
 
@@ -32,7 +35,7 @@ export class PriceTableComponent implements OnInit {
     private snackBar: MatSnackBar,
     public dialog: MatDialog
   ) {}
-
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
@@ -42,6 +45,7 @@ export class PriceTableComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.priceList);
 
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       },
       () => {
         this.snackBar.open(
@@ -67,6 +71,7 @@ export class PriceTableComponent implements OnInit {
         );
         this.dataSource.data.slice(itemIndex, 1);
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       },
       () => {
         this.snackBar.open("Помилка при видаленні ціни/послуги", "Приховати", {

@@ -12,12 +12,24 @@ import { ScheduleService } from "src/app/services/schedule-service";
 export class ScheduleComponent implements OnInit {
   public selectedFile: ImageSnippet;
 
+  apolloUrl: string = '';
+  vavylonUrl: string = '';
+  pshknUrl: string = '';
+
   constructor(
     private snackBar: MatSnackBar,
     private scheduleService: ScheduleService
-  ) {}
+  ) {
+    this.initImagesSrc();
+  }
 
   ngOnInit() {}
+
+  initImagesSrc(): void { 
+    this.apolloUrl = `apollo.jpg?${Date.now()}`;
+    this.vavylonUrl = `vavylon.jpg?${Date.now()}`;
+    this.pshknUrl = `pshkn.jpg?${Date.now()}`;
+  }
 
   processFile(imageInput: any, clubIndex: number) {
     const file: File = imageInput.files[0];
@@ -33,6 +45,7 @@ export class ScheduleComponent implements OnInit {
           (data) => {
             this.selectedFile.pending = false;
             this.selectedFile.status = "ok";
+            this.initImagesSrc();
           },
           () => {
             this.selectedFile.pending = false;
@@ -46,6 +59,7 @@ export class ScheduleComponent implements OnInit {
                 duration: Duration,
               }
             );
+            this.initImagesSrc();
           }
         );
     });

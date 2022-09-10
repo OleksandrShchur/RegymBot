@@ -11,10 +11,7 @@ namespace RegymBot.Helpers.Buttons
         public static InlineKeyboardMarkup Keyboard => new InlineKeyboardMarkup(
         new[]
         {
-            new[]
-            {
-                InlineKeyboardButton.WithCallbackData("Головне меню", "main_menu")
-            }
+            ReturnBackButton.HomeButton
         });
     }
 }

@@ -1,0 +1,39 @@
+<form class="main-content" [formGroup]="adminsGroup">
+  <h4>Логини адмінів потрібні для чату з адміністратором</h4>
+  <mat-form-field appearance="fill" class="user-input full-width">
+    <mat-label>Логін адміна Apollo</mat-label>
+    <input matInput formControlName="adminApolloLogin">
+    <span matPrefix>@</span>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="user-input full-width">
+    <mat-label>Логін адміна Vavylon</mat-label>
+    <input matInput formControlName="adminVavylonLogin">
+    <span matPrefix>@</span>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="user-input full-width">
+    <mat-label>Логін адміна PSHKN</mat-label>
+    <input matInput formControlName="adminPSHKNLogin">
+    <span matPrefix>@</span>
+  </mat-form-field>
+  <div class="admins-info-actions">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onUpdate()"
+    >
+      Оновити
+    </button>
+  </div>
+  <mat-divider></mat-divider>
+  <h5>
+    <div>Для отримання сповіщення про нові заявки перейдіть за данним посиланням</div>
+    <div>Відкриється сторінка бота, на ній потрібно нажати кнопку "<b>Start</b>"</div>
+    <div>Таким цином бот зарееструє ваш аккаунт як аккаунт сповіщення</div>
+  </h5>
+
+  <div *ngIf="adminsRegistrationLinks">
+    <div><a [href]="adminsRegistrationLinks.apollo"> {{ adminsRegistrationLinks.apollo }} </a> (Telegram ID Поточного адміна: <b>{{ this.adminsGroup.controls['adminApolloTelegramId'].value}}</b>)</div>
+    <div><a [href]="adminsRegistrationLinks.vavylon"> {{ adminsRegistrationLinks.vavylon }} </a> (Telegram ID Поточного адміна: <b>{{ this.adminsGroup.controls['adminVavylonTelegramId'].value}}</b>)</div>
+    <div><a [href]="adminsRegistrationLinks.pshkn"> {{ adminsRegistrationLinks.pshkn }} </a> (Telegram ID Поточного адміна: <b>{{ this.adminsGroup.controls['adminPSHKNTelegramId'].value}}</b>)</div>
+  </div>
+</form>

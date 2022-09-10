@@ -5,6 +5,7 @@
         Start = 1,
         Massage,
         Price,
+        Social,
         LeaveFeedback,
         SelectClub,
         Solarium,

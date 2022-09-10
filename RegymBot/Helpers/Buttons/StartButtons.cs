@@ -9,29 +9,29 @@ namespace RegymBot.Helpers.Buttons
             // 1 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Выбрать клуб", "select_club"),
+                InlineKeyboardButton.WithCallbackData("Обрати клуб 🦾", "select_club"),
             },
             // 2 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Массаж", "massage"),
-                InlineKeyboardButton.WithCallbackData("Солярий", "solarium"),
+                InlineKeyboardButton.WithCallbackData("Массаж 👏🏻", "massage"),
+                InlineKeyboardButton.WithCallbackData("Солярій ☀️", "solarium"),
             },
             // 3 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Прайс", "price"),
-                InlineKeyboardButton.WithCallbackData("Акции", "sale"),
+                InlineKeyboardButton.WithCallbackData("Прайс 💲", "price"),
+                InlineKeyboardButton.WithCallbackData("Акції 🎉", "sale"),
             },
             // 4 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Наши соцсети", "social"),
+                InlineKeyboardButton.WithCallbackData("Наші соцмережі 📱", "social"),
             },
             // 5 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Оставить отзыв", "feedback"),
+                InlineKeyboardButton.WithCallbackData("Залишити відгук 👍🏻", "feedback"),
             }
         });
     }

@@ -10,6 +10,11 @@ input {
   background-color: #f7f7f7;
   position: relative;
 
+  img { 
+    max-height: 316px;
+    max-width: 316px;
+  }
+
   .img-preview {
     background: center center no-repeat;
     background-size: contain;

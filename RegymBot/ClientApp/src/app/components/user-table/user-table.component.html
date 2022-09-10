@@ -2,7 +2,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb header-container">
       <li class="breadcrumb-item active" aria-current="page">
-        Список користувачів
+        Список тренерів
       </li>
       <div>
         <button mat-mini-fab color="primary" aria-label="Додати користувача">
@@ -14,29 +14,29 @@
 
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
     <ng-container matColumnDef="avatar">
-      <th mat-header-cell *matHeaderCellDef>Ім'я</th>
+      <th mat-header-cell *matHeaderCellDef>Фото</th>
       <td mat-cell *matCellDef="let element">
         <img [src]="element.imageUrl" />
       </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Ім'я</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Ім'я</th>
       <td mat-cell *matCellDef="let element">{{ element.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="surName">
-      <th mat-header-cell *matHeaderCellDef>Прізвище</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Прізвище</th>
       <td mat-cell *matCellDef="let element">{{ element.surName }}</td>
     </ng-container>
 
     <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef>Опис</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Опис</th>
       <td mat-cell *matCellDef="let element">{{ element.description }}</td>
     </ng-container>
 
     <ng-container matColumnDef="roles">
-      <th mat-header-cell *matHeaderCellDef>Ролі</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Ролі</th>
       <td mat-cell *matCellDef="let element">{{ element.roles }}</td>
     </ng-container>
 
@@ -67,7 +67,7 @@
   </table>
   <mat-paginator
     #paginator
-    [pageSizeOptions]="[5, 10]"
+    [pageSizeOptions]="[15, 50]"
     showFirstLastButtons
     aria-label="Select page of periodic elements"
   >

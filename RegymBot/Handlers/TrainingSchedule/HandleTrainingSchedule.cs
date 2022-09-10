@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using RegymBot.Data;
 using RegymBot.Data.Entities;
 using RegymBot.Data.Enums;
 using RegymBot.Data.Repositories;
@@ -17,18 +19,22 @@ namespace RegymBot.Handlers.TrainingSchedule
     {
         private readonly StaticMessageRepository _staticMessageRepository;
         private readonly ClientRepository _clientRepository;
+        private readonly AppDbContext _dbContext;
         private IStepService _stepService;
 
-        public HandleTrainingSchedule(ILogger<HandleTrainingSchedule> logger,
+        public HandleTrainingSchedule(
+            ILogger<HandleTrainingSchedule> logger,
             ITelegramBotClient botClient,
             StaticMessageRepository staticMessageRepository,
             IStepService stepService,
-            ClientRepository clientRepository)
-                : base(logger, botClient)
+            ClientRepository clientRepository,
+            AppDbContext dbContext
+        ): base(logger, botClient)
         {
             _staticMessageRepository = staticMessageRepository;
             _stepService = stepService;
             _clientRepository = clientRepository;
+            _dbContext = dbContext;
         }
 
         public async Task BotOnTrainingSchedule(Message message)
@@ -61,7 +67,7 @@ namespace RegymBot.Handlers.TrainingSchedule
 
                     client.Name = message.Text;
                     client.DateCreated = DateTime.Now;
-                    await _clientRepository.UpdateClientInfoAsync(client);
+                    await _clientRepository.UpdateEnrollAsync(client);
 
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.GetUserPhone);
 
@@ -77,14 +83,36 @@ namespace RegymBot.Handlers.TrainingSchedule
                     var clientWithPhone = await _clientRepository.GetByGuidAsync(clientGuidPhone);
 
                     clientWithPhone.Phone = message.Text;
-                    clientWithPhone.DateCreated = DateTime.Now;
-                    await _clientRepository.UpdateClientInfoAsync(clientWithPhone);
+                    clientWithPhone.DateCreated = DateTime.Now;    
+                    clientWithPhone.Finished = true;
+                    
+                    var selectedClub = _stepService.SelectedClub(message.Chat.Id);             
+                    clientWithPhone.SelectedClub = selectedClub;
+                    
+                    await _clientRepository.UpdateEnrollAsync(clientWithPhone);
 
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.FinishEnrolInGroup);
-
                     await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                         text: text,
                         replyMarkup: EnrolInGroupButtons.Keyboard);
+
+                    _stepService.NewStep(BotPage.FinishEnrolInGroup, message.Chat.Id);    
+                    var adminContacts = await _dbContext.AdminsInfo.AsNoTracking().FirstOrDefaultAsync(i => i.AdminsInfoId == 1);
+
+                    long selectedAdminId = selectedClub switch
+                    {
+                        RegymClub.Apollo => adminContacts.AdminApolloTelegramId,
+                        RegymClub.Vavylon => adminContacts.AdminVavylonTelegramId,
+                        RegymClub.PSHKN => adminContacts.AdminPSHKNTelegramId,
+                        _ => 0
+                    };
+
+                    if (selectedAdminId != 0) 
+                    {
+                        await _botClient.SendTextMessageAsync(
+                            chatId: selectedAdminId,
+                            text: clientWithPhone.ToString());
+                    }
 
                     break;
             }

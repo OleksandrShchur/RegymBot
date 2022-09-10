@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using RegymBot.Data;
 using RegymBot.Data.Enums;
 using RegymBot.Data.Repositories;
 using RegymBot.Handlers.MainMenu;
@@ -14,14 +16,17 @@ namespace RegymBot.Handlers.ClubList
     {
         private readonly StaticMessageRepository _staticMessageRepository;
         private readonly HandleMainMenu _handleMainMenu;
+        private readonly AppDbContext _dbContext;
 
         public CallbackQueryClubList(ITelegramBotClient botClient,
             StaticMessageRepository staticMessageRepository,
             ILogger<CallbackQueryClubList> logger,
             IStepService stepService,
+            AppDbContext dbContext,
             HandleMainMenu handleMainMenu) : base(stepService, botClient, logger)
         {
             _staticMessageRepository = staticMessageRepository;
+            _dbContext = dbContext;
             _handleMainMenu = handleMainMenu;
         }
 
@@ -29,6 +34,8 @@ namespace RegymBot.Handlers.ClubList
         {
             _logger.LogInformation("Received callback query in club list from: {CallQueryFromId}", callbackQuery.From.Id);
             string text;
+
+            var adminContacts = await _dbContext.AdminsInfo.AsNoTracking().FirstOrDefaultAsync(i => i.AdminsInfoId == 1);
 
             switch (callbackQuery.Data)
             {
@@ -41,7 +48,7 @@ namespace RegymBot.Handlers.ClubList
                                                     longitude: 30.5234);
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
-                                                    replyMarkup: ClubContactButtons.Keyboard);
+                                                    replyMarkup: ClubContactButtons.Keyboard(adminContacts is null ? string.Empty : adminContacts.AdminApolloLogin));
 
                     break;
 
@@ -54,7 +61,7 @@ namespace RegymBot.Handlers.ClubList
                                                     longitude: 36.2304);
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
-                                                    replyMarkup: ClubContactButtons.Keyboard);
+                                                    replyMarkup: ClubContactButtons.Keyboard(adminContacts is null ? string.Empty : adminContacts.AdminVavylonLogin));
 
                     break;
 
@@ -67,7 +74,7 @@ namespace RegymBot.Handlers.ClubList
                                                     longitude: 24.0297);
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
-                                                    replyMarkup: ClubContactButtons.Keyboard);
+                                                    replyMarkup: ClubContactButtons.Keyboard(adminContacts is null ? string.Empty : adminContacts.AdminPSHKNLogin));
 
                     break;
 

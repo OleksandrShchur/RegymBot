@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using RegymBot.Data;
 using RegymBot.Data.Enums;
 using RegymBot.Data.Repositories;
 using RegymBot.Helpers.Buttons;
@@ -12,13 +14,16 @@ namespace RegymBot.Handlers.MainMenu
     public class HandleMainMenu : BaseHandle<HandleMainMenu>
     {
         private readonly StaticMessageRepository _staticMessageRepository;
+        private readonly AppDbContext _dbContext;
 
         public HandleMainMenu(ILogger<HandleMainMenu> logger,
             ITelegramBotClient botClient,
+            AppDbContext dbContext,
             StaticMessageRepository staticMessageRepository)
                 : base(logger, botClient)
         {
             _staticMessageRepository = staticMessageRepository;
+            _dbContext = dbContext;
         }
 
         public async Task BotOnMainMenu(Message message)

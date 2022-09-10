@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using RegymBot.Data.Enums;
+using RegymBot.Handlers.AdminCommands;
 using RegymBot.Handlers.CategorySection;
 using RegymBot.Handlers.ClubContacts;
 using RegymBot.Handlers.ClubList;
@@ -31,12 +32,14 @@ namespace RegymBot.Handlers
         private readonly CallbackQueryMassage _callbackQueryMassage;
         private readonly CallbackQueryPrice _callbackQueryPrice;
         private readonly CallbackQuerySolarium _callbackQuerySolarium;
+        private readonly CallbackQuerySocial _callbackQuerySocial;
         private readonly HandleFeedback _handleFeedback;
         private readonly CallbackQueryFeedback _callbackQueryFeedback;
         private readonly InlineQueryCategorySection _inlineQueryCategorySection;
         private readonly CallbackQueryCategorySection _callbackQueryCategorySection;
         private readonly CallbackQueryTrainingSchedule _callbackQueryTrainingSchedule;
         private readonly HandleTrainingSchedule _handleTrainingSchedule;
+        private readonly HandleAdminCommands _handleAdminCommands;
 
         public HandleUpdate(
             CallbackQueryMainMenu mainMenuService,
@@ -51,12 +54,14 @@ namespace RegymBot.Handlers
             CallbackQueryMassage callbackQueryMassage,
             CallbackQueryPrice callbackQueryPrice,
             CallbackQuerySolarium callbackQuerySolarium,
+            CallbackQuerySocial callbackQuerySocial,
             HandleFeedback handleFeedback,
             CallbackQueryFeedback callbackQueryFeedback,
             InlineQueryCategorySection inlineQueryCategorySection,
             CallbackQueryCategorySection callbackQueryCategorySection,
             CallbackQueryTrainingSchedule callbackQueryTrainingSchedule,
-            HandleTrainingSchedule handleTrainingSchedule)
+            HandleTrainingSchedule handleTrainingSchedule,
+            HandleAdminCommands handleAdminCommands)
         {
             _mainMenuService = mainMenuService;
             _handleError = handleError;
@@ -70,12 +75,14 @@ namespace RegymBot.Handlers
             _callbackQueryMassage = callbackQueryMassage;
             _callbackQueryPrice = callbackQueryPrice;
             _callbackQuerySolarium = callbackQuerySolarium;
+            _callbackQuerySocial = callbackQuerySocial;
             _handleFeedback = handleFeedback;
             _callbackQueryFeedback = callbackQueryFeedback;
             _inlineQueryCategorySection = inlineQueryCategorySection;
             _callbackQueryCategorySection = callbackQueryCategorySection;
             _callbackQueryTrainingSchedule = callbackQueryTrainingSchedule;
             _handleTrainingSchedule = handleTrainingSchedule;
+            _handleAdminCommands = handleAdminCommands;
         }
 
         public async Task EchoAsync(Update update)
@@ -85,6 +92,8 @@ namespace RegymBot.Handlers
             {
                 return;
             }
+
+            await _handleAdminCommands.handleClubToken(update);
 
             var step = _stepService.GetLastStep(userId);
 
@@ -117,6 +126,17 @@ namespace RegymBot.Handlers
                     handler = update.Type switch
                     {
                         UpdateType.CallbackQuery => _callbackQuerySolarium.BotOnCallbackQueryReceived(update.CallbackQuery),
+                        _ => _handleError.UnknownUpdateHandlerAsync(update)
+                    };
+
+                    await ExecuteHandler(handler);
+
+                    break;
+
+                case BotPage.Social:
+                    handler = update.Type switch
+                    {
+                        UpdateType.CallbackQuery => _callbackQuerySocial.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
 
@@ -177,6 +197,7 @@ namespace RegymBot.Handlers
                     handler = update.Type switch
                     {
                         UpdateType.InlineQuery => _inlineQueryCategorySection.BotOnInlineQueryReceived(update.InlineQuery),
+                        UpdateType.Message => _inlineQueryCategorySection.BotOnInlineQueryAnswerReceived(update.Message),
                         UpdateType.CallbackQuery => _callbackQueryCategorySection.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
@@ -188,6 +209,7 @@ namespace RegymBot.Handlers
                 case BotPage.TrainingSchedule:
                 case BotPage.GetUserName:
                 case BotPage.GetUserPhone:
+                case BotPage.FinishEnrolInGroup:
                     handler = update.Type switch
                     {
                         UpdateType.CallbackQuery => _callbackQueryTrainingSchedule.BotOnCallbackQueryReceived(update.CallbackQuery),
@@ -197,6 +219,9 @@ namespace RegymBot.Handlers
 
                     await ExecuteHandler(handler);
 
+                    break;
+                default:
+                    await ExecuteHandler(_handleMainMenu.BotOnMainMenu(update.Message));
                     break;
             };
         }

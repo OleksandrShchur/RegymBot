@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import {
   MatButtonModule,
+  MatCheckboxModule,
   MatDialogModule,
   MatDividerModule,
   MatFormFieldModule,
@@ -19,6 +20,7 @@ import {
   MatSelectModule,
   MatSidenavModule,
   MatSnackBarModule,
+  MatSortModule,
   MatTableModule,
   MatToolbarModule,
 } from "@angular/material";
@@ -41,6 +43,15 @@ import { NotificationsService } from "./services/notifications.service";
 import { AuthService } from "./services/auth.service";
 import { JwtInterceptor } from "./helpers/auth.interceptor";
 import { MainComponent } from "./components/main/main.component";
+import { EnrollTableComponent } from "./components/enroll-table/enroll-table.component";
+import { EnrollService } from "./services/enroll-service";
+
+import { registerLocaleData } from '@angular/common';
+import localeUk from '@angular/common/locales/uk';
+import { EnumToArrayPipe } from "./helpers/enumtoarray.pipe";
+import { AdminsInfoService } from "./services/admins-info-service";
+import { AdminsInfoComponent } from "./components/admins-info/admins-info.component";
+registerLocaleData(localeUk);
 
 @NgModule({
   declarations: [
@@ -52,10 +63,13 @@ import { MainComponent } from "./components/main/main.component";
     ModalUserComponent,
     MessageTableComponent,
     PriceTableComponent,
+    EnrollTableComponent,
+    AdminsInfoComponent,
     ModalPriceComponent,
     ModalMessageComponent,
     FeedbackTableComponent,
     ScheduleComponent,
+    EnumToArrayPipe,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +77,7 @@ import { MainComponent } from "./components/main/main.component";
     FormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
@@ -70,15 +85,18 @@ import { MainComponent } from "./components/main/main.component";
     MatTableModule,
     MatSnackBarModule,
     MatPaginatorModule,
+    MatSortModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCheckboxModule,
+    MatSelectModule,
+
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule,
   ],
   entryComponents: [
     ModalUserComponent,
@@ -92,6 +110,8 @@ import { MainComponent } from "./components/main/main.component";
     PriceService,
     MessageService,
     FeedbackService,
+    EnrollService,
+    AdminsInfoService,
     ScheduleService,
     { provide: LOCALE_ID, useValue: "uk-UA" },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }

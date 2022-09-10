@@ -13,13 +13,16 @@ namespace RegymBot.Data.Repositories
         public FeedbackRepository(AppDbContext context, ILogger<FeedbackRepository> logger)
             : base(context, logger) { }
 
-        public async Task AddNewFeedbackAsync(string text, long userId)
+        public async Task AddNewFeedbackAsync(string text, long userId, string fullName, string tgLogin)
         {
             try
             {
                 var feedback = new FeedbackEntity
                 {
                     Feedback = text,
+                    DateCreated = DateTime.Now,
+                    FullName = fullName,
+                    TelegramLogin = tgLogin,
                     UserId = userId
                 };
 

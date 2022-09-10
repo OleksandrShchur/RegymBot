@@ -20,6 +20,8 @@ namespace RegymBot.Helpers
                 .ForMember(dest => dest.ImageUrl, opt => 
                     opt.MapFrom(src => $"{_hostAddress}/avatars/{src.UserGuid}.jpg"));
 
+            CreateMap<ClientModel, ClientEntity>();
+
             CreateMap<UserModel, UserEntity>()
                 .ForMember(dest => dest.UserRoles, opt => opt.Ignore());
 

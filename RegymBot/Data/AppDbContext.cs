@@ -21,6 +21,8 @@ namespace RegymBot.Data
         public DbSet<RoleEntity> Roles { get; set; }
         public DbSet<PageEntity> Pages { get; set; }
         public DbSet<ClientEntity> Clients { get; set; }
+        public DbSet<AdminsInfo> AdminsInfo { get; set; }
+        public DbSet<AdminsRegistrationLinks> AdminsRegistrationLinks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

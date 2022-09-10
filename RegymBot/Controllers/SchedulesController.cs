@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RegymBot.Data.Enums;
 using RegymBot.Services;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace RegymBot.Controllers
 
         [HttpPost]
         [Route("upload-image")]
-        public async Task<IActionResult> UploadImage(int club)
+        public async Task<IActionResult> UploadImage(RegymClub club)
         {
             var file = Request.Form.Files[0];
             await _imageService.UploadImageAsync(file, club);

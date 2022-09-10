@@ -2,9 +2,11 @@
   <h1 mat-dialog-title *ngIf="!price">Нова ціна/послуга</h1>
   <h1 mat-dialog-title *ngIf="price">Оновити дані про послугу</h1>
   <mat-dialog-content class="mat-typography">
-    <mat-form-field appearance="fill" class="user-input part-width">
+    <mat-form-field appearance="fill">
       <mat-label>Тип послуги</mat-label>
-      <input matInput required formControlName="priceType" />
+      <mat-select formControlName="priceType">
+        <mat-option required *ngFor="let item of Services | enumToArray" [value]="item.value">{{ item.name }}</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="user-input part-width">
@@ -18,22 +20,22 @@
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button mat-dialog-close>Закрити</button>
+    <button mat-raised-button color="warn" mat-dialog-close>Закрити</button>
     <button
       *ngIf="!price"
-      mat-button
+      mat-raised-button
+      color="primary"
       cdkFocusInitial
       type="submit"
-      class="btn btn-outline-dark"
     >
       Зберегти
     </button>
     <button
       *ngIf="price"
-      mat-button
+      mat-raised-button
+      color="primary"
       cdkFocusInitial
       type="submit"
-      class="btn btn-outline-dark"
     >
       Оновити
     </button>

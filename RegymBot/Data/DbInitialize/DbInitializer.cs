@@ -28,52 +28,84 @@ namespace RegymBot.Data.DbInitialize
 
             dbContext.Credentials.AddRange(credentials);
 
+            var adminsRegistrationLinks = new AdminsRegistrationLinks { 
+                Apollo = "https://telegram.me/regym_club_bot?start=apollo_admin",
+                Pshkn = "https://telegram.me/regym_club_bot?start=pshkn_admin",
+                Vavylon = "https://telegram.me/regym_club_bot?start=vavylon_admin",
+            };
+
+            dbContext.AdminsRegistrationLinks.Add(adminsRegistrationLinks);
+
+            var adminsInfo = new AdminsInfo { 
+                AdminApolloLogin = "test",
+                AdminPSHKNLogin = "test",
+                AdminVavylonLogin = "test",
+            };
+
+            dbContext.AdminsInfo.Add(adminsInfo);
+
             var staticMessages = new StaticMessageEntity[]
             {
                 new StaticMessageEntity
                 {
                     PageId = (int)BotPage.Start,
-                    Message = "Виберіть:"
+                    Message = @"Вітання!  Я чат-бот мережі спорт-хабів ReGym.
+
+ Заняття спортом мають бути доступними та легкими.  Тому я намагатимусь допомогти тобі вирішити всі завдання прямо в Telegram!
+
+ Що я можу:
+
+ •знайти наш найближчий до вас 🏋️спортзал;
+ •розповісти ℹ️ про послуги хаба;
+ •допомогти записатися на 💪тренування;
+ •вибрати 🥋 тренера;
+ •допомогти зв'язатися з адміністратором 🧜‍♀️."
                 },
                 new StaticMessageEntity
                 {
                     PageId = (int)BotPage.Massage,
-                    Message = "В наших залах в PSHKN центр и ТРЦ Вавилон вы можете посетить массажные кабинеты, в которых вам помогут расслабиться после тренировки с помощью пятнадцати видов массажа."
+                    Message = "В наших залах в PSHKN центр и ТГ Вавилон ви можете відвідати массажні кабінети, в яких вам допоможуть розслабитись після тренування за допомогою пятнадцати видів массажу."
                 },
                 new StaticMessageEntity
                 {
                     PageId = (int)BotPage.Price,
                     Message = "Прайс лист тренувань:"
                 },
+                 new StaticMessageEntity
+                {
+                    PageId = (int)BotPage.Social,
+                    Message = @"🌸 [Instagram](https://www.instagram.com/regym.hub)
+👤 [Facebook](https://www.facebook.com/regym.hub)"
+                },
                 new StaticMessageEntity
                 {
                     PageId = (int)BotPage.LeaveFeedback,
-                    Message = "Расскажите, что вам понравилось и как нам стать лутше для вас?"
+                    Message = "Розкажіть, що вам сподобалось та як нам стати краще для вас?"
                 },
                 new StaticMessageEntity
                 {
                     PageId = (int)BotPage.SelectClub,
-                    Message = "Выберіть клуб:"
+                    Message = "Виберіть клуб:"
                 },
                 new StaticMessageEntity
                 {
                     PageId = (int)BotPage.Solarium,
-                    Message = "В наших залах в Аполло и ТРЦ Вавилон вы можете посетить солярий."
+                    Message = "В наших залах в ТГ Вавилон ТРК Апполо ви можете відвідати солярій."
                 },
                 new StaticMessageEntity
                 {
                     PageId = (int)BotPage.Club_Apollo,
-                    Message = "Телефон Аполло\n+380999999999\n\"Адрес:\nул. Хмельницкого 68\nРасписание:\nПН - СБ: 08 - 21\nВС: 9 - 18\""
+                    Message = "Телефон Аполло\n+380999999999\n\"Адреса:\nвул. Хмельницького 68\nРозклад:\nПН - СБ: 08 - 21\nВС: 9 - 18\""
                 },
                 new StaticMessageEntity
                 {
                     PageId = (int)BotPage.Club_Vavylon,
-                    Message = "Телефон Вавилон\n+380999999999\n\"Адрес:\nул. Хмельницкого 68\nРасписание:\nПН - СБ: 08 - 21\nВС: 9 - 18\""
+                    Message = "Телефон Вавилон\n+380999999999\n\"Адреса:\nвул. Хмельницького 68\nРозклад:\nПН - СБ: 08 - 21\nВС: 9 - 18\""
                 },
                 new StaticMessageEntity
                 {
                     PageId = (int)BotPage.Club_Pshkn,
-                    Message = "Телефон PSHKN\n+380999999999\n\"Адрес:\nул. Хмельницкого 68\nРасписание:\nПН - СБ: 08 - 21\nВС: 9 - 18\""
+                    Message = "Телефон PSHKN\n+380999999999\n\"Адреса:\nвул. Хмельницького 68\nРозклад:\nПН - СБ: 08 - 21\nВС: 9 - 18\""
                 },
                 new StaticMessageEntity
                 {
@@ -120,6 +152,11 @@ namespace RegymBot.Data.DbInitialize
                 {
                     PageId = (int)BotPage.Price,
                     Name = "Сторінка цін"
+                },
+                new PageEntity
+                {
+                    PageId = (int)BotPage.Social,
+                    Name = "Соціальні Мережи"
                 },
                 new PageEntity
                 {
