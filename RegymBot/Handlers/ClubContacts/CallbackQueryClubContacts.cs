@@ -7,6 +7,7 @@ using RegymBot.Handlers.ClubList;
 using RegymBot.Helpers;
 using RegymBot.Helpers.Buttons;
 using RegymBot.Services;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -65,7 +66,7 @@ namespace RegymBot.Handlers.ClubContacts
 
                     var selectedClub = _stepService.SelectedClub(callbackQuery.From.Id);
                     
-                    imgPath += $"/{selectedClub.ToString().ToLower()}.jpg";
+                    imgPath += $"/{selectedClub.ToString().ToLower()}.jpg?a={DateTime.UtcNow.ToString("s")}";
 
                     await _botClient.SendPhotoAsync(chatId: callbackQuery.Message.Chat.Id,
                         photo: imgPath, caption: text, replyMarkup: ReturnBackButton.Keyboard);

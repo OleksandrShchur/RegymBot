@@ -12,7 +12,7 @@ import { FeedbackService } from "src/app/services/feedback-service";
 @Component({
   selector: "app-feedback-table",
   templateUrl: "./feedback-table.component.html",
-  styleUrls: ["./feedback-table.component.css"],
+  styleUrls: ["./feedback-table.component.scss"],
 })
 export class FeedbackTableComponent implements OnInit {
   private feedbackList: Array<FeedbackModel>;

@@ -17,14 +17,14 @@
 }
 
 img {
-  width: 80%;
-  height: 80%;
+  max-width: 300px;
   border-radius: 25px;
   align-items: center;
 }
 
 .avatar {
   display: flex;
+  align-items: center;
   flex-direction: column;
 }
 

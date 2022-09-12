@@ -29,6 +29,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using RegymBot.Handlers.TrainingSchedule;
 using RegymBot.Handlers.AdminCommands;
+using RegymBot.Handlers.StartCommand;
 
 namespace RegymBot
 {
@@ -78,6 +79,7 @@ namespace RegymBot
             // register handlers for Bot
             services.AddScoped<HandleUpdate>();
             services.AddScoped<HandleAdminCommands>();
+            services.AddScoped<HandleStartCommand>();
             services.AddScoped<HandleMainMenu>();
             services.AddScoped<HandleClubList>();
             services.AddScoped<HandleClubContacts>();
@@ -167,7 +169,17 @@ namespace RegymBot
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = context =>
+                {
+                    context.Context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                    context.Context.Response.Headers.Add("Expires", "-1");
+
+                    // TimeSpan maxAge = new TimeSpan(7, 0, 0, 0);
+                    // context.Response.Headers.Append("Cache-Control", "max-age=" + maxAge.TotalSeconds.ToString("0"));
+                }
+            });
 
             if (env.IsDevelopment())
             {

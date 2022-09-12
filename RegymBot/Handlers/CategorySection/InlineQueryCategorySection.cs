@@ -7,6 +7,7 @@ using RegymBot.Handlers.ClubContacts;
 using RegymBot.Helpers;
 using RegymBot.Helpers.Buttons;
 using RegymBot.Services;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -67,7 +68,7 @@ namespace RegymBot.Handlers.CategorySection
                 list.Add(item);
             }
 
-            await _botClient.AnswerInlineQueryAsync(inlineQuery.Id, list.ToArray(), null, false);
+            await _botClient.AnswerInlineQueryAsync(inlineQuery.Id, list.ToArray(), 100, false);
         }
 
         public async Task BotOnInlineQueryAnswerReceived(Telegram.Bot.Types.Message message)
@@ -91,8 +92,8 @@ namespace RegymBot.Handlers.CategorySection
             }
 
             await _botClient.SendPhotoAsync(chatId: message.Chat.Id,
-                photo: imgPath + "/avatars/" + coach.UserGuid.ToString() + ".jpg",
-                caption: $"{coach.Name} {coach.Surname}/n/n" + coach.Description,
+                photo: $"{imgPath}/avatars/{coach.UserGuid.ToString()}.jpg?a={DateTime.UtcNow.ToString("s")}",
+                caption: $"{coach.Name} {coach.Surname}\n\n" + coach.Description,
                 replyMarkup: CoachButtons.Keyboard
             );
         }

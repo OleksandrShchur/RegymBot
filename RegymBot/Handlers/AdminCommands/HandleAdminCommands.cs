@@ -63,8 +63,8 @@ namespace RegymBot.Handlers.AdminCommands
 
             await _botClient.SendTextMessageAsync(
                 chatId: message.Chat.Id,
-                text: $"Ви підписались на сповіщення клубу {selectedClub.ToString()}",
-                replyMarkup: StartButtons.Keyboard);
+                text: $"Ви підписались на сповіщення клубу {selectedClub.ToString()}"
+            );
         }
     }
 }

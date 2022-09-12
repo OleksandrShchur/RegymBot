@@ -9,6 +9,7 @@ using RegymBot.Handlers.MainMenu;
 using RegymBot.Handlers.Massage;
 using RegymBot.Handlers.Price;
 using RegymBot.Handlers.Solarium;
+using RegymBot.Handlers.StartCommand;
 using RegymBot.Handlers.TrainingSchedule;
 using RegymBot.Services;
 using System;
@@ -40,6 +41,7 @@ namespace RegymBot.Handlers
         private readonly CallbackQueryTrainingSchedule _callbackQueryTrainingSchedule;
         private readonly HandleTrainingSchedule _handleTrainingSchedule;
         private readonly HandleAdminCommands _handleAdminCommands;
+        private readonly HandleStartCommand handleStartCommand;
 
         public HandleUpdate(
             CallbackQueryMainMenu mainMenuService,
@@ -61,7 +63,9 @@ namespace RegymBot.Handlers
             CallbackQueryCategorySection callbackQueryCategorySection,
             CallbackQueryTrainingSchedule callbackQueryTrainingSchedule,
             HandleTrainingSchedule handleTrainingSchedule,
-            HandleAdminCommands handleAdminCommands)
+            HandleAdminCommands handleAdminCommands,
+            HandleStartCommand handleStartCommand
+        )
         {
             _mainMenuService = mainMenuService;
             _handleError = handleError;
@@ -83,6 +87,7 @@ namespace RegymBot.Handlers
             _callbackQueryTrainingSchedule = callbackQueryTrainingSchedule;
             _handleTrainingSchedule = handleTrainingSchedule;
             _handleAdminCommands = handleAdminCommands;
+            this.handleStartCommand = handleStartCommand;
         }
 
         public async Task EchoAsync(Update update)
@@ -93,6 +98,7 @@ namespace RegymBot.Handlers
                 return;
             }
 
+            await handleStartCommand.handleStart(update);
             await _handleAdminCommands.handleClubToken(update);
 
             var step = _stepService.GetLastStep(userId);
