@@ -56,7 +56,7 @@ namespace RegymBot
                 services.AddDbContext<AppDbContext>(options =>
                 {
                     options.EnableSensitiveDataLogging();
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                    options.UseSqlServer(Configuration.GetConnectionString("RemoteTestConnection"));
                     // options.UseInMemoryDatabase("TestDB");
                 });
 

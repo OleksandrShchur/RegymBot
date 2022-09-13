@@ -44,8 +44,8 @@ namespace RegymBot.Handlers.ClubList
                     _stepService.NewStep(BotPage.Club_Apollo, callbackQuery.From.Id);
 
                     await _botClient.SendLocationAsync(chatId: callbackQuery.Message.Chat.Id,
-                                                    latitude: 50.4501,
-                                                    longitude: 30.5234);
+                                                    latitude: 48.4329629859287,
+                                                    longitude: 35.002366815339215);
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
                                                     replyMarkup: ClubContactButtons.Keyboard(adminContacts is null ? string.Empty : adminContacts.AdminApolloLogin));
@@ -57,8 +57,8 @@ namespace RegymBot.Handlers.ClubList
                     _stepService.NewStep(BotPage.Club_Vavylon, callbackQuery.From.Id);
 
                     await _botClient.SendLocationAsync(chatId: callbackQuery.Message.Chat.Id,
-                                                    latitude: 49.9935,
-                                                    longitude: 36.2304);
+                                                    latitude: 48.4840733808793,
+                                                    longitude: 35.06434831533921);
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
                                                     replyMarkup: ClubContactButtons.Keyboard(adminContacts is null ? string.Empty : adminContacts.AdminVavylonLogin));
@@ -70,8 +70,8 @@ namespace RegymBot.Handlers.ClubList
                     _stepService.NewStep(BotPage.Club_Pshkn, callbackQuery.From.Id);
 
                     await _botClient.SendLocationAsync(chatId: callbackQuery.Message.Chat.Id,
-                                                    latitude: 49.8397,
-                                                    longitude: 24.0297);
+                                                    latitude: 48.46442615498108,
+                                                    longitude: 35.049427971165194);
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
                                                     replyMarkup: ClubContactButtons.Keyboard(adminContacts is null ? string.Empty : adminContacts.AdminPSHKNLogin));

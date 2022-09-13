@@ -8,11 +8,9 @@ using RegymBot.Helpers;
 using RegymBot.Helpers.Buttons;
 using RegymBot.Services;
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types.InputFiles;
 
 namespace RegymBot.Handlers.ClubContacts
 {
@@ -68,8 +66,10 @@ namespace RegymBot.Handlers.ClubContacts
                     
                     imgPath += $"/{selectedClub.ToString().ToLower()}.jpg?a={DateTime.UtcNow.ToString("s")}";
 
-                    await _botClient.SendPhotoAsync(chatId: callbackQuery.Message.Chat.Id,
-                        photo: imgPath, caption: text, replyMarkup: ReturnBackButton.Keyboard);
+                    await _botClient.SendDocumentAsync(
+                        chatId: callbackQuery.Message.Chat.Id,
+                        document: new InputOnlineFile(imgPath),
+                        caption: text, replyMarkup: ReturnBackButton.Keyboard);
                     
                     _stepService.NewStep(BotPage.TrainingSchedule, callbackQuery.From.Id);
                     break;
