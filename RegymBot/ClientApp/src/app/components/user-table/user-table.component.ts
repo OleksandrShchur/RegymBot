@@ -28,7 +28,7 @@ export class UserTableComponent {
     "roles",
     "actions",
   ];
-  public dataSource;
+  public dataSource: MatTableDataSource<UserModel>;
 
   constructor(
     private userService: UserService,
@@ -39,6 +39,10 @@ export class UserTableComponent {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
+    this.loadUsers();
+  }
+
+  loadUsers() { 
     this.userService.getAllUsers().subscribe(
       (data: Array<UserModel>) => {
         this.userList = data;
@@ -66,11 +70,7 @@ export class UserTableComponent {
           duration: Duration,
         });
 
-        const itemIndex = this.dataSource.data.findIndex(
-          (obj) => obj[this.guidColumn] == guid
-        );
-        this.dataSource.data.slice(itemIndex, 1);
-        this.dataSource.paginator = this.paginator;
+        this.loadUsers();
       },
       () => {
         this.snackBar.open("Помилка при видаленні користувача", "Приховати", {
@@ -84,11 +84,17 @@ export class UserTableComponent {
     const dialogRef = this.dialog.open(ModalUserComponent);
 
     dialogRef.componentInstance.user = user;
+    dialogRef.afterClosed().subscribe(() => { 
+      this.loadUsers();
+    });
   }
 
   addUser(): void {
     const dialogRef = this.dialog.open(ModalUserComponent);
 
     dialogRef.componentInstance.user = null;
+    dialogRef.afterClosed().subscribe(() => { 
+      this.loadUsers();
+    });
   }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using RegymBot.Data.Entities;
 using RegymBot.Data.Enums;
 using RegymBot.Data.Repositories;
 using RegymBot.Handlers.ClubContacts;
@@ -9,6 +10,7 @@ using RegymBot.Helpers.Buttons;
 using RegymBot.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.InlineQueryResults;
@@ -28,7 +30,8 @@ namespace RegymBot.Handlers.CategorySection
             HandleClubContacts handleClubContacts,
             IStepService stepService,
             UserRepository userRepository,
-            IConfiguration configuration) : base(stepService, botClient, logger)
+            IConfiguration configuration
+        ) : base(stepService, botClient, logger)
         {
             _handleClubContacts = handleClubContacts;
             _userRepository = userRepository;
@@ -41,14 +44,32 @@ namespace RegymBot.Handlers.CategorySection
 
             var list = new List<InlineQueryResultArticle>();
             var category = DetectCategoryFromQuery(inlineQuery.Query);
+            var club = _stepService.SelectedClub(inlineQuery.From.Id);
 
             var searchQueryLen = inlineQuery.Query.Split(" ").Length;
             var searchQuery = inlineQuery.Query.Split(" ");
 
-            var coaches = await _userRepository.LoadCoachesByCategoryAsync(category);
+            var coaches = new List<UserEntity>();
+            var coachesQuery = (await _userRepository.LoadCoachesQuery()).Where(u => u.Category == category);
+            
+            if (club != RegymClub.None) 
+            { 
+                coachesQuery = coachesQuery.Where(u => u.UserClubs.Any(ur => ur.ClubRef == (int) club));
+            }
+
             if (searchQueryLen > 2)
             {
-                coaches = coaches.FindAll(s => ($"{s.Name} {s.Surname}").ToLower().Contains(searchQuery[2]));
+                coachesQuery = coachesQuery.Where(s => ($"{s.Name} {s.Surname}").ToLower().Contains(searchQuery[2]));
+            }
+
+            try 
+            {
+                coaches = await coachesQuery.ToListAsync();
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e, "Error on get coachs by category");
+                throw;
             }
 
             string imgPath = Configuration.GetSection("BotConfiguration")
@@ -86,6 +107,23 @@ namespace RegymBot.Handlers.CategorySection
             {
                 await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                     text: $"Не можу знайти тренера за заданим пошуком 😓",
+                    replyMarkup: CoachButtons.Keyboard
+                );
+                return;
+            }
+
+            var caption = $"{coach.Name} {coach.Surname}\n\n{coach.Description}";
+            if (caption.Length > 1000) { 
+                var lastLine = caption.LastIndexOf("\n", 1000);
+                lastLine = lastLine == -1 ? 1000 : lastLine;
+                var captionPart1 = caption.Substring(0, lastLine);
+                var captionPart2 = caption.Substring(lastLine, caption.Length - lastLine);
+                await _botClient.SendPhotoAsync(chatId: message.Chat.Id,
+                    photo: $"{imgPath}/avatars/{coach.UserGuid.ToString()}.jpg?a={DateTime.UtcNow.ToString("s")}",
+                    caption: captionPart1
+                );
+                await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
+                    text: captionPart2,
                     replyMarkup: CoachButtons.Keyboard
                 );
                 return;

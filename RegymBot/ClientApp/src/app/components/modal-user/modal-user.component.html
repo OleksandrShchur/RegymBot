@@ -64,6 +64,13 @@
             <option value="2">2 група</option>
           </select>
         </mat-form-field>
+
+        <mat-form-field appearance="fill" class="user-input full-width">
+          <mat-label>Клуб</mat-label>
+          <mat-select multiple formControlName="clubs">
+            <mat-option *ngFor="let item of RegymClub | enumToArray" [value]="item.value">{{ item.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
     </div>
 

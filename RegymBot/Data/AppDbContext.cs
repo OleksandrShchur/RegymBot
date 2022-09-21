@@ -16,9 +16,11 @@ namespace RegymBot.Data
         public DbSet<TGUserEntity> TGUsers { get; set; }
         public DbSet<FeedbackEntity> Feedbacks { get; set; }
         public DbSet<PriceEntity> Prices { get; set; }
+        public DbSet<ClubEntity> Clubs { get; set; }
         public DbSet<StaticMessageEntity> StaticMessages { get; set; }
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<UserRoleEntity> UserRoles { get; set; }
+        public DbSet<UserClubEntity> UserClubs { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
         public DbSet<PageEntity> Pages { get; set; }
         public DbSet<ClientEntity> Clients { get; set; }

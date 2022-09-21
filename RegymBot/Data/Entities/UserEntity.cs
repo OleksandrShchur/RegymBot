@@ -12,5 +12,6 @@ namespace RegymBot.Data.Entities
         public string? Description { get; set; }
         public Category Category { get; set; }
         public IEnumerable<UserRoleEntity> UserRoles { get; set; }
+        public IEnumerable<UserClubEntity> UserClubs { get; set; }
     }
 }

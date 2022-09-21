@@ -1,4 +1,5 @@
-﻿using PasswordHashing;
+﻿using Microsoft.EntityFrameworkCore;
+using PasswordHashing;
 using RegymBot.Data.Entities;
 using RegymBot.Data.Enums;
 using System;
@@ -12,12 +13,27 @@ namespace RegymBot.Data.DbInitialize
         {
             dbContext.Database.EnsureCreated();
 
+            // dbContext.UserRoles.RemoveRange(dbContext.UserRoles);
+            // dbContext.UserClubs.RemoveRange(dbContext.UserClubs);
+            // dbContext.Credentials.RemoveRange(dbContext.Credentials);
+            // dbContext.TGUsers.RemoveRange(dbContext.TGUsers);
+            // dbContext.Feedbacks.RemoveRange(dbContext.Feedbacks);
+            // dbContext.Prices.RemoveRange(dbContext.Prices);
+            // dbContext.Clubs.RemoveRange(dbContext.Clubs);
+            // dbContext.StaticMessages.RemoveRange(dbContext.StaticMessages);
+            // dbContext.Users.RemoveRange(dbContext.Users);
+            // dbContext.Roles.RemoveRange(dbContext.Roles);
+            // dbContext.Pages.RemoveRange(dbContext.Pages);
+            // dbContext.Clients.RemoveRange(dbContext.Clients);
+            // dbContext.AdminsInfo.RemoveRange(dbContext.AdminsInfo);
+            // dbContext.AdminsRegistrationLinks.RemoveRange(dbContext.AdminsRegistrationLinks);
+
             if (dbContext.StaticMessages.Any())
             {
                 return; // DB has been seeded
             }
-            
-            var credentials = new CredentialsEntitiy[] 
+
+            var credentials = new CredentialsEntitiy[]
             {
                 new CredentialsEntitiy
                 {
@@ -28,7 +44,33 @@ namespace RegymBot.Data.DbInitialize
 
             dbContext.Credentials.AddRange(credentials);
 
-            var adminsRegistrationLinks = new AdminsRegistrationLinks { 
+            var clubs = new ClubEntity[]
+            {
+                new ClubEntity
+                {
+                    ClubId = (int)RegymClub.None,
+                    Name = RegymClub.None.ToString(),
+                },
+                new ClubEntity
+                {
+                    ClubId = (int)RegymClub.Apollo,
+                    Name = RegymClub.Apollo.ToString(),
+                },
+                new ClubEntity
+                {
+                    ClubId = (int)RegymClub.PSHKN,
+                    Name = RegymClub.PSHKN.ToString(),
+                },
+                new ClubEntity
+                {
+                    ClubId = (int)RegymClub.Vavylon,
+                    Name = RegymClub.Vavylon.ToString(),
+                },
+            };
+            dbContext.Clubs.AddRange(clubs);
+
+            var adminsRegistrationLinks = new AdminsRegistrationLinks
+            {
                 Apollo = "https://telegram.me/regym_club_bot?start=apollo_admin",
                 Pshkn = "https://telegram.me/regym_club_bot?start=pshkn_admin",
                 Vavylon = "https://telegram.me/regym_club_bot?start=vavylon_admin",
@@ -36,7 +78,8 @@ namespace RegymBot.Data.DbInitialize
 
             dbContext.AdminsRegistrationLinks.Add(adminsRegistrationLinks);
 
-            var adminsInfo = new AdminsInfo { 
+            var adminsInfo = new AdminsInfo
+            {
                 AdminApolloLogin = "test",
                 AdminPSHKNLogin = "test",
                 AdminVavylonLogin = "test",
@@ -351,6 +394,32 @@ namespace RegymBot.Data.DbInitialize
             };
 
             dbContext.Users.AddRange(users);
+
+            var userClubs = new UserClubEntity[]
+            {
+                new UserClubEntity
+                {
+                    UserRef = users[0].UserGuid,
+                    ClubRef = clubs[1].ClubId
+                },
+                new UserClubEntity
+                {
+                    UserRef = users[0].UserGuid,
+                    ClubRef = clubs[2].ClubId
+                },
+                new UserClubEntity
+                {
+                    UserRef = users[1].UserGuid,
+                    ClubRef = clubs[1].ClubId
+                },
+                new UserClubEntity
+                {
+                    UserRef = users[1].UserGuid,
+                    ClubRef = clubs[3].ClubId
+                },
+            };
+
+            dbContext.UserClubs.AddRange(userClubs);
 
             var userRoles = new UserRoleEntity[]
             {

@@ -23,24 +23,11 @@ namespace RegymBot.Data.Repositories
             _userRoleRepository = userRoleRepository;
         }
 
-        public async Task<List<UserEntity>> LoadCoachesByCategoryAsync(Category? category)
+        public async Task<IQueryable<UserEntity>> LoadCoachesQuery()
         {
-            try
-            {
-                var coachRole = await _userRoleRepository.GetCoachRoleAsync();
-                var coaches = await _context.Users
-                    .Where(u => u.UserRoles.Any(ur => ur.RoleGuid == coachRole.RoleGuid) && u.Category == category)
-                    .ToListAsync();
-
-                _logger.LogInformation("Loading the list of coaches by category");
-
-                return coaches;
-            }
-            catch(Exception e)
-            {
-                _logger.LogError(e, $"Error on get coachs by category {typeof(UserEntity)}");
-                throw;
-            }
+            var coachRole = await _userRoleRepository.GetCoachRoleAsync();
+            return _context.Users
+                .Where(u => u.UserRoles.Any(ur => ur.RoleGuid == coachRole.RoleGuid));
         }
 
         public async Task<IEnumerable<UserEntity>> LoadAllAsync()
@@ -50,6 +37,8 @@ namespace RegymBot.Data.Repositories
                 var users = await _context.Users
                     .Include(u => u.UserRoles)
                         .ThenInclude(ur => ur.Role)
+                    .Include(u => u.UserClubs)
+                        .ThenInclude(ur => ur.Club)
                     .ToListAsync();
                 _logger.LogInformation("Loading the list of all users");
 
@@ -68,6 +57,7 @@ namespace RegymBot.Data.Repositories
             {
                 var user = await _context.Users
                     .Include(u => u.UserRoles)
+                    .Include(u => u.UserClubs)
                     .FirstOrDefaultAsync(u => u.UserGuid == userGuid);
 
                 _logger.LogInformation($"Loading user with guid {user.UserGuid}");
@@ -105,7 +95,8 @@ namespace RegymBot.Data.Repositories
                 var userFromDb = await Insert(newUser);
 
                 await _userRoleRepository.AddUserToRoleAsync(COACH_ROLE, userFromDb.UserGuid);
-
+                newUser.UserClubs.Select(uc => uc.UserRef = userFromDb.UserGuid);
+                _context.UserClubs.AddRange(newUser.UserClubs);
                 _logger.LogInformation($"Successful insert new user {typeof(UserEntity)} with guid {newUser.UserGuid}");
 
                 return userFromDb;
@@ -121,6 +112,10 @@ namespace RegymBot.Data.Repositories
         {
             try
             {
+                _context.UserClubs.RemoveRange(
+                    _context.UserClubs.AsNoTracking().Where(uc => uc.UserRef == user.UserGuid)
+                );
+                _context.UserClubs.AddRange(user.UserClubs);
                 await Update(user);
 
                 _logger.LogInformation($"Updated user {user.UserGuid}");

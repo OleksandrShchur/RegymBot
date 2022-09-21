@@ -13,5 +13,6 @@ namespace RegymBot.Data.Models
         public Category Category { get; set; }
         public string ImageUrl { get; set; }
         public IEnumerable<string> Roles { get; set; }
+        public IEnumerable<RegymClub> Clubs { get; set; }
     }
 }

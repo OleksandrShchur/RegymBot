@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { MatDialog, MatDialogRef, MatSnackBar } from "@angular/material";
-import { MatInputModule } from "@angular/material";
 import { Duration } from "src/app/constants/snackBarDuration";
 import { ImageSnippet } from "src/app/helpers/imageSnippet";
+import { RegymClub } from "src/app/models/regym-club";
 import { UserModel } from "src/app/models/user-model";
 import { UserService } from "src/app/services/user-service";
 import { v4 as uuid } from "uuid";
@@ -17,6 +17,7 @@ export class ModalUserComponent implements OnInit {
   @Input() public user: UserModel;
   public userForm: FormGroup;
   public selectedFile: ImageSnippet;
+  RegymClub = RegymClub;
 
   constructor(
     public dialogRef: MatDialogRef<ModalUserComponent>,
@@ -33,6 +34,7 @@ export class ModalUserComponent implements OnInit {
         surName: new FormControl(""),
         description: new FormControl(""),
         category: new FormControl(0),
+        clubs: new FormControl(""),
       });
     } else {
       this.userForm = new FormGroup({
@@ -41,6 +43,7 @@ export class ModalUserComponent implements OnInit {
         surName: new FormControl(this.user.surName),
         description: new FormControl(this.user.description),
         category: new FormControl(this.user.category),
+        clubs: new FormControl(this.user.clubs),
       });
     }
   }
@@ -111,6 +114,7 @@ export class ModalUserComponent implements OnInit {
         this.user.surName = this.userForm.value.surName;
         this.user.description = this.userForm.value.description;
         this.user.category = Number(this.userForm.value.category);
+        this.user.clubs = this.userForm.value.clubs;
 
         this.userService.updateUser(this.user).subscribe(
           () => {
@@ -136,13 +140,14 @@ export class ModalUserComponent implements OnInit {
                       {
                         duration: Duration,
                       }
-                    );
+                    );                    
                   }
                 );
             } else {
               this.snackBar.open("Дані користувача оновлено", "Приховати", {
                 duration: Duration,
               });
+              this.dialog.closeAll();
             }
           },
           () => {
@@ -157,7 +162,6 @@ export class ModalUserComponent implements OnInit {
         );
       }
 
-      this.dialog.closeAll();
     } catch (e) {
       alert(e.message);
     }
