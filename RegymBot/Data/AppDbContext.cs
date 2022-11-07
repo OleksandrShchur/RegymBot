@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RegymBot.Data.Entities;
+using System;
 using System.Reflection;
 
 namespace RegymBot.Data
@@ -31,6 +35,53 @@ namespace RegymBot.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyUtcDateTimeConverter();
+        }
+    }
+
+    public class IgnoreUtcAttribute : Attribute
+    {
+        public IgnoreUtcAttribute(bool ignore = true)
+        {
+            IgnoreUtc = ignore;
+        }
+
+        public bool IgnoreUtc { get; }
+    }
+    
+    public static class UtcDateAnnotation
+    {
+        private const string IgnoreUtcAnnotation = "IgnoreUtcConveter";
+        private static readonly ValueConverter<DateTime, DateTime> UtcConverter =
+            new ValueConverter<DateTime, DateTime>(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+
+        public static PropertyBuilder<TProperty> IgnoreUtc<TProperty>(this PropertyBuilder<TProperty> builder, bool isUtc = true) =>
+            builder.HasAnnotation(IgnoreUtcAnnotation, isUtc);
+
+        public static bool IgnoreUtc(this IMutableProperty property) =>
+            ((bool?)property.FindAnnotation(IgnoreUtcAnnotation)?.Value) ?? false;
+
+        /// <summary>
+        /// Make sure this is called after configuring all your entities.
+        /// </summary>
+        public static void ApplyUtcDateTimeConverter(this ModelBuilder builder)
+        {
+            foreach (var entityType in builder.Model.GetEntityTypes())
+            {
+                foreach (var property in entityType.GetProperties())
+                {
+                    if (property.IgnoreUtc())
+                    {
+                        continue;
+                    }
+
+                    if (property.ClrType == typeof(DateTime) ||
+                        property.ClrType == typeof(DateTime?))
+                    {
+                        property.SetValueConverter(UtcConverter);
+                    }
+                }
+            }
         }
     }
 }

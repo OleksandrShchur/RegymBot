@@ -40,5 +40,13 @@ namespace RegymBot.Handlers.MainMenu
                                                     text: text,
                                                     replyMarkup: StartButtons.Keyboard);
         }
+
+        public async Task BotOnMainMenu(InlineQuery query)
+        {
+            var text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Start);
+            await _botClient.SendTextMessageAsync(chatId: query.From.Id,
+                                                    text: text,
+                                                    replyMarkup: StartButtons.Keyboard);
+        }
     }
 }

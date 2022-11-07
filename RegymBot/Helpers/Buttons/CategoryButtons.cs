@@ -22,6 +22,10 @@ namespace RegymBot.Helpers.Buttons
             {
                 InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("2 група 2️⃣", "category: second "),
             },
+            new []
+            {
+                InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("3 група 3️⃣", "category: third "),
+            },
             ReturnBackButton.BackButton
         });
     }

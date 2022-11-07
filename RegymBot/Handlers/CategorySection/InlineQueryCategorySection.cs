@@ -23,7 +23,7 @@ namespace RegymBot.Handlers.CategorySection
 
         private readonly HandleClubContacts _handleClubContacts;
         private readonly UserRepository _userRepository;
-        
+
         public InlineQueryCategorySection(
             ITelegramBotClient botClient,
             ILogger<InlineQueryCategorySection> logger,
@@ -51,9 +51,9 @@ namespace RegymBot.Handlers.CategorySection
 
             var coaches = new List<UserEntity>();
             var coachesQuery = (await _userRepository.LoadCoachesQuery()).Where(u => u.Category == category);
-            
-            if (club != RegymClub.None) 
-            { 
+
+            if (club != RegymClub.None)
+            {
                 coachesQuery = coachesQuery.Where(u => u.UserClubs.Any(ur => ur.ClubRef == (int) club));
             }
 
@@ -62,7 +62,7 @@ namespace RegymBot.Handlers.CategorySection
                 coachesQuery = coachesQuery.Where(s => ($"{s.Name} {s.Surname}").ToLower().Contains(searchQuery[2]));
             }
 
-            try 
+            try
             {
                 coaches = await coachesQuery.ToListAsync();
             }
@@ -89,7 +89,7 @@ namespace RegymBot.Handlers.CategorySection
                 list.Add(item);
             }
 
-            await _botClient.AnswerInlineQueryAsync(inlineQuery.Id, list.ToArray(), 100, false);
+            await _botClient.AnswerInlineQueryAsync(inlineQuery.Id, list.ToArray(), 0, false);
         }
 
         public async Task BotOnInlineQueryAnswerReceived(Telegram.Bot.Types.Message message)
@@ -113,7 +113,8 @@ namespace RegymBot.Handlers.CategorySection
             }
 
             var caption = $"{coach.Name} {coach.Surname}\n\n{coach.Description}";
-            if (caption.Length > 1000) { 
+            if (caption.Length > 1000)
+            {
                 var lastLine = caption.LastIndexOf("\n", 1000);
                 lastLine = lastLine == -1 ? 1000 : lastLine;
                 var captionPart1 = caption.Substring(0, lastLine);
@@ -149,6 +150,10 @@ namespace RegymBot.Handlers.CategorySection
             else if (query.Contains("category: second"))
             {
                 return Category.Second;
+            }
+            else if (query.Contains("category: third"))
+            {
+                return Category.Third;
             }
 
             return null;

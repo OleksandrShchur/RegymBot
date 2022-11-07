@@ -4,6 +4,7 @@
     {
         VIP,
         First,
-        Second
+        Second,
+        Third
     }
 }

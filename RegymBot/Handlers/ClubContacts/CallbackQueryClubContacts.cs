@@ -54,21 +54,38 @@ namespace RegymBot.Handlers.ClubContacts
                                                     replyMarkup: CategoryButtons.Keyboard);
 
                     break;
-
-                case "training_schedule":
-                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.TrainingSchedule);
+                case "price":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Price);
                     
-                    string imgPath = Configuration.GetSection("BotConfiguration")
+                    string imgPathPrices = Configuration.GetSection("BotConfiguration")
                         .Get<BotConfiguration>()
                         .HostAddress;
 
-                    var selectedClub = _stepService.SelectedClub(callbackQuery.From.Id);
+                    var selectedClubPrices = _stepService.SelectedClub(callbackQuery.From.Id);
                     
-                    imgPath += $"/{selectedClub.ToString().ToLower()}.jpg?a={DateTime.UtcNow.ToString("s")}";
+                    imgPathPrices += $"/{selectedClubPrices.ToString().ToLower()}-prices.jpg?a={DateTime.UtcNow.ToString("s")}";
 
                     await _botClient.SendDocumentAsync(
                         chatId: callbackQuery.Message.Chat.Id,
-                        document: new InputOnlineFile(imgPath),
+                        document: new InputOnlineFile(imgPathPrices),
+                        caption: text, replyMarkup: ReturnBackButton.Keyboard);
+                    
+                    _stepService.NewStep(BotPage.TrainingSchedule, callbackQuery.From.Id);
+                    break;
+                case "training_schedule":
+                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.TrainingSchedule);
+                    
+                    string imgPathSchedule = Configuration.GetSection("BotConfiguration")
+                        .Get<BotConfiguration>()
+                        .HostAddress;
+
+                    var selectedClubSchedule = _stepService.SelectedClub(callbackQuery.From.Id);
+                    
+                    imgPathSchedule += $"/{selectedClubSchedule.ToString().ToLower()}.jpg?a={DateTime.UtcNow.ToString("s")}";
+
+                    await _botClient.SendDocumentAsync(
+                        chatId: callbackQuery.Message.Chat.Id,
+                        document: new InputOnlineFile(imgPathSchedule),
                         caption: text, replyMarkup: ReturnBackButton.Keyboard);
                     
                     _stepService.NewStep(BotPage.TrainingSchedule, callbackQuery.From.Id);

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RegymBot.Data.Entities;
+using RegymBot.Data.Enums;
 using RegymBot.Data.Repositories;
+using RegymBot.Services;
+using RegymBot.Services.Impl;
 using System;
 using System.Threading.Tasks;
 
@@ -12,11 +15,27 @@ namespace RegymBot.Controllers
     [Authorize]
     public class PricesController : ControllerBase
     {
+        private readonly IImageService _imageService;
         private readonly PriceRepository _priceRepository;
 
-        public PricesController(PriceRepository priceRepository)
+        public PricesController(
+            IImageService imageService,
+            PriceRepository priceRepository
+            )
         {
+            _imageService = imageService;
             _priceRepository = priceRepository;
+        }
+
+
+        [HttpPost]
+        [Route("upload-image")]
+        public async Task<IActionResult> UploadImage(RegymClub club)
+        {
+            var file = Request.Form.Files[0];
+            await _imageService.UploadImageAsync(file, $"{club.ToString().ToLower()}-prices");
+
+            return Ok();
         }
 
         [HttpGet]

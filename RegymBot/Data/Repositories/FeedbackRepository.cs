@@ -20,7 +20,7 @@ namespace RegymBot.Data.Repositories
                 var feedback = new FeedbackEntity
                 {
                     Feedback = text,
-                    DateCreated = DateTime.Now,
+                    DateCreated = DateTime.Now.ToUniversalTime(),
                     FullName = fullName,
                     TelegramLogin = tgLogin,
                     UserId = userId

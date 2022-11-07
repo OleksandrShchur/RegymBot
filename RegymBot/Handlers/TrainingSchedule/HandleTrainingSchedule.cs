@@ -48,7 +48,6 @@ namespace RegymBot.Handlers.TrainingSchedule
                 case BotPage.TrainingSchedule:
                     var newClient = new ClientEntity();
                     newClient.Enrol = message.Text;
-                    newClient.DateCreated = DateTime.Now;
                     var addedClient = await _clientRepository.AddNewClientAsync(newClient);
 
                     _stepService.SetOptions(message.Chat.Id, addedClient.ClientGuid);
@@ -66,7 +65,6 @@ namespace RegymBot.Handlers.TrainingSchedule
                     var client = await _clientRepository.GetByGuidAsync(clientGuid);
 
                     client.Name = message.Text;
-                    client.DateCreated = DateTime.Now;
                     await _clientRepository.UpdateEnrollAsync(client);
 
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.GetUserPhone);
@@ -82,9 +80,9 @@ namespace RegymBot.Handlers.TrainingSchedule
                     var clientGuidPhone = new Guid(_stepService.GetOptions(message.Chat.Id).ToString());
                     var clientWithPhone = await _clientRepository.GetByGuidAsync(clientGuidPhone);
 
-                    clientWithPhone.Phone = message.Text;
-                    clientWithPhone.DateCreated = DateTime.Now;    
+                    clientWithPhone.Phone = message.Text; 
                     clientWithPhone.Finished = true;
+                    clientWithPhone.DateCreated = DateTime.Now.ToUniversalTime();
                     
                     var selectedClub = _stepService.SelectedClub(message.Chat.Id);             
                     clientWithPhone.SelectedClub = selectedClub;

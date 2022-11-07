@@ -7,7 +7,7 @@ namespace RegymBot.Helpers.Buttons
         public static InlineKeyboardMarkup Keyboard(string adminLogin) => new InlineKeyboardMarkup(
         new[]
             {
-                // 1 row
+            // 1 row
             new []
             {
                 InlineKeyboardButton.WithUrl("Чат с администратором 💬", $"tg://resolve?domain={adminLogin}"),
@@ -15,12 +15,13 @@ namespace RegymBot.Helpers.Buttons
             // 2 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Записаться в группу 📝", "training_schedule"),
+                InlineKeyboardButton.WithCallbackData("Прайс 💲", "price"),
+                InlineKeyboardButton.WithCallbackData("Тренер 🏋️", "coach"),
             },
             // 3 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Тренер 🏋️", "coach"),
+                InlineKeyboardButton.WithCallbackData("Записаться в группу 📝", "training_schedule"),
             },
             ReturnBackButton.BackButton
         });

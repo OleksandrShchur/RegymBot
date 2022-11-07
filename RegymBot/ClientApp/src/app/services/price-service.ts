@@ -19,4 +19,15 @@ export class PriceService extends BaseService {
   updatePrice(price: PriceModel) {
     return this.http.post(this.baseUrl + "Prices/update-price", price);
   }
+
+  uploadPricesImage(image: File, clubIndex: number) {
+    const formData = new FormData();
+    formData.append("file", image, image.name);
+
+    return this.http.post(this.baseUrl + "Prices/upload-image", formData, {
+      params: {
+        club: clubIndex.toString(),
+      },
+    });
+  }
 }

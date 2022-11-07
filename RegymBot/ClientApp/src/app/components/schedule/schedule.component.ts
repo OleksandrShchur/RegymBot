@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { Duration } from "src/app/constants/snackBarDuration";
 import { ImageSnippet } from "src/app/helpers/imageSnippet";
+import { RegymClub } from "src/app/models/regym-club";
 import { ScheduleService } from "src/app/services/schedule-service";
 
 @Component({
@@ -10,6 +11,7 @@ import { ScheduleService } from "src/app/services/schedule-service";
   styleUrls: ["./schedule.component.scss"],
 })
 export class ScheduleComponent implements OnInit {
+  RegymClub = RegymClub;
   public selectedFile: ImageSnippet;
 
   apolloUrl: string = '';
@@ -31,7 +33,7 @@ export class ScheduleComponent implements OnInit {
     this.pshknUrl = `pshkn.jpg?${Date.now()}`;
   }
 
-  processFile(imageInput: any, clubIndex: number) {
+  processFile(imageInput: any, club: RegymClub) {
     const file: File = imageInput.files[0];
     const reader = new FileReader();
 
@@ -40,7 +42,7 @@ export class ScheduleComponent implements OnInit {
       this.selectedFile.pending = true;
 
       this.scheduleService
-        .uploadScheduleImage(this.selectedFile.file, clubIndex)
+        .uploadScheduleImage(this.selectedFile.file, club)
         .subscribe(
           (data) => {
             this.selectedFile.pending = false;

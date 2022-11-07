@@ -23,7 +23,7 @@ namespace RegymBot.Controllers
         public async Task<IActionResult> UploadImage(RegymClub club)
         {
             var file = Request.Form.Files[0];
-            await _imageService.UploadImageAsync(file, club);
+            await _imageService.UploadImageAsync(file, club.ToString());
 
             return Ok();
         }

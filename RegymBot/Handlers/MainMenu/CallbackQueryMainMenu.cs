@@ -41,31 +41,15 @@ namespace RegymBot.Handlers.MainMenu
                                                     replyMarkup: ClubButtons.Keyboard);
 
                     break;
-                case "price":
-                    var prices = await _priceRepository.GetAllAsync();
-                    text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Price);
-                    _stepService.NewStep(BotPage.Price, callbackQuery.From.Id);
-
-                    foreach (PriceEntity price in prices)
-                    {
-                        text += $"\n- {price.PriceName} - {price.Price};";
-                    }
-
-                    await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
-                                                    text: text,
-                                                    replyMarkup: ReturnBackButton.Keyboard);
-
-                    break;
-
                 case "solarium":
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Solarium);
-                    var pricesSolarium = await _priceRepository.GetPricesByTypeAsync(PriceItem.Solarium);
+                    // var pricesSolarium = await _priceRepository.GetPricesByTypeAsync(PriceItem.Solarium);
                     _stepService.NewStep(BotPage.Solarium, callbackQuery.From.Id);
 
-                    foreach (PriceEntity price in pricesSolarium)
-                    {
-                        text += $"\n- {price.PriceName} - {price.Price};";
-                    }
+                    // foreach (PriceEntity price in pricesSolarium)
+                    // {
+                    //     text += $"\n- {price.PriceName} - {price.Price};";
+                    // }
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,
@@ -75,13 +59,13 @@ namespace RegymBot.Handlers.MainMenu
 
                 case "massage":
                     text = await _staticMessageRepository.GetMessageByTypeAsync(BotPage.Massage);
-                    var pricesMassage = await _priceRepository.GetPricesByTypeAsync(PriceItem.Massage);
+                    // var pricesMassage = await _priceRepository.GetPricesByTypeAsync(PriceItem.Massage);
                     _stepService.NewStep(BotPage.Massage, callbackQuery.From.Id);
 
-                    foreach (PriceEntity price in pricesMassage)
-                    {
-                        text += $"\n- {price.PriceName} - {price.Price};";
-                    }
+                    // foreach (PriceEntity price in pricesMassage)
+                    // {
+                    //     text += $"\n- {price.PriceName} - {price.Price};";
+                    // }
 
                     await _botClient.SendTextMessageAsync(chatId: callbackQuery.Message.Chat.Id,
                                                     text: text,

@@ -7,7 +7,9 @@ import {
   MatTableDataSource,
 } from "@angular/material";
 import { Duration } from "src/app/constants/snackBarDuration";
+import { ImageSnippet } from "src/app/helpers/imageSnippet";
 import { PriceModel } from "src/app/models/price-model";
+import { RegymClub } from "src/app/models/regym-club";
 import { Services } from "src/app/models/services";
 import { PriceService } from "src/app/services/price-service";
 import { ModalPriceComponent } from "../modal-price/modal-price.component";
@@ -15,81 +17,62 @@ import { ModalPriceComponent } from "../modal-price/modal-price.component";
 @Component({
   selector: "app-price-table",
   templateUrl: "./price-table.component.html",
-  styleUrls: ["./price-table.component.css"],
+  styleUrls: ["./price-table.component.scss"],
 })
-export class PriceTableComponent implements OnInit {
-  Services = Services;
-  private priceList: Array<PriceModel>;
-  private guidColumn: string = "priceGuid";
+export class PriceTableComponent {
+  RegymClub = RegymClub;
+  public selectedFile: ImageSnippet;
 
-  public displayedColumns: string[] = [
-    "priceType",
-    "priceName",
-    "price",
-    "actions",
-  ];
-  public dataSource;
+  apolloUrl: string = '';
+  vavylonUrl: string = '';
+  pshknUrl: string = '';
 
   constructor(
     private priceService: PriceService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
-  ) {}
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  ) {
+    this.initImagesSrc();
+  }
+ 
+  initImagesSrc(): void { 
+    this.apolloUrl = `apollo-prices.jpg?${Date.now()}`;
+    this.vavylonUrl = `vavylon-prices.jpg?${Date.now()}`;
+    this.pshknUrl = `pshkn-prices.jpg?${Date.now()}`;
+  }
 
-  ngOnInit() {
-    this.priceService.getAllPrices().subscribe(
-      (data: Array<PriceModel>) => {
-        this.priceList = data;
-        this.dataSource = new MatTableDataSource(this.priceList);
+  processFile(imageInput: any, club: RegymClub) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
 
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      () => {
-        this.snackBar.open(
-          "Помилка при завантаженні списку цін.",
-          "Приховати",
-          {
-            duration: Duration,
+    reader.addEventListener("load", (event: any) => {
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+      this.selectedFile.pending = true;
+
+      this.priceService
+        .uploadPricesImage(this.selectedFile.file, club)
+        .subscribe(
+          (data) => {
+            this.selectedFile.pending = false;
+            this.selectedFile.status = "ok";
+            this.initImagesSrc();
+          },
+          () => {
+            this.selectedFile.pending = false;
+            this.selectedFile.status = "fail";
+            this.selectedFile.src = "";
+
+            this.snackBar.open(
+              "Помилка при завантаженні зображення",
+              "Приховати",
+              {
+                duration: Duration,
+              }
+            );
+            this.initImagesSrc();
           }
         );
-      }
-    );
-  }
+    });
 
-  deletePrice(guid: string) {
-    this.priceService.removePrice(guid).subscribe(
-      () => {
-        this.snackBar.open("Ціну/послугу видалено", "Приховати", {
-          duration: Duration,
-        });
-
-        const itemIndex = this.dataSource.data.findIndex(
-          (obj) => obj[this.guidColumn] == guid
-        );
-        this.dataSource.data.slice(itemIndex, 1);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      () => {
-        this.snackBar.open("Помилка при видаленні ціни/послуги", "Приховати", {
-          duration: Duration,
-        });
-      }
-    );
-  }
-
-  editPrice(price: PriceModel) {
-    const dialogRef = this.dialog.open(ModalPriceComponent);
-
-    dialogRef.componentInstance.price = price;
-  }
-
-  addPrice(): void {
-    const dialogRef = this.dialog.open(ModalPriceComponent);
-
-    dialogRef.componentInstance.price = null;
+    reader.readAsDataURL(file);
   }
 }

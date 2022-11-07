@@ -6,6 +6,6 @@ namespace RegymBot.Services
 {
     public interface IImageService
     {
-        Task UploadImageAsync(IFormFile image, RegymClub club);
+        Task UploadImageAsync(IFormFile image, string name);
     }
 }

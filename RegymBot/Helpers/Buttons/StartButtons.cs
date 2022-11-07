@@ -20,15 +20,10 @@ namespace RegymBot.Helpers.Buttons
             // 3 row
             new []
             {
-                InlineKeyboardButton.WithCallbackData("Прайс 💲", "price"),
-                InlineKeyboardButton.WithCallbackData("Акції 🎉", "sale"),
-            },
-            // 4 row
-            new []
-            {
+                InlineKeyboardButton.WithCallbackData("Акції 🎉", "sale"),                
                 InlineKeyboardButton.WithCallbackData("Наші соцмережі 📱", "social"),
             },
-            // 5 row
+            // 4 row
             new []
             {
                 InlineKeyboardButton.WithCallbackData("Залишити відгук 👍🏻", "feedback"),

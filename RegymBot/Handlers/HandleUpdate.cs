@@ -109,6 +109,7 @@ namespace RegymBot.Handlers
                     var handler = update.Type switch
                     {
                         UpdateType.Message => _handleMainMenu.BotOnMainMenu(update.Message),
+                        UpdateType.InlineQuery => _handleMainMenu.BotOnMainMenu(update.InlineQuery),
                         UpdateType.CallbackQuery => _mainMenuService.BotOnCallbackQueryReceived(update.CallbackQuery),
                         _ => _handleError.UnknownUpdateHandlerAsync(update)
                     };
